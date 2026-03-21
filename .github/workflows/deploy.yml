@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -35,16 +37,9 @@ jobs:
       - name: Build site
         run: hugo --minify
 
-      - name: Deploy to vibhu2.github.io
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          TOKEN=$(echo "$DEPLOY_TOKEN" | tr -d '[:space:]')
-          git config --global user.name  "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cd public
-          git init
-          git checkout -b main
-          git add .
-          git commit -m "Deploy: ${{ github.sha }}"
-          git push --force "https://Vibhu2:${TOKEN}@github.com/Vibhu2/vibhu2.github.io.git" main
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./public

@@ -39,9 +39,10 @@ jobs:
         run: |
           git config --global user.name  "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git clone https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Vibhu2/vibhu2.github.io.git deploy-repo
-          cp -r public/. deploy-repo/
-          cd deploy-repo
+
+          cd public
+          git init
+          git checkout -b main
           git add .
-          git diff --cached --quiet || git commit -m "Deploy: ${{ github.sha }}"
-          git push https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Vibhu2/vibhu2.github.io.git main
+          git commit -m "Deploy: ${{ github.sha }}"
+          git push --force https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Vibhu2/vibhu2.github.io.git main

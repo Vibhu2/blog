@@ -22,30 +22,29 @@ buttons:
 
 skills:
 - name: PowerShell
-  logo: /images/sections/skills/powershell.png
+  logo: /images/sections/skills/go.png
   summary: "Expert-level PowerShell automation for AD management, Exchange operations, ESXi reporting, Azure AD sync monitoring, and bulk infrastructure tasks. Author of custom modules reducing multi-day processes to minutes."
   categories: ["scripting", "microsoft"]
   url: "https://docs.microsoft.com/en-us/powershell/"
 
 - name: Active Directory
-  logo: /images/sections/skills/windows.png
-  summary: "Deep expertise across AD DS, Sites & Services, GPO design and enforcement, FSMO roles, replication troubleshooting, AD migrations, Azure AD Connect, and hybrid identity — across 150+ MSP client environments."
+  logo: /images/sections/skills/kubernetes.png
+  summary: "Deep expertise across AD DS, Sites & Services, GPO design and enforcement, FSMO roles, replication troubleshooting, AD migrations, Azure AD Connect, and hybrid identity across 150+ MSP client environments."
   categories: ["microsoft"]
 
 - name: Windows Server
-  logo: /images/sections/skills/windows.png
+  logo: /images/sections/skills/prometheus.png
   summary: "Full lifecycle administration of Windows Server 2008 R2 through 2022. In-place and cross-version upgrades, Server Core, WSUS patch management, and server availability automation."
   categories: ["microsoft"]
-  url: "https://www.microsoft.com/en-us/windows-server"
 
 - name: DNS & DHCP
-  logo: /images/sections/skills/windows.png
+  logo: /images/sections/skills/cloud.png
   summary: "Split-brain DNS, zone migrations, conditional forwarders, scavenging, DHCP failover and high availability, scope management, reservations, and IPAM."
   categories: ["microsoft"]
 
 - name: Exchange Server
-  logo: /images/sections/skills/windows.png
-  summary: "Design, deployment and administration of Exchange 2010, 2013, 2016, 2019. DAG setup, mailbox database management, connectors, certificate renewals, and 25+ on-prem to M365 migrations."
+  logo: /images/sections/skills/prometheus.png
+  summary: "Design, deployment and administration of Exchange 2010, 2013, 2016, 2019. DAG setup, mailbox database management, connectors, and 25+ on-prem to M365 migrations."
   categories: ["microsoft"]
 
 - name: Microsoft 365 & Azure
@@ -55,47 +54,42 @@ skills:
   url: "https://azure.microsoft.com"
 
 - name: VMware vSphere / vCenter
-  logo: /images/sections/skills/windows.png
-  summary: "VMware ESXi, vSphere, and vCenter Server administration — provisioning, snapshots, vMotion, HA/DRS, resource pools, and bulk ESXi host upgrades across client environments."
+  logo: /images/sections/skills/kubernetes.png
+  summary: "VMware ESXi, vSphere, and vCenter Server — provisioning, snapshots, vMotion, HA/DRS, resource pools, and bulk ESXi host upgrades across client environments."
   categories: ["virtualisation"]
-  url: "https://www.vmware.com"
 
 - name: Hyper-V
-  logo: /images/sections/skills/windows.png
+  logo: /images/sections/skills/docker.svg
   summary: "Hyper-V server management, VM provisioning, P2V/V2V migrations from ESXi to Hyper-V, and disaster recovery planning."
   categories: ["virtualisation"]
 
-- name: Microsoft Defender XDR & Sophos
-  logo: /images/sections/skills/windows.png
-  summary: "Deployment and management of Microsoft Defender XDR, Sophos Intercept X with EDR, Central Device Encryption, Phish Threat, and SentinelOne. Zero-day vulnerability remediation workflows."
-  categories: ["security"]
-
 - name: Datto & Veeam Backup
-  logo: /images/sections/skills/windows.png
+  logo: /images/sections/skills/prometheus.png
   summary: "Backup policy design, monitoring, restore testing, and quarterly BCDR exercises across 150+ clients using Datto, Veeam, Acronis, AppAssure, and Backup Exec."
   categories: ["security"]
-  url: "https://www.datto.com"
+
+- name: Microsoft Defender & Sophos
+  logo: /images/sections/skills/cloud.png
+  summary: "Deployment and management of Microsoft Defender XDR, Sophos Intercept X with EDR, Central Device Encryption, Phish Threat, and SentinelOne."
+  categories: ["security"]
 
 - name: ConnectWise Automate & Manage
-  logo: /images/sections/skills/windows.png
-  summary: "Advanced ConnectWise Automate scripting and automation. ConnectWise Manage for ticketing, SLA management, time entries, and change management workflows."
+  logo: /images/sections/skills/go.png
+  summary: "Advanced ConnectWise Automate scripting and automation. Manage for ticketing, SLA management, time entries, and change management workflows."
   categories: ["monitoring"]
-  url: "https://www.connectwise.com"
 
 - name: PRTG & SolarWinds
-  logo: /images/sections/skills/windows.png
-  summary: "Infrastructure monitoring using PRTG and SolarWinds Observability (self-hosted) for servers, network devices, and services across MSP client environments."
+  logo: /images/sections/skills/prometheus.png
+  summary: "Infrastructure monitoring using PRTG and SolarWinds Observability for servers, network devices, and services across MSP client environments."
   categories: ["monitoring"]
-  url: "https://www.paessler.com/prtg"
 
 - name: Python
   logo: /images/sections/skills/linux.png
   summary: "Python scripting for IT automation tasks, API integrations, and tooling to complement PowerShell workflows."
   categories: ["scripting"]
-  url: "https://www.python.org"
 
 - name: Git & GitHub
   logo: /images/sections/skills/git.png
-  summary: "Version control for PowerShell modules, scripts, and documentation. GitHub for code management, collaboration, and CI/CD workflows."
+  summary: "Version control for PowerShell modules, scripts, and documentation. GitHub for code management and CI/CD workflows."
   categories: ["scripting"]
   url: "https://git-scm.com/"

@@ -36,17 +36,9 @@ jobs:
         run: hugo --minify
 
       - name: Deploy to vibhu2.github.io
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          git config --global user.name  "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global credential.helper store
-          echo "https://Vibhu2:${DEPLOY_TOKEN}@github.com" > ~/.git-credentials
-
-          cd public
-          git init
-          git checkout -b main
-          git add .
-          git commit -m "Deploy: ${{ github.sha }}"
-          git push --force https://github.com/Vibhu2/vibhu2.github.io.git main
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          external_repository: Vibhu2/vibhu2.github.io
+          publish_branch: main
+          publish_dir: ./public

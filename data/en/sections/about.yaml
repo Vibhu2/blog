@@ -6,21 +6,17 @@ section:
   showOnNavbar: true
   template: sections/about.html
 
-designation: Advanced System Administrator
+designation: Senior Advanced System Administrator
 company:
   name: IT By Design
   url: "https://www.itbydesign.com"
 
-summary: 'I am a seasoned IT infrastructure professional with over 15 years of experience in Windows Server administration, Microsoft 365, and enterprise IT operations. I specialise in PowerShell automation, Active Directory, and building scalable, reliable systems for managed service providers. Currently working at IT By Design, Chandigarh, India.'
+summary: 'Senior Wintel Administrator with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation — reducing multi-day manual processes to minutes — combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.'
 
 socialLinks:
 - name: Email
   icon: "fas fa-envelope"
   url: "mailto:vibhu@pwsh.in"
-
-- name: Email
-  icon: "fas fa-envelope"
-  url: "mailto:vibhu@bhatnagar.uk"
 
 - name: Github
   icon: "fab fa-github"
@@ -31,17 +27,27 @@ socialLinks:
   url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"
 
 badges:
+- type: certification
+  name: Microsoft Azure Administrator (AZ-104)
+  url: "https://learn.microsoft.com/en-us/certifications/azure-administrator/"
+  badge: "https://images.credly.com/size/680x680/images/336eebfc-0ac3-4553-9a67-b402f491f185/azure-administrator-associate-600x600.png"
+
+- type: certification
+  name: Datto Certified Technical Specialist
+  url: "https://www.datto.com"
+  badge: "https://images.credly.com/size/680x680/images/ba16c380-fe58-4e71-8f9c-e31bcd0810a6/image.png"
+
 - type: soft-skill-indicator
   name: Problem Solving
   percentage: 90
   color: blue
 
 - type: soft-skill-indicator
-  name: Team Work
+  name: Team Leadership
   percentage: 85
   color: yellow
 
 - type: soft-skill-indicator
   name: Automation Mindset
-  percentage: 90
+  percentage: 95
   color: orange

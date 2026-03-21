@@ -17,11 +17,12 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.21"
+          cache: false        # Disable Go module cache — prevents tar exit code 2 errors
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"  # LTS — avoids Node.js 20 deprecation warning
 
       - name: Install Hugo Extended
         run: |

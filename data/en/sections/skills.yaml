@@ -1,4 +1,3 @@
-# section information
 section:
   name: Skills
   id: skills
@@ -6,66 +5,61 @@ section:
   weight: 2
   showOnNavbar: true
   filter: true
-  # Can optionally hide the title in sections
-  # hideTitle: true
 
-# filter buttons
 buttons:
 - name: All
   filter: "all"
-- name: Basic
-  filter: "basic"
-- name: Language
-  filter: "language"
-- name: Container
-  filter: "container"
-- name: Others
-  filter: "others"
+- name: Microsoft
+  filter: "microsoft"
+- name: Scripting
+  filter: "scripting"
+- name: Infrastructure
+  filter: "infrastructure"
+- name: Cloud
+  filter: "cloud"
 
-# Your Skills.
-# Give a summary of you each skill in the summary section.
 skills:
-- name: Kubernetes
-  logo: /images/sections/skills/kubernetes.png
-  summary: "Capable of deploying, managing application on Kubernetes. Experienced in writing Kubernetes controllers for CRDs."
-  categories: ["container"]
-  url: "https://kubernetes.io/"
+- name: PowerShell
+  logo: /images/sections/skills/powershell.png
+  summary: "Expert-level PowerShell scripting for automation, reporting, and systems administration. Author of custom modules for Windows Server management."
+  categories: ["scripting", "microsoft"]
+  url: "https://docs.microsoft.com/en-us/powershell/"
 
-- name: Go Development
-  logo: /images/sections/skills/go.png
-  summary: "Using as the main language for professional development. Capable of writing scalable, testable, and maintainable program."
-  categories: ["basic", "language"]
-  url: "https://golang.org/"
+- name: Windows Server
+  logo: /images/sections/skills/windows.png
+  summary: "15+ years managing Windows Server environments including 2008 through 2022. Active Directory, DNS, DHCP, Group Policy, and IIS."
+  categories: ["microsoft", "infrastructure"]
+  url: "https://www.microsoft.com/en-us/windows-server"
 
-- name: Cloud Computing
+- name: Active Directory
+  logo: /images/sections/skills/windows.png
+  summary: "Deep expertise in Active Directory design, administration, and troubleshooting. Group Policy, OU structure, replication, and hybrid AD."
+  categories: ["microsoft", "infrastructure"]
+
+- name: Microsoft 365
+  logo: /images/sections/skills/windows.png
+  summary: "Administration of Exchange Online, Teams, SharePoint Online, and Azure AD. Migrations, licensing, compliance, and security policies."
+  categories: ["microsoft", "cloud"]
+  url: "https://www.microsoft.com/en-us/microsoft-365"
+
+- name: Azure
   logo: /images/sections/skills/cloud.png
-  summary: "Worked with most of the major clouds such as GCP, AWS, Azure etc."
-  categories: ["others"]
+  summary: "Azure AD, Azure Virtual Machines, Azure networking, and hybrid identity. Experience with Azure administration for MSP client environments."
+  categories: ["cloud", "microsoft"]
+  url: "https://azure.microsoft.com"
 
-- name: Docker
-  logo: /images/sections/skills/docker.svg
-  summary: "Write most of the programs as dockerized container. Experienced with multi-stage, multi-arch build process."
-  categories: ["container"]
-  url: "https://www.docker.com/"
+- name: Hyper-V / VMware
+  logo: /images/sections/skills/windows.png
+  summary: "Virtualisation administration using both Microsoft Hyper-V and VMware vSphere. VM provisioning, snapshots, and resource management."
+  categories: ["infrastructure"]
 
-- name: Prometheus
-  logo: /images/sections/skills/prometheus.png
-  summary: "Capable of setup, configure Prometheus metrics. Experienced with PromQL, AlertManager. Also, experienced with writing metric exporters."
-  categories: ["basic"]
-  url: "https://prometheus.io/"
+- name: Git & GitHub
+  logo: /images/sections/skills/git.png
+  summary: "Version control for scripts, modules, and documentation. Using GitHub for code management and CI/CD workflows."
+  categories: ["scripting"]
+  url: "https://git-scm.com/"
 
 - name: Linux
   logo: /images/sections/skills/linux.png
-  summary: "Using as the main operating system. Capable of writing bash/shell scripts."
-  categories: ["others"]
-
-- name: Git
-  logo: /images/sections/skills/git.png
-  summary: "Experienced with git-based development. Mostly, use Github. Also, have experience in working with GitLab."
-  categories: ["basic"]
-  url: "https://git-scm.com/"
-
-- name: C++
-  logo: /images/sections/skills/c++.png
-  summary: "Know basic C/C++ programming. Used for contest programming and problem solving."
-  categories: ["basic", "language"]
+  summary: "Comfortable with Linux command line for server administration and bash scripting tasks."
+  categories: ["infrastructure"]

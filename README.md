@@ -20,4 +20,4 @@ hugo server -w
 
 Site runs at `http://localhost:1313`
 
-> Last deploy trigger: private key fixed
+> Last deploy trigger: RSA key

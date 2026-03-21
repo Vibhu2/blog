@@ -9,58 +9,72 @@ experiences:
 - company:
     name: IT By Design
     url: "https://www.itbydesign.com"
-    location: Chandigarh, India
+    location: Noida, India
     overview: IT By Design is a leading managed services provider delivering IT support and infrastructure solutions to businesses worldwide.
   positions:
-  - designation: Advanced System Administrator
+  - designation: Senior Advanced System Administrator
     start: Aug 2019
     responsibilities:
-    - Manage and maintain Windows Server infrastructure including Active Directory, DNS, and DHCP for multiple clients.
-    - Automate repetitive administrative tasks using PowerShell scripting to improve efficiency and reduce human error.
-    - Handle Microsoft 365 administration including Exchange Online, Teams, SharePoint, and Azure AD.
-    - Provide escalation support for complex infrastructure issues across client environments.
-    - Design and implement backup and disaster recovery solutions.
+    - Architected and maintained AD environments across 150+ MSP clients — managing GPOs, OU structures, FSMO role placement, replication topology, and AD health.
+    - Designed and implemented split-brain DNS configurations, zone migrations, and conditional forwarder policies for multi-site enterprise clients.
+    - Deployed DHCP failover pairs and managed scope configurations, reservations, and IPAM — eliminating address conflicts and single points of failure.
+    - Led AD migration and clean-up projects including stale object removal, GPO consolidation, and trust relationship reviews across 22+ client environments.
+    - Executed 25+ on-premises Exchange to Microsoft 365 migrations including hybrid configuration, MX cutover, mail flow validation, and post-migration support.
+    - Delivered Tenant-to-Tenant M365 migrations covering mailboxes, calendars, and Teams data with zero unplanned downtime.
+    - Managed VMware ESXi, vSphere and vCenter Server — provisioning, snapshots, resource pools, vMotion, and HA/DRS configuration across client environments.
+    - Executed bulk upgrade of 150+ ESXi hosts to version 8.0.3 with minimal service disruption.
+    - Built Azure AD Sync Monitor tracking 155+ clients — auto-triggers forced sync when threshold exceeded, eliminated daily manual checks entirely.
+    - Automated ESXi host inventory and documentation generation, cutting monthly reporting time from 10 days to under 1 hour.
+    - Deployed DUO MFA, Microsoft Defender XDR, and Sophos Endpoint Security; implemented zero-day vulnerability remediation workflows.
+    - Managed Datto and Veeam backup environments — policy design, monitoring, restore testing, and quarterly BCDR exercises across 150+ clients.
+    - Delivered 15% increase in operational efficiency and 20% reduction in ticket volume through proactive automation and preventive maintenance.
 
 - company:
     name: Pacific Infotech
     url: "https://www.pacificinfotech.co.uk"
-    location: Remote
+    location: Moradabad, India
     overview: Pacific Infotech is a UK-based managed services provider offering IT support and infrastructure management.
   positions:
-  - designation: Microsoft Server Administrator
+  - designation: Senior Analyst & Client Support
     start: Oct 2011
-    end: Aug 2019
+    end: Jul 2019
     responsibilities:
-    - Administered Windows Server environments including Active Directory, Group Policy, DNS, and DHCP.
-    - Managed Microsoft Exchange and Office 365 migrations and day-to-day operations.
-    - Handled virtualisation using Hyper-V and VMware.
-    - Provided remote support and troubleshooting for client infrastructure.
+    - Managed Windows Server and AD infrastructure for 200–350 user environments — DNS, DHCP, Group Policy, file services, and user administration.
+    - Deployed and maintained Exchange Server 2010/2013 — mailbox management, transport rules, DAG configuration, and client connectivity troubleshooting.
+    - Maintained VMware ESXi and Hyper-V platforms via vSphere and vCenter Server — VM provisioning, backup, and disaster recovery planning.
+    - Configured and managed PRTG for full infrastructure monitoring across all client environments.
+    - Managed backup environments including AppAssure, Backup Exec, and Datto — including restore testing and quarterly DR exercises.
+    - Managed SonicWALL firewalls and handled network configuration and troubleshooting.
+    - Executed server migration and upgrade projects; managed Office 365 onboarding and WSUS patch management.
+    - Created and deployed VMware ThinApp Applications; managed WDS and WSUS server patch management.
 
 - company:
-    name: Dell
+    name: Dell International
     url: "https://www.dell.com"
-    location: India
+    location: Gurgaon, India
     overview: Dell Technologies is a global leader in IT solutions, hardware, and services.
   positions:
-  - designation: Tech Support — Dell Computers and Software
+  - designation: Client Technical Support Associate
     start: Jun 2011
     end: Sep 2011
     responsibilities:
-    - Provided technical support for Dell hardware and software products.
-    - Diagnosed and resolved hardware, OS, and connectivity issues for end users.
+    - Provided technical support to US-based clients for Dell hardware and bundled software.
+    - Diagnosed and resolved hardware, OS, virus, malware, and spyware issues.
+    - Managed backups using Acronis and Vertis Backup.
 
 - company:
-    name: Teleperformance India
+    name: Teleperformance CRM Services
     url: "https://www.teleperformance.com"
-    location: India
+    location: Gurgaon, India
     overview: Teleperformance is a global leader in outsourced customer experience management.
   positions:
-  - designation: Tech Support — Adobe Products
+  - designation: Associate — Adobe Technical Support (SME)
     start: May 2010
     end: Jun 2011
     responsibilities:
-    - Provided technical support for Adobe Creative Suite products.
-    - Assisted customers with installation, licensing, and usage issues.
+    - Provided technical support for Adobe Creative Suite products as a Subject Matter Expert (SME).
+    - Supported Photoshop, After Effects, Premiere Elements, Premiere Pro, and Encore.
+    - Handled both technical and how-to queries for US-based customers.
 
 - company:
     name: Wipro
@@ -72,5 +86,5 @@ experiences:
     start: Jan 2009
     end: Mar 2010
     responsibilities:
-    - Provided technical support for HP hardware and peripherals.
-    - Handled inbound support calls resolving hardware and software issues for end users.
+    - Provided technical support for HP hardware and peripherals for end users.
+    - Handled inbound support calls resolving hardware and software issues.

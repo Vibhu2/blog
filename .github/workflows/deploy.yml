@@ -8,15 +8,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: latest
-          extended: true
+      - name: Checkout source
+        uses: actions/checkout@v4
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -28,6 +21,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install Hugo Extended
+        run: |
+          wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.146.0/hugo_extended_0.146.0_linux-amd64.deb
+          sudo dpkg -i hugo.deb
+
       - name: Install dependencies
         run: |
           hugo mod tidy
@@ -37,10 +35,13 @@ jobs:
       - name: Build site
         run: hugo --minify
 
-      - name: Deploy to GitHub Pages repo
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          personal_token: ${{ secrets.DEPLOY_TOKEN }}
-          external_repository: Vibhu2/vibhu2.github.io
-          publish_branch: main
-          publish_dir: ./public
+      - name: Deploy to vibhu2.github.io
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git clone https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Vibhu2/vibhu2.github.io.git deploy-repo
+          cp -r public/. deploy-repo/
+          cd deploy-repo
+          git add .
+          git diff --cached --quiet || git commit -m "Deploy: ${{ github.sha }}"
+          git push https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Vibhu2/vibhu2.github.io.git main

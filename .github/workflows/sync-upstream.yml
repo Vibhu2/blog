@@ -1,0 +1,31 @@
+name: Sync Upstream Fork
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # Every Monday at 06:00 UTC
+  workflow_dispatch:        # Allow manual trigger from Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Add upstream remote
+        run: git remote add upstream https://github.com/hugo-themes/toha-example-site.git
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Merge upstream main
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git merge upstream/main --no-edit --allow-unrelated-histories || echo "Nothing to merge or conflict detected"
+
+      - name: Push to fork
+        run: git push origin main

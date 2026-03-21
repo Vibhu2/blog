@@ -1,73 +1,76 @@
-# section information
 section:
   name: Experiences
   id: experiences
   enable: true
   weight: 3
   showOnNavbar: true
-  # Can optionally hide the title in sections
-  # hideTitle: true 
 
-# Your experiences
 experiences:
 - company:
-    name: Example Co.
-    url: "https://www.example.com"
-    location: Dhaka Branch
-    logo: /images/sections/experiences/company1.jpg
-    # Can optionally show a different logo for dark theme
-    # darkLogo: /images/sections/experiences/company1.jpg
-    # company overview
-    overview: Example Co. is a widely recognized company for cloud-native development. It builds tools for Kubernetes.
+    name: IT By Design
+    url: "https://www.itbydesign.com"
+    location: Chandigarh, India
+    overview: IT By Design is a leading managed services provider delivering IT support and infrastructure solutions to businesses worldwide.
   positions:
-  - designation: Senior Software Engineer
-    start: Nov 2019
-    # don't provide end date if you are currently working there. It will be replaced by "Present"
-    # end: Dec 2020
-    # give some points about what was your responsibilities at the company.
+  - designation: Advanced System Administrator
+    start: Aug 2019
     responsibilities:
-    - Design and develop XYZ tool for ABC task
-    - Design, develop and manage disaster recovery tool [Xtool](https://www.example.com) that backup Kubernetes volumes, databases, and cluster's resource definition.
-    - Lead backend team.
-
-  - designation: Junior Software Engineer
-    start: Nov 2017
-    end: Oct 2019
-    responsibilities:
-    - Implement and test xyz feature for abc tool.
-    - Support client for abc tool.
-    - Learn k,d,w technology for xyz.
+    - Manage and maintain Windows Server infrastructure including Active Directory, DNS, and DHCP for multiple clients.
+    - Automate repetitive administrative tasks using PowerShell scripting to improve efficiency and reduce human error.
+    - Handle Microsoft 365 administration including Exchange Online, Teams, SharePoint, and Azure AD.
+    - Provide escalation support for complex infrastructure issues across client environments.
+    - Design and implement backup and disaster recovery solutions.
 
 - company:
-    name: PreExample Co.
-    url: "https://www.example.com"
-    location: Nowhere
-    logo: /images/sections/experiences/company2.jpg
-    # Can optionally show a different logo for dark theme
-    # darkLogo: /images/sections/experiences/company2.jpg
-    overview: PreExample Co. is a gateway company to enter into Example co. So, nothing special here.
+    name: Pacific Infotech
+    url: "https://www.pacificinfotech.co.uk"
+    location: Remote
+    overview: Pacific Infotech is a UK-based managed services provider offering IT support and infrastructure management.
   positions:
-  - designation: Software Engineer
-    start: March 2016
-    end: May 2017
+  - designation: Microsoft Server Administrator
+    start: Oct 2011
+    end: Aug 2019
     responsibilities:
-    - Write lots of example codes.
-    - Read lots of examples.
-    - See lots of example videos.
+    - Administered Windows Server environments including Active Directory, Group Policy, DNS, and DHCP.
+    - Managed Microsoft Exchange and Office 365 migrations and day-to-day operations.
+    - Handled virtualisation using Hyper-V and VMware.
+    - Provided remote support and troubleshooting for client infrastructure.
 
 - company:
-    name: Intern Counting Company (ICC).
-    url: "https://www.example.com"
-    location: Intern Land
-    logo: /images/sections/experiences/company3.jpg
-    # Can optionally show a different logo for dark theme
-    # darkLogo: /images/sections/experiences/company3.jpg
-    overview: Intern counting Company (ICC) is responsible for counting worldwide intern Engineers.
+    name: Dell
+    url: "https://www.dell.com"
+    location: India
+    overview: Dell Technologies is a global leader in IT solutions, hardware, and services.
   positions:
-  - designation: Intern
-    start: Jun 2015
-    end: Jan 2016
+  - designation: Tech Support — Dell Computers and Software
+    start: Jun 2011
+    end: Sep 2011
     responsibilities:
-    - Count lost of interns.
-    - Count more interns.
-    - Count me as an intern.
+    - Provided technical support for Dell hardware and software products.
+    - Diagnosed and resolved hardware, OS, and connectivity issues for end users.
+
+- company:
+    name: Teleperformance India
+    url: "https://www.teleperformance.com"
+    location: India
+    overview: Teleperformance is a global leader in outsourced customer experience management.
+  positions:
+  - designation: Tech Support — Adobe Products
+    start: May 2010
+    end: Jun 2011
+    responsibilities:
+    - Provided technical support for Adobe Creative Suite products.
+    - Assisted customers with installation, licensing, and usage issues.
+
+- company:
+    name: Wipro
+    url: "https://www.wipro.com"
+    location: Okhla, India
+    overview: Wipro is a leading global IT and business process services company.
+  positions:
+  - designation: Tech Support — HP
+    start: Jan 2009
+    end: Mar 2010
+    responsibilities:
+    - Provided technical support for HP hardware and peripherals.
+    - Handled inbound support calls resolving hardware and software issues for end users.

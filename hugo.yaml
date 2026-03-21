@@ -100,7 +100,7 @@ params:
       on_card: true
 
     flags:
-      enable: true
+      enable: false
 
     embedpdf:
       enable: true

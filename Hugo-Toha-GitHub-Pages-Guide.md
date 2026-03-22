@@ -1680,4 +1680,336 @@ blog/                                        ← Root of your Hugo project
 
 ---
 
-_Hugo + Toha + GitHub Pages Guide — v4.0 — March 2026_
+_Hugo + Toha + GitHub Pages Guide — v4.1 — March 2026_
+
+---
+
+## Custom Domain Setup (pwsh.in)
+
+This section documents the custom domain configuration completed after initial setup.
+
+### What Was Changed
+
+| _File / Location_ | _Change_ |
+| :--- | :--- |
+| `hugo.yaml` | `baseURL` changed from `https://vibhu2.github.io/blog/` to `https://pwsh.in/` |
+| `data/en/site.yaml` | OpenGraph `url` updated to `https://pwsh.in/` |
+| `static/CNAME` | New file created containing `pwsh.in` |
+| GitHub Pages Settings | Custom domain set to `pwsh.in` |
+| Cloudflare DNS | A, AAAA, and CNAME records added |
+
+### Cloudflare DNS Records Required
+
+All records must be **DNS only (grey cloud)** — NOT proxied (orange cloud).
+Cloudflare proxying blocks GitHub's Let's Encrypt certificate verification.
+
+**A records — apex domain:**
+
+| _Type_ | _Name_ | _Value_ |
+| :--- | :--- | :--- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+
+**AAAA records — IPv6:**
+
+| _Type_ | _Name_ | _Value_ |
+| :--- | :--- | :--- |
+| AAAA | `@` | `2606:50c0:8000::153` |
+| AAAA | `@` | `2606:50c0:8001::153` |
+| AAAA | `@` | `2606:50c0:8002::153` |
+| AAAA | `@` | `2606:50c0:8003::153` |
+
+**CNAME — www redirect:**
+
+| _Type_ | _Name_ | _Value_ |
+| :--- | :--- | :--- |
+| CNAME | `www` | `vibhu2.github.io` |
+
+### GitHub Pages Settings
+
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Under **Custom domain** → enter your domain → click **Save**
+3. Wait for the DNS check to go green (5–30 minutes)
+4. Tick **Enforce HTTPS** once the green tick appears
+
+### Why HTTPS Checkbox is Greyed Out
+
+GitHub must verify your DNS before it can issue a TLS certificate via Let's Encrypt.
+The checkbox stays greyed out until the DNS check passes.
+
+**Fix if it stays greyed out:**
+1. Confirm all Cloudflare records are DNS only (grey cloud) — not proxied
+2. Confirm no extra A/AAAA records exist on `@` pointing to other IPs
+3. Go to Pages Settings → click **Remove** next to the domain → retype it → click **Save**
+   This restarts the certificate provisioning process
+
+**Verify DNS from PowerShell:**
+```powershell
+Resolve-DnsName pwsh.in -Type A | Select-Object Name, IPAddress
+# Must return all four GitHub IPs: 185.199.108/109/110/111.153
+```
+
+---
+
+## Blogging — Complete Workflow
+
+### How Blog Posts Are Structured
+
+Every post lives in its own folder inside `content/posts/`:
+
+```text
+content/posts/
+  my-post-title/
+    index.md        ← The post content (required)
+    screenshot.png  ← Any images used in the post (optional)
+    diagram.jpg     ← More images (optional)
+```
+
+The folder name becomes part of the URL:
+`https://pwsh.in/posts/my-post-title/`
+
+### Step 1 — Start the Local Preview Server
+
+Always write and preview locally before pushing. Open PowerShell and run:
+
+```powershell
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+hugo server -w
+```
+
+Open your browser at `http://localhost:1313/` — the site loads with live reload.
+Every time you save a file the browser refreshes automatically.
+
+> **[i] INFO:** With a custom domain set as `baseURL`, local preview may show unstyled.
+> Fix with:
+> ```powershell
+> hugo server -w --baseURL http://localhost:1313/
+> ```
+
+Press `Ctrl+C` to stop the server when done.
+
+### Step 2 — Create a New Post
+
+Open a **second** PowerShell window (keep the server running in the first), then:
+
+```powershell
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+hugo new posts\your-post-title\index.md
+```
+
+Hugo creates the file at `content\posts\your-post-title\index.md` with a starter template.
+
+**Naming rules for the folder:**
+- Lowercase only
+- Hyphens instead of spaces
+- No special characters
+- Keep it short and descriptive — it becomes your URL
+
+### Step 3 — Edit the Post
+
+```powershell
+code content\posts\your-post-title\index.md
+```
+
+The file opens with this default front matter at the top:
+
+```yaml
+---
+title: "Your Post Title"
+date: 2026-03-22T10:00:00+05:30
+draft: true
+description: "Short summary shown in listings and search results."
+tags: ["Tag1", "Tag2"]
+categories: ["Category Name"]
+---
+```
+
+**Front matter fields explained:**
+
+| _Field_ | _What it does_ | _Notes_ |
+| :--- | :--- | :--- |
+| `title` | Post heading and browser tab | Use proper title case |
+| `date` | Publication date and sort order | ISO format with timezone (`+05:30` for IST) |
+| `draft` | `true` = invisible on live site | **Change to `false` before publishing** |
+| `description` | Summary shown in post listings | Keep under 160 characters |
+| `tags` | Filterable labels | Multiple tags — use an array |
+| `categories` | Top-level grouping | Usually one per post |
+
+Write your post content below the closing `---` using Markdown.
+
+### Step 4 — Markdown Basics
+
+```markdown
+## Section Heading
+
+Regular paragraph text. **Bold.** *Italic.* `inline code`.
+
+### Sub-heading
+
+- Bullet point one
+- Bullet point two
+  - Nested bullet
+
+1. Numbered item one
+2. Numbered item two
+
+[Link text](https://example.com)
+
+![Image alt text](screenshot.png)
+
+> This is a blockquote — good for tips or callouts.
+```
+
+**Code blocks with syntax highlighting:**
+
+````markdown
+```powershell
+Get-Process | Where-Object { $_.CPU -gt 100 }
+```
+
+```python
+print("Hello World")
+```
+
+```bash
+grep -r "error" /var/log/
+```
+````
+
+### Step 5 — Adding Images
+
+Place image files in the same folder as `index.md`:
+
+```powershell
+# Copy an image into your post folder
+Copy-Item "$env:USERPROFILE\Desktop\screenshot.png" `
+  "content\posts\your-post-title\screenshot.png"
+```
+
+Reference in the post:
+
+```markdown
+![Description of what the image shows](screenshot.png)
+```
+
+Images are automatically resized and optimised by Hugo at build time.
+
+### Step 6 — Preview Your Post
+
+With `hugo server -w` still running in the first window, save your file.
+The browser refreshes and shows your post at `http://localhost:1313/posts/your-post-title/`
+
+> **[i] INFO:** If the post does not appear, check that `draft: false` is set.
+> Draft posts are hidden from the local server by default. To preview drafts:
+> ```powershell
+> hugo server -w -D
+> ```
+> The `-D` flag includes draft posts in the local preview only — they still
+> won't appear on the live site until `draft: false` is set.
+
+### Step 7 — Publish
+
+When the post looks right locally:
+
+```powershell
+# Make sure you are in the blog root folder
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+
+# Stage all changes
+git add .
+
+# Commit with a meaningful message
+git commit -m "Add post: your-post-title"
+
+# Push to GitHub — Actions builds and deploys automatically
+git push
+```
+
+Go to `https://github.com/YOUR-USERNAME/blog/actions` — watch the **Deploy Hugo Site**
+workflow. Green tick = live. Takes 2–3 minutes.
+
+Your post is live at: `https://pwsh.in/posts/your-post-title/`
+
+### Step 8 — Edit or Update an Existing Post
+
+```powershell
+# Open the post
+code content\posts\your-post-title\index.md
+
+# Make changes, save, then push
+git add .
+git commit -m "Update post: your-post-title"
+git push
+```
+
+No other steps needed — same workflow as creating a new post.
+
+### Deleting a Sample Post
+
+The forked repo includes three sample posts you should delete once you have real content:
+
+```powershell
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+
+Remove-Item -Recurse -Force "content\posts\introduction"
+Remove-Item -Recurse -Force "content\posts\markdown-sample"
+Remove-Item -Recurse -Force "content\posts\shortcodes"
+Remove-Item -Recurse -Force "content\posts\category"
+
+git add .
+git commit -m "Remove sample posts"
+git push
+```
+
+### Your First Real Post — What's Already Created
+
+A first blog post has been created at:
+
+```text
+content/posts/automating-ad-sync-monitoring-with-powershell/index.md
+```
+
+**Post details:**
+- **Title:** Automating Azure AD Sync Monitoring Across 155 MSP Clients with PowerShell
+- **Category:** PowerShell Automation
+- **Tags:** PowerShell, Azure AD, Automation, MSP, Active Directory
+- **Status:** `draft: false` — will publish on next push
+
+To edit it before publishing:
+```powershell
+code "content\posts\automating-ad-sync-monitoring-with-powershell\index.md"
+```
+
+### Post Front Matter — Full Reference
+
+```yaml
+---
+title: "Post Title Here"
+date: 2026-03-22T10:00:00+05:30    # Publication date (IST = +05:30)
+draft: false                         # true = hidden, false = live
+description: "SEO summary text."    # Max 160 chars
+tags: ["PowerShell", "Azure AD"]    # Array of tags
+categories: ["PowerShell Automation"]
+hero: hero.jpg                       # Optional: hero image (place in same folder)
+menu:
+  sidebar:
+    name: Short Title                # Optional: name in sidebar
+    identifier: unique-id            # Optional: must be unique across all posts
+    weight: 10                       # Optional: controls sort order in sidebar
+---
+```
+
+### Complete Blogging Quick Reference
+
+| _Task_ | _Command_ |
+| :--- | :--- |
+| Start local preview | `hugo server -w` |
+| Start preview including drafts | `hugo server -w -D` |
+| Create new post | `hugo new posts\post-name\index.md` |
+| Open post for editing | `code content\posts\post-name\index.md` |
+| Test full build (no server) | `hugo --minify` |
+| Publish everything | `git add . && git commit -m "msg" && git push` |
+| Check live build status | GitHub → blog repo → Actions tab |
+| See live site | https://pwsh.in |

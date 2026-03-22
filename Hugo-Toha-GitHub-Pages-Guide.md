@@ -556,13 +556,47 @@ Orange cloud blocks GitHub's TLS certificate verification permanently.
 # To:   url: https://pwsh.in/
 ```
 
-### Step 15.5 — Add CNAME file to static/
+### Step 15.5 — Add CNAME file to static/ and fix hugo.yaml mounts
 
-This file ensures your custom domain survives every deployment. Without it, GitHub Actions overwrites the CNAME file after every push and breaks the custom domain.
+**Two things are required** — both must be done or the custom domain resets on every push.
+
+**Problem 1 — hugo.yaml module mounts override**
+
+When `module.mounts` is defined in `hugo.yaml`, Hugo only copies what is explicitly listed.
+The default Toha config only mounts specific subfolders (`static/files`, flags, fonts), so
+`static/CNAME` is invisible to Hugo and never lands in the compiled output. Fix: add an
+explicit mount for the full `static` root as the first entry in `module.mounts`.
+
+The correct `module.mounts` block (already reflected in Part C → File 1):
+
+```yaml
+module:
+  imports:
+  - path: github.com/hugo-toha/toha/v4
+  mounts:
+  - source: static           # ← ADD THIS LINE — mounts entire static/ root
+    target: static
+  - source: static/files
+    target: static/files
+  - source: ./node_modules/flag-icons/flags
+    target: static/flags
+  - source: ./node_modules/@fontsource/mulish/files
+    target: static/files
+  - source: ./node_modules/katex/dist/fonts
+    target: static/fonts
+```
+
+**Problem 2 — CNAME file itself**
+
+Create the file in `static/`:
 
 ```powershell
 "pwsh.in" | Out-File -FilePath "static\CNAME" -Encoding ascii -NoNewline
 ```
+
+The `peaceiris/actions-gh-pages` deploy action also has a built-in `cname:` parameter
+(already in Part C → File 13) that writes the CNAME into `gh-pages` directly as a
+second line of defence — so even if Hugo misses the file, the action recreates it.
 
 ### Step 15.6 — Commit and push
 
@@ -634,6 +668,8 @@ module:
   imports:
   - path: github.com/hugo-toha/toha/v4
   mounts:
+  - source: static           # Mount entire static root — required for CNAME to survive deploy
+    target: static
   - source: static/files
     target: static/files
   - source: ./node_modules/flag-icons/flags
@@ -1310,6 +1346,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./public
+          cname: pwsh.in     # Writes CNAME to gh-pages — preserves custom domain on every deploy
 ```
 
 | _Setting_ | _Why_ |
@@ -1787,6 +1824,8 @@ git push
 - [ ] `hugo.yaml` baseURL updated to custom domain
 - [ ] `site.yaml` OpenGraph URL updated
 - [ ] `static\CNAME` file contains domain name
+- [ ] `hugo.yaml` `module.mounts` has `source: static / target: static` as first mount
+- [ ] `deploy.yml` deploy step has `cname: pwsh.in`
 - [ ] `Resolve-DnsName` returns all 4 GitHub IPs
 - [ ] Enforce HTTPS ticked in Pages settings
 
@@ -1846,7 +1885,7 @@ git push
 | Enforce HTTPS greyed out | Cloudflare proxy is orange — switch all records to DNS only (grey) |
 | Enforce HTTPS still greyed out after 30 min | Remove domain in Pages settings, re-add — restarts cert provisioning |
 | Site 404 after setting custom domain | DNS not propagated — wait 10 min, check with `Resolve-DnsName` |
-| Custom domain breaks after push | Add `static\CNAME` file containing your domain |
+| Custom domain breaks after push | Two fixes needed: (1) add `source: static / target: static` as first entry in `module.mounts` in `hugo.yaml` — (2) add `cname: pwsh.in` to deploy step in `deploy.yml` |
 | Certificate never provisions | Extra A/AAAA records on `@` in Cloudflare — delete them |
 
 ### Display

@@ -2,8 +2,8 @@
 ## From Zero to Live Site on GitHub Pages
 
 **Platform:** Windows 10 / 11
-**Version:** 4.0 &nbsp;•&nbsp; March 2026
-**Reference Site:** https://vibhu2.github.io/blog/
+**Version:** 5.0 &nbsp;•&nbsp; March 2026
+**Reference Site:** https://pwsh.in/
 **Reference Repo:** https://github.com/Vibhu2/blog
 
 ---
@@ -40,9 +40,11 @@
 17. [Step 14 — Enable GitHub Pages](#step-14--enable-github-pages)
 18. [Part C — Complete File Contents](#part-c--complete-file-contents)
 19. [Part D — Day-to-Day Usage](#part-d--day-to-day-usage)
-20. [Setup Checklist](#setup-checklist)
-21. [Troubleshooting](#troubleshooting)
-22. [Useful Links](#useful-links)
+20. [Part E — Custom Domain Setup](#part-e--custom-domain-setup)
+21. [Part F — Writing and Publishing Blog Posts](#part-f--writing-and-publishing-blog-posts)
+22. [Setup Checklist](#setup-checklist)
+23. [Troubleshooting](#troubleshooting)
+24. [Useful Links](#useful-links)
 
 ---
 
@@ -1623,7 +1625,470 @@ Work through this in order. Every item must be done before the site will work.
 
 ---
 
-## Repo File Structure Reference
+## Part E — Custom Domain Setup
+
+This section covers pointing your own domain (e.g. `pwsh.in`) at your GitHub Pages site
+and enabling HTTPS. Skip if you are happy with the default `github.io` URL.
+
+### E.1 — How it works
+
+GitHub Pages handles TLS (HTTPS) automatically via Let's Encrypt. You do not need to
+buy or configure a certificate yourself. GitHub will generate one once your DNS records
+are pointing correctly and its DNS check passes.
+
+```text
+Browser → pwsh.in (your domain)
+              ↓  DNS lookup
+         Cloudflare DNS → returns GitHub Pages IPs
+              ↓
+         GitHub Pages servers (185.199.x.x)
+              ↓  TLS handled by GitHub / Let's Encrypt
+         Your site content from gh-pages branch
+```
+
+### E.2 — Step 1: Verify your domain in GitHub account settings first
+
+GitHub strongly recommends verifying domain ownership before attaching it to a repo,
+to prevent domain takeover attacks.
+
+1. Go to `https://github.com/settings/pages` (account-level settings, not the repo)
+2. Click **Add a domain**
+3. Enter your domain (e.g. `pwsh.in`) → click **Add domain**
+4. GitHub shows you a TXT record to add — something like:
+
+| _Type_ | _Name_ | _Value_ |
+| :--- | :--- | :--- |
+| TXT | `_github-pages-challenge-YOUR-USERNAME.pwsh.in` | `random-string-from-github` |
+
+5. Add that TXT record in **Cloudflare → pwsh.in → DNS → Records**
+6. Go back to GitHub and click **Verify** — done
+
+### E.3 — Step 2: Set the custom domain in repo settings
+
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Under **Custom domain** → type your domain (e.g. `pwsh.in`)
+3. Click **Save**
+
+GitHub creates a CNAME file in your `gh-pages` branch automatically. It also starts
+its DNS check immediately — you will see a spinner.
+
+### E.4 — Step 3: Add DNS records in Cloudflare
+
+Go to **Cloudflare → your domain → DNS → Records** and add all of the following.
+
+> **[!] CRITICAL:** Every record must be set to **DNS only (grey cloud)** — NOT proxied
+> (orange cloud). GitHub Pages handles TLS itself. Cloudflare proxying blocks GitHub's
+> certificate verification and the HTTPS checkbox will stay greyed out permanently.
+
+**4× A records — apex domain to GitHub IPs:**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| A | `@` | `185.199.108.153` | DNS only ☁️ |
+| A | `@` | `185.199.109.153` | DNS only ☁️ |
+| A | `@` | `185.199.110.153` | DNS only ☁️ |
+| A | `@` | `185.199.111.153` | DNS only ☁️ |
+
+**4× AAAA records — IPv6 (add these too):**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| AAAA | `@` | `2606:50c0:8000::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8001::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8002::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8003::153` | DNS only ☁️ |
+
+**1× CNAME record — www subdomain:**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| CNAME | `www` | `YOUR-USERNAME.github.io` | DNS only ☁️ |
+
+> **[i] NOTE:** Any extra A, AAAA, ALIAS, or ANAME records on `@` that are NOT the
+> four GitHub IPs above will block certificate generation. Delete any old hosting records.
+
+GitHub will automatically redirect `www.pwsh.in` to `pwsh.in` once both records are present.
+
+### E.5 — Step 4: Update hugo.yaml and site.yaml
+
+Change `baseURL` in `hugo.yaml`:
+
+```yaml
+baseURL: https://pwsh.in/
+```
+
+Update the OpenGraph URL in `data/en/site.yaml`:
+
+```yaml
+openGraph:
+  url: https://pwsh.in/
+```
+
+### E.6 — Step 5: Add a CNAME file to static/
+
+Create `static/CNAME` containing just your domain. This ensures every Hugo build
+preserves the custom domain setting — without it, deployments overwrite the CNAME
+file GitHub created and break the custom domain after every push.
+
+```text
+pwsh.in
+```
+
+Create it with:
+
+```powershell
+"pwsh.in" | Out-File -FilePath "static\CNAME" -Encoding utf8 -NoNewline
+```
+
+### E.7 — Step 6: Commit and push
+
+```powershell
+git add .
+git commit -m "Custom domain — pwsh.in"
+git push
+```
+
+### E.8 — Verify DNS is working
+
+Run this in PowerShell to confirm your domain is resolving to GitHub's IPs:
+
+```powershell
+Resolve-DnsName pwsh.in -Type A | Select-Object Name, IPAddress
+```
+
+Expected — all four GitHub IPs:
+
+```text
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+If you see anything else, your A records in Cloudflare are wrong or the proxy is still on.
+
+### E.9 — Enable HTTPS (Enforce HTTPS checkbox)
+
+**Why it may be greyed out:** The checkbox only becomes active once GitHub's automatic
+DNS check passes and a TLS certificate has been provisioned from Let's Encrypt.
+This process starts the moment you save the custom domain in Step 2.
+
+**Timeline:** DNS check typically passes within 5–15 minutes on Cloudflare (fast propagation).
+Certificate provisioning takes up to 30 minutes after the DNS check goes green.
+
+**If it's still greyed out after 30 minutes:**
+
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Click **Remove** next to your custom domain
+3. Type the domain again and click **Save** — this restarts the provisioning process
+4. Wait again
+
+Common reasons it stays greyed out:
+- Cloudflare proxy is orange (must be grey)
+- Extra A/AAAA records on `@` that aren't the four GitHub IPs
+- DNS hasn't propagated yet — check with `Resolve-DnsName` above
+
+**Once it's active:** Tick **Enforce HTTPS** in the Pages settings. Done.
+
+Your site is now live at `https://pwsh.in/` with a valid certificate and HTTP→HTTPS redirect.
+
+---
+
+## Part F — Writing and Publishing Blog Posts
+
+### F.1 — Understanding the blog post structure
+
+Every post lives in its own folder under `content/posts/`:
+
+```text
+content/posts/
+  └── my-post-title/
+        ├── index.md       ← The post content (required)
+        ├── image.png      ← Post images (optional, placed alongside index.md)
+        └── diagram.svg    ← Any other assets for this post
+```
+
+Using a folder per post (instead of a single `.md` file) lets you keep images
+alongside the post rather than in a shared assets folder. This is the recommended
+approach for Toha.
+
+### F.2 — The post front matter (the header block)
+
+Every post starts with a YAML block between `---` lines. This controls how the post
+appears in listings, search results, and on social media when shared.
+
+```yaml
+---
+title: "Your Post Title"
+date: 2026-03-22T10:00:00+05:30    # Date and time with timezone offset
+draft: false                         # true = invisible on live site, false = published
+description: "One sentence shown in post listings and Google search results."
+tags: ["PowerShell", "Active Directory", "Windows Server"]
+categories: ["PowerShell Automation"]
+author:
+  name: Your Name
+---
+```
+
+**Key fields:**
+
+| _Field_ | _What it does_ |
+| :--- | :--- |
+| `title` | Shown as the post heading and in browser tab |
+| `date` | Controls sort order — newest first |
+| `draft: true` | Post exists but is invisible on live site |
+| `draft: false` | Post is published and visible |
+| `description` | Shown under the title in post listings and in Google |
+| `tags` | Appear on post cards — use specific tech terms |
+| `categories` | Broader grouping — shown in category filter |
+
+> **[!] IMPORTANT:** `draft: true` is the default when you create a post.
+> The post will NOT appear on your live site until you change it to `draft: false`.
+> This is the most common reason a post seems to disappear or never show up.
+
+### F.3 — Your archetype (post template)
+
+Your repo has a custom archetype at `archetypes/default.md` that pre-fills a post
+with the right structure every time you run `hugo new`. It looks like this:
+
+```markdown
+---
+title: "{{ replace .Name "-" " " | title }}"
+date: {{ .Date }}
+draft: true
+description: ""
+tags: [""]
+categories: [""]
+author:
+  name: Vibhu Bhatnagar
+---
+
+## Introduction
+## The Problem
+## The Solution
+## How It Works
+## Results
+```
+
+You get a ready-to-fill skeleton every time. Just add your content and flip `draft: false`.
+
+### F.4 — Full workflow: write, preview, publish
+
+#### Step 1 — Open your blog folder in a terminal
+
+```powershell
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+```
+
+#### Step 2 — Start the local preview server
+
+```powershell
+hugo server -w --buildDrafts
+```
+
+- `-w` — watches for file changes and reloads automatically
+- `--buildDrafts` — makes draft posts visible locally so you can preview before publishing
+
+Open `http://localhost:1313/blog/` in your browser (or `http://localhost:1313/` if using
+a custom domain baseURL — the local server serves from root regardless).
+
+Leave this terminal running. The site updates live as you save files.
+
+#### Step 3 — Create a new post (in a second PowerShell window)
+
+Open a new PowerShell window:
+
+```powershell
+cd "$env:USERPROFILE\Documents\GitHub\blog"
+
+# Replace my-post-title with your actual title using hyphens instead of spaces
+hugo new posts/my-post-title/index.md
+```
+
+Hugo creates the file with your archetype template pre-filled and prints the path:
+`Content "content/posts/my-post-title/index.md" created`
+
+#### Step 4 — Edit the post
+
+```powershell
+code content\posts\my-post-title\index.md
+```
+
+Or open in Notepad:
+
+```powershell
+notepad content\posts\my-post-title\index.md
+```
+
+Edit the front matter fields (title, description, tags, categories).
+Write your post content below the second `---`. Save the file — your browser reloads
+automatically and shows the post in the listing (because `--buildDrafts` is on).
+
+#### Step 5 — Add images (optional)
+
+Place image files in the same folder as the post:
+
+```powershell
+# Example: copy a screenshot into the post folder
+Copy-Item "$env:USERPROFILE\Desktop\screenshot.png" "content\posts\my-post-title\"
+```
+
+Reference in your Markdown:
+
+```markdown
+![Description of the image](screenshot.png)
+```
+
+No path needed — Hugo resolves it relative to the post folder automatically.
+
+#### Step 6 — Set draft: false when ready to publish
+
+Open the post file and change the front matter:
+
+```yaml
+draft: false
+```
+
+Save. The local server will now show it exactly as it will appear on the live site
+(run without `--buildDrafts` to do a final check):
+
+```powershell
+# Stop the current server (Ctrl+C), then restart without --buildDrafts
+hugo server -w
+```
+
+Confirm the post appears correctly at `http://localhost:1313/`.
+
+#### Step 7 — Test the production build
+
+```powershell
+hugo --minify
+```
+
+Must complete with no errors. If you see any `ERROR` lines, fix them before pushing.
+Common issue: an image referenced in Markdown that doesn't exist in the post folder.
+
+#### Step 8 — Push to publish
+
+```powershell
+git add .
+git commit -m "Post: your post title here"
+git push
+```
+
+GitHub Actions builds and deploys automatically. Watch the progress at:
+`https://github.com/YOUR-USERNAME/blog/actions`
+
+Build takes 2–3 minutes. Post is live on your site when the green tick appears.
+
+### F.5 — Modifying an existing post
+
+```powershell
+# Open the post
+code content\posts\post-folder-name\index.md
+
+# Preview changes
+hugo server -w
+
+# Build to verify no errors
+hugo --minify
+
+# Publish
+git add .
+git commit -m "Update post: title"
+git push
+```
+
+### F.6 — Markdown reference for writing posts
+
+You write posts in Markdown — plain text with simple symbols for formatting.
+
+```markdown
+## Section Heading
+### Sub-heading
+
+Normal paragraph text. **Bold text.** *Italic text.* `inline code`.
+
+- Bullet list item
+- Another item
+
+1. Numbered list
+2. Second item
+
+[Link text](https://example.com)
+
+![Image alt text](image-filename.png)
+```
+
+**Code blocks with syntax highlighting:**
+
+````markdown
+```powershell
+Get-Service | Where-Object Status -eq 'Running'
+```
+
+```python
+print("Hello World")
+```
+
+```bash
+systemctl status nginx
+```
+````
+
+Toha supports syntax highlighting for PowerShell, Bash, Python, YAML, JSON,
+and dozens of other languages — just put the language name after the opening backticks.
+
+**Tip block (note/warning callout):**
+
+```markdown
+> **Note:** Something the reader should be aware of.
+
+> **Warning:** Something important that could cause problems.
+```
+
+### F.7 — Post categories and tags — recommended values
+
+Keep these consistent across posts so the filter and tag pages work well.
+
+**Suggested categories (pick one per post):**
+
+```text
+PowerShell Automation
+Active Directory
+Exchange & M365
+Azure & Cloud
+Windows Server
+Virtualisation
+Security & Backup
+Monitoring & Alerting
+Career & MSP Life
+```
+
+**Tags — be specific, use the actual technology names:**
+
+```text
+PowerShell    Active Directory    Azure AD       Exchange Server
+Windows Server    DNS    DHCP    GPO    FSMO    Hyper-V    VMware
+ConnectWise    Datto    Veeam    Microsoft 365    Intune    PRTG
+MSP    Automation    Scripting    Security
+```
+
+### F.8 — Quick reference
+
+| _Task_ | _Command_ |
+| :--- | :--- |
+| Start local server (see drafts) | `hugo server -w --buildDrafts` |
+| Start local server (published only) | `hugo server -w` |
+| Create new post | `hugo new posts/post-name/index.md` |
+| Test production build | `hugo --minify` |
+| Publish all changes | `git add . && git commit -m "msg" && git push` |
+| Watch build on GitHub | GitHub → blog repo → Actions tab |
+| Stop local server | `Ctrl+C` |
+
+---
+
+
 
 ```text
 blog/                                        ← Root of your Hugo project

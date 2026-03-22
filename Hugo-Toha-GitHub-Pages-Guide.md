@@ -1,231 +1,166 @@
-# Hugo + Toha Blog — Complete Setup Guide
-## From Zero to Live Site on GitHub Pages
+# Hugo + Toha Blog — Complete Setup & Usage Guide
 
 **Platform:** Windows 10 / 11
 **Version:** 5.0 &nbsp;•&nbsp; March 2026
-**Reference Site:** https://pwsh.in/
-**Reference Repo:** https://github.com/Vibhu2/blog
+**Live Site:** https://pwsh.in/
+**Source Repo:** https://github.com/Vibhu2/blog
 
 ---
 
 > **HOW TO USE THIS GUIDE**
 >
-> This document is written for someone with no prior knowledge of Hugo, Git, or web hosting.
-> Every command, every file, every click is documented. Follow the steps in exact order.
-> Do not skip anything — each step depends on the previous one.
+> Written for someone with zero prior knowledge of Hugo, Git, or web hosting.
+> Every command, every file, every click is documented. Follow steps in exact order.
 >
-> If you are an AI reproducing this setup: every file's complete final content is in Part C.
-> Replace every `YOUR-USERNAME` placeholder with the actual GitHub username before starting.
+> **For an AI reproducing this setup:** All final file contents are in Part C.
+> Replace every `YOUR-USERNAME` placeholder with the actual GitHub username.
 
 ---
 
 ## Contents
 
-1. [What You Will End Up With](#1-what-you-will-end-up-with)
-2. [How It Works — The Big Picture](#2-how-it-works--the-big-picture)
-3. [Before You Start — Files to Prepare](#3-before-you-start--files-to-prepare)
-4. [Step 1 — Install the Tools](#step-1--install-the-tools)
+1. [What You End Up With](#1-what-you-end-up-with)
+2. [How It Works](#2-how-it-works)
+3. [Files to Prepare Before Starting](#3-files-to-prepare-before-starting)
+4. [Step 1 — Install Tools](#step-1--install-tools)
 5. [Step 2 — Configure Git](#step-2--configure-git)
-6. [Step 3 — Create a GitHub Account](#step-3--create-a-github-account)
-7. [Step 4 — Fork the Example Site on GitHub](#step-4--fork-the-example-site-on-github)
-8. [Step 5 — Clone the Repo to Your Computer](#step-5--clone-the-repo-to-your-computer)
+6. [Step 3 — GitHub Account & Authentication](#step-3--github-account--authentication)
+7. [Step 4 — Fork the Example Site](#step-4--fork-the-example-site)
+8. [Step 5 — Clone to Your Computer](#step-5--clone-to-your-computer)
 9. [Step 6 — Install Site Dependencies](#step-6--install-site-dependencies)
 10. [Step 7 — Clean Up Sample Content](#step-7--clean-up-sample-content)
 11. [Step 8 — Add Your Profile Photo](#step-8--add-your-profile-photo)
 12. [Step 9 — Download Skill Icons](#step-9--download-skill-icons)
 13. [Step 10 — Edit All Content Files](#step-10--edit-all-content-files)
-14. [Step 11 — Create the GitHub Actions Workflow](#step-11--create-the-github-actions-workflow)
-15. [Step 12 — Test the Build Locally](#step-12--test-the-build-locally)
-16. [Step 13 — Push to GitHub and Go Live](#step-13--push-to-github-and-go-live)
+14. [Step 11 — Create GitHub Actions Workflows](#step-11--create-github-actions-workflows)
+15. [Step 12 — Test Locally](#step-12--test-locally)
+16. [Step 13 — Push and Go Live](#step-13--push-and-go-live)
 17. [Step 14 — Enable GitHub Pages](#step-14--enable-github-pages)
-18. [Part C — Complete File Contents](#part-c--complete-file-contents)
-19. [Part D — Day-to-Day Usage](#part-d--day-to-day-usage)
-20. [Part E — Custom Domain Setup](#part-e--custom-domain-setup)
-21. [Part F — Writing and Publishing Blog Posts](#part-f--writing-and-publishing-blog-posts)
+18. [Step 15 — Custom Domain Setup](#step-15--custom-domain-setup)
+19. [Step 16 — Enable HTTPS](#step-16--enable-https)
+20. [Part C — Complete File Contents](#part-c--complete-file-contents)
+21. [Part D — Writing and Publishing Blog Posts](#part-d--writing-and-publishing-blog-posts)
 22. [Setup Checklist](#setup-checklist)
 23. [Troubleshooting](#troubleshooting)
 24. [Useful Links](#useful-links)
 
 ---
 
-## 1. What You Will End Up With
+## 1. What You End Up With
 
-A free personal website at `https://YOUR-USERNAME.github.io/blog/` containing:
+A personal website at `https://YOUR-USERNAME.github.io/blog/` (or your own domain like `https://pwsh.in/`) with:
 
-- A homepage with your photo, About section, work experience, skills, projects, education,
-  and certifications
-- A blog where you can publish articles written in plain text (Markdown)
-- Automatic publishing — every time you save and push a change, the site updates itself
-  within 2–3 minutes, no manual steps needed
-- Dark/light mode, reading time, syntax highlighting, and PDF embedding built in
-
-**Cost:** Free. GitHub Pages hosting is free. The tools are free. No credit card needed.
+- Homepage: photo, About, work experience, skills, projects, education, certifications
+- A blog for publishing technical articles written in plain Markdown
+- Auto-deploy on every `git push` — live within 2–3 minutes, no manual steps
+- Dark/light mode, syntax highlighting, reading time, PDF embed, code copy button
+- **Cost: Free.** GitHub Pages hosting is free. All tools are free.
 
 ---
 
-## 2. How It Works — The Big Picture
+## 2. How It Works
 
+```text
+Your Computer              GitHub                    Internet
+─────────────              ──────                    ────────
+Edit YAML/Markdown  →  git push → main branch
+                                        ↓
+                               GitHub Actions
+                               (builds Hugo)
+                                        ↓
+                               gh-pages branch  →  GitHub Pages  →  https://pwsh.in/
 ```
-Your Computer                  GitHub                    Internet
-─────────────                  ──────                    ────────
-You write/edit   →  git push → main branch
-YAML and                             ↓
-Markdown files               GitHub Actions
-                             (builds the site)
-                                     ↓
-                             gh-pages branch  →  GitHub Pages  →  Live Website
-```
 
-**Three things to understand before starting:**
+**Three things to understand:**
 
-**Hugo** is the program that turns your plain text files (Markdown + YAML) into a real website
-with HTML, CSS, and JavaScript. You never write HTML yourself.
+**Hugo** turns your plain text files (Markdown + YAML) into a real HTML website. You never write HTML.
 
-**GitHub** is where your files are stored online (free). It also runs the build process
-automatically whenever you push changes.
+**GitHub** stores your files and runs the build automatically on every push.
 
-**GitHub Pages** is GitHub's free website hosting. It serves the compiled HTML files
-that Hugo produced.
+**GitHub Pages** serves the compiled HTML files for free.
 
-**The branch setup:** Your repo has two branches. `main` is where your source files live —
-this is what you edit. `gh-pages` is where the compiled website HTML goes — GitHub Actions
-creates and manages this automatically. You never touch `gh-pages` directly.
+**Branch setup:** `main` = your source files (what you edit). `gh-pages` = compiled HTML (auto-managed by GitHub Actions — you never touch it).
+
+Authentication uses the built-in `GITHUB_TOKEN` — no personal access tokens or SSH keys needed.
 
 ---
 
-## 3. Before You Start — Files to Prepare
+## 3. Files to Prepare Before Starting
 
-Have these ready on your computer before starting:
-
-| _File_ | _Requirements_ | _Where it goes later_ |
+| _File_ | _Requirements_ | _Used in_ |
 | :--- | :--- | :--- |
-| **Profile photo** | PNG or JPG. Plain/white background works best. Any reasonable size. | `assets/images/author/` |
-| **Resume PDF** (optional) | Your CV as a PDF file | `static/files/` |
+| Profile photo | PNG or JPG, plain background | Step 8 |
+| Resume PDF (optional) | Your CV as PDF | `static/files/resume.pdf` |
 
-Rename your photo to something simple like `vibhu.png` or `photo.png` before starting.
+Rename your photo to something simple like `vibhu.png` before starting.
 
 ---
 
-## Step 1 — Install the Tools
+## Step 1 — Install Tools
 
-You need four tools: Hugo, Go, Node.js, and Git.
+### 1.1 Open PowerShell as Administrator
 
-### 1.1 — Open PowerShell
-
-PowerShell is the command-line tool built into Windows. To open it:
-
-1. Press the **Windows key**
+1. Press **Windows key**
 2. Type `PowerShell`
-3. Right-click **Windows PowerShell**
-4. Click **Run as administrator**
+3. Right-click **Windows PowerShell** → **Run as administrator**
 
-A blue window will open. This is where you type commands.
-
-### 1.2 — Check if winget is available
-
-`winget` is the Windows package manager used to install tools. Type this and press Enter:
+### 1.2 Check winget is available
 
 ```powershell
 winget --version
 ```
 
-If you see a version number (e.g. `v1.6.3482`), winget is available. Skip to step 1.3.
+If you see a version number — proceed. If not:
+1. Open **Microsoft Store** → search **App Installer** → click **Update**
+2. Reopen PowerShell as Administrator
 
-If you see `winget is not recognized`, you need to install it first:
+### 1.3 Install all four tools
 
-1. Open the **Microsoft Store** (search for it in the Start menu)
-2. Search for **App Installer**
-3. Click **Get** or **Update**
-4. Close and reopen PowerShell as Administrator
-5. Run `winget --version` again to confirm
-
-### 1.3 — Install all tools
-
-Run each command. Wait for each to finish completely before running the next:
+Run each line and wait for it to complete before running the next:
 
 ```powershell
 winget install Git.Git
-```
-
-```powershell
 winget install GoLang.Go
-```
-
-```powershell
 winget install OpenJS.NodeJS.LTS
-```
-
-```powershell
 winget install Hugo.Hugo.Extended
+winget install GitHub.cli
+winget install Microsoft.VisualStudioCode
 ```
 
-> **[!] IMPORTANT:** After all four installs complete, **close PowerShell completely** and
-> open a fresh one (Run as administrator again). The tools will not work in the same session
-> that installed them — Windows needs to reload the PATH.
+> **[!] CRITICAL:** After all installs, **close PowerShell completely** and open a fresh one.
+> Tools are not available in the same session that installed them.
 
-### 1.4 — Verify everything installed correctly
+### 1.4 Verify everything
 
-Open a **new** PowerShell window and run each line:
+Open a **new** PowerShell window and run:
 
 ```powershell
-git --version
+git --version      # Expected: git version 2.x.x
+go version         # Expected: go version go1.x.x
+node --version     # Expected: v22.x.x
+npm --version      # Expected: 10.x.x
+hugo version       # Expected: hugo v0.146.0-...+extended windows/amd64
+gh --version       # Expected: gh version 2.x.x
+code --version     # Expected: 1.x.x
 ```
-Expected: `git version 2.x.x`
 
-```powershell
-go version
-```
-Expected: `go version go1.x.x windows/amd64`
-
-```powershell
-node --version
-```
-Expected: `v22.x.x` (or similar v18+)
-
-```powershell
-npm --version
-```
-Expected: `10.x.x` (or similar)
-
-```powershell
-hugo version
-```
-Expected: `hugo v0.146.0-...+extended windows/amd64`
-
-> **[!] CRITICAL:** The Hugo output **must** contain the word `extended`.
-> If it shows Hugo without `extended`, the site will fail to build. Fix it:
->
+> **[!] CRITICAL:** Hugo **must** contain `+extended` in the output.
+> If it shows without `extended`:
 > ```powershell
 > winget uninstall Hugo.Hugo
 > winget install Hugo.Hugo.Extended
 > ```
-> Then close and reopen PowerShell, and check `hugo version` again.
+> Close and reopen PowerShell, check again.
 
-### 1.5 — Optional: Install VS Code (text editor)
-
-VS Code is a free code editor that makes editing YAML and Markdown much easier.
-If you already have a text editor you prefer, skip this.
-
-```powershell
-winget install Microsoft.VisualStudioCode
-```
-
-After install, close and reopen PowerShell. Test with:
-
-```powershell
-code --version
-```
-
-> **[i] NOTE:** All file editing in this guide uses `code filename` to open VS Code.
-> If you did not install VS Code, you can open any file with Notepad instead:
-> `notepad filename` — everything works the same, just a different editor.
+> **[i] NOTE:** VS Code adds a `code` command to open files from PowerShell.
+> If `code` is not found, restart PowerShell. If you prefer Notepad, replace
+> every `code filename` in this guide with `notepad filename`.
 
 ---
 
 ## Step 2 — Configure Git
 
-Git needs to know who you are before it can save (commit) any changes.
-This is a one-time setup on your computer.
+One-time setup. Git needs to know who you are before it can save changes.
 
 ```powershell
 git config --global user.name "Your Full Name"
@@ -233,165 +168,118 @@ git config --global user.email "your-email@example.com"
 git config --global init.defaultBranch main
 ```
 
-Use the same email address you will use for your GitHub account.
-The last line ensures your default branch is always called `main` — required for the
-GitHub Actions workflow to trigger correctly.
+> **[!] IMPORTANT:** `init.defaultBranch main` is required. Without it, Git may create a
+> `master` branch instead of `main`, and the deploy workflow will never trigger.
 
-Verify it saved:
+Verify:
 
 ```powershell
 git config --global --list
 ```
 
-You should see your name and email in the output.
-
 ---
 
-## Step 3 — Create a GitHub Account
+## Step 3 — GitHub Account & Authentication
 
-If you already have a GitHub account, skip this step.
+### 3.1 Create account
 
-1. Go to `https://github.com`
-2. Click **Sign up**
-3. Follow the steps — choose a username carefully, it will be part of your site URL
-4. Verify your email address
+If you don't have one: go to `https://github.com` → Sign up.
+Choose your username carefully — it becomes part of your site URL.
 
-**Your site URL will be:** `https://YOUR-GITHUB-USERNAME.github.io/blog/`
-
-### 3.1 — Set up GitHub authentication on your computer
-
-When you push files to GitHub, your computer needs to prove who you are.
-The easiest method is the GitHub CLI (command-line tool).
-
-Install it:
-
-```powershell
-winget install GitHub.cli
-```
-
-Close and reopen PowerShell, then authenticate:
+### 3.2 Authenticate your computer with GitHub
 
 ```powershell
 gh auth login
 ```
 
 Answer the prompts:
-- **Where do you use GitHub?** → GitHub.com
-- **What is your preferred protocol?** → HTTPS
-- **Authenticate Git with your GitHub credentials?** → Yes
-- **How would you like to authenticate?** → Login with a web browser
-- Copy the code shown, press Enter — your browser opens, paste the code, click Authorize
+- Where do you use GitHub? → **GitHub.com**
+- Preferred protocol? → **HTTPS**
+- Authenticate Git with GitHub credentials? → **Yes**
+- How to authenticate? → **Login with a web browser**
 
-You are now authenticated. `git push` will work without asking for passwords.
+A code appears — press Enter. Your browser opens. Paste the code → click Authorize.
 
----
-
-## Step 4 — Fork the Example Site on GitHub
-
-"Forking" means making your own copy of someone else's repo. The Toha theme comes with
-a ready-made example site that has all the folders and config pre-set. You fork this
-instead of starting from scratch.
-
-1. Make sure you are logged into GitHub in your browser
-2. Go to: `https://github.com/hugo-themes/toha-example-site`
-3. Click the **Fork** button in the top-right corner
-4. Under **Owner**, select your GitHub account
-5. Under **Repository name**, type: `blog`
-6. Leave everything else as default
-7. Click **Create fork**
-
-GitHub creates `YOUR-USERNAME/blog` with all the sample content inside.
-
-> **[i] NOTE:** The repo name `blog` determines part of your URL. With this name your site
-> will be at `https://YOUR-USERNAME.github.io/blog/`. If you name it something else,
-> change `blog` to that name in all paths throughout this guide.
-
----
-
-## Step 5 — Clone the Repo to Your Computer
-
-"Cloning" downloads the repo from GitHub to your computer so you can edit files locally.
-
-### 5.1 — Create a folder for your projects
+Verify:
 
 ```powershell
+gh auth status
+```
+
+Expected: `Logged in to github.com as YOUR-USERNAME`
+
+---
+
+## Step 4 — Fork the Example Site
+
+1. Go to `https://github.com/hugo-themes/toha-example-site`
+2. Click **Fork** (top-right)
+3. Owner → your account
+4. Repository name → `blog`
+5. Click **Create fork**
+
+> **[i] NOTE:** The repo name `blog` makes your URL `https://YOUR-USERNAME.github.io/blog/`.
+> You can use any name — just use that name everywhere this guide says `blog`.
+
+---
+
+## Step 5 — Clone to Your Computer
+
+```powershell
+# Create the projects folder
 New-Item -ItemType Directory -Path "$env:USERPROFILE\Documents\GitHub" -Force
 cd "$env:USERPROFILE\Documents\GitHub"
-```
 
-### 5.2 — Clone your forked repo
-
-Replace `YOUR-USERNAME` with your actual GitHub username:
-
-```powershell
+# Clone — replace YOUR-USERNAME
 git clone https://github.com/YOUR-USERNAME/blog.git blog
-```
 
-This downloads all files into a new folder called `blog`.
-
-### 5.3 — Move into the project folder
-
-Every command from this point forward must be run from inside this folder:
-
-```powershell
+# Move into the project folder — ALL commands from here run inside this folder
 cd blog
 ```
 
-Verify you are in the right place:
+Confirm your location:
 
 ```powershell
 Get-Location
+# Expected: C:\Users\YOUR-WINDOWS-USERNAME\Documents\GitHub\blog
 ```
-
-Expected output: `C:\Users\YOUR-WINDOWS-USERNAME\Documents\GitHub\blog`
 
 ---
 
 ## Step 6 — Install Site Dependencies
 
-The Toha theme requires some packages to be downloaded before you can build the site.
-Run these three commands in order from inside the `blog` folder:
+Run in this exact order:
 
 ```powershell
 hugo mod tidy
 ```
-
-This downloads the Toha theme via Go modules. Takes 30–90 seconds the first time.
-You will see it printing module names as it downloads.
+Downloads the Toha theme via Go modules. Takes 30–90 seconds first time.
 
 ```powershell
 hugo mod npm pack
 ```
-
-This reads the theme's requirements and generates a `package.json` file listing
-all the JavaScript/CSS packages needed (Bootstrap, FontAwesome, etc.).
+Generates `package.json` listing all CSS/JS packages the theme needs.
 
 ```powershell
 npm install
 ```
+Downloads all packages (Bootstrap, FontAwesome, etc.). Progress bar, then `added X packages`.
 
-This reads `package.json` and downloads all the packages. Takes 30–60 seconds.
-You will see a progress bar and finally `added X packages`.
-
-> **[!] IMPORTANT:** These three commands must be run in this exact order.
-> If `npm install` complains about missing `package.json`, run `hugo mod npm pack` first.
+> **[!] ORDER MATTERS:** Must run in sequence. If `npm install` says no `package.json`,
+> run `hugo mod npm pack` first.
 
 ---
 
 ## Step 7 — Clean Up Sample Content
 
-The forked repo contains Bengali-language sample content that will cause build errors.
-Delete it now before doing anything else:
+The forked repo includes Bengali sample content that causes build errors. Delete it once:
 
 ```powershell
-# Delete Bengali data folder
 Remove-Item -Recurse -Force "data\bn" -ErrorAction SilentlyContinue
-
-# Delete all Bengali content files
 Get-ChildItem -Recurse -Filter "*.bn.md" | Remove-Item -Force
 ```
 
-Confirm they are gone (this command should return nothing):
+Confirm clean (should return nothing):
 
 ```powershell
 Get-ChildItem -Recurse -Filter "*.bn.md"
@@ -401,51 +289,37 @@ Get-ChildItem -Recurse -Filter "*.bn.md"
 
 ## Step 8 — Add Your Profile Photo
 
-Your profile photo must be placed in `assets\images\author\`.
-
-> **[!] CRITICAL:** The photo **must** go in `assets\images\author\` — NOT in `static\images\`.
-> The Toha theme uses `resources.Get` which only looks inside `assets\`.
-> If your photo is in `static\`, the build will crash with this error:
-> `nil pointer evaluating resource.Resource.RelPermalink`
-
-Create the folder and copy your photo:
+> **[!] CRITICAL — WRONG FOLDER BREAKS THE BUILD:**
+> Photo must be in `assets\images\author\` — NOT `static\images\`.
+> The theme uses `resources.Get` which only looks in `assets\`.
+> Photo in `static\` = `nil pointer evaluating resource.Resource.RelPermalink` build error.
 
 ```powershell
-# Create the folder (safe to run even if it already exists)
 New-Item -ItemType Directory -Path "assets\images\author" -Force
 
-# Copy your photo — adjust the source path to wherever your photo actually is
-# Example if your photo is in Downloads:
+# Adjust source path to where your photo actually is
 Copy-Item "$env:USERPROFILE\Downloads\YourPhoto.png" "assets\images\author\vibhu.png"
 ```
 
-Change `YourPhoto.png` to your actual filename, and `vibhu.png` to whatever name you want to use.
-Remember the name you choose — you will need to put it in `author.yaml` in Step 10.
+Remember the filename — you will reference it in `author.yaml` in Step 10.
 
 ---
 
 ## Step 9 — Download Skill Icons
 
-Every skill card on your homepage needs an icon image. The icons must be SVG or PNG files
-stored in `assets\images\sections\skills\`. Missing icons crash the build.
+Every skill in `skills.yaml` needs a matching icon in `assets\images\sections\skills\`.
+A missing icon = nil pointer build error crashing the entire build.
 
-### 9.1 — Icons already included
-
-These come with the forked repo and are ready to use as-is:
+### Icons already included (no download needed)
 
 ```text
-assets/images/sections/skills/
-  cloud.png    git.png    go.png    linux.png
-  docker.svg   kubernetes.png   prometheus.png   c++.png
+cloud.png  git.png  go.png  linux.png  docker.svg  kubernetes.png  prometheus.png  c++.png
 ```
 
-### 9.2 — Download additional icons
-
-Run this script from inside the `blog` folder to download icons for all the skills
-configured in this guide. It uses two reliable public sources:
+### Download IT/Microsoft icons
 
 ```powershell
-cd assets\images\sections\skills
+cd "$env:USERPROFILE\Documents\GitHub\blog\assets\images\sections\skills"
 
 $icons = @{
     "powershell.svg" = "https://raw.githubusercontent.com/benc-uk/icon-collection/master/azure-docs/logo_powershell.svg"
@@ -468,199 +342,294 @@ foreach ($icon in $icons.GetEnumerator()) {
         Invoke-WebRequest -Uri $icon.Value -OutFile $icon.Key -TimeoutSec 10
         Write-Host "OK: $($icon.Key)"
     } catch {
-        Write-Host "FAIL: $($icon.Key) — $($_.Exception.Message)"
+        Write-Host "FAIL: $($icon.Key)"
     }
 }
 
-# Return to the blog root folder when done
+# Return to blog root
 cd "$env:USERPROFILE\Documents\GitHub\blog"
 ```
 
-Every line should show `OK: filename.svg`. If any show FAIL, check your internet connection
-and run the failing ones manually.
-
-### 9.3 — Verify all icons are present
-
-```powershell
-Get-ChildItem assets\images\sections\skills
-```
-
-You should see: `ad.svg`, `automation.svg`, `azure.svg`, `backup.svg`, `cloud.png`,
-`defender.svg`, `dns.svg`, `docker.svg`, `exchange.svg`, `git.png`, `go.png`,
-`kubernetes.png`, `linux.png`, `monitor.svg`, `powershell.svg`, `python.svg`,
-`veeam.svg`, `vmware.svg`, `windows.svg`
+All lines should show `OK`. If any show `FAIL`, check internet and retry individually.
 
 ---
 
 ## Step 10 — Edit All Content Files
 
-This is where you put in your actual information. Every file below needs to be edited.
-
-**How to edit:** Open the file in your editor, replace the content completely, save.
+All content lives in `data\en\`. Open each file, replace with your real information, save.
 
 ```powershell
-# To open a file in VS Code:
+# To open in VS Code:
 code data\en\author.yaml
 
-# To open a file in Notepad (if you don't have VS Code):
+# To open in Notepad (if no VS Code):
 notepad data\en\author.yaml
 ```
 
-The complete final content for every file is in **Part C** of this guide.
-Go to Part C now, copy each file's content, and save it.
+Complete final content for every file is in **Part C**. Edit these files:
 
-Files to edit (in this order):
-
-1. `hugo.yaml` — main site config
+1. `hugo.yaml` — baseURL, title, gitRepo
 2. `go.mod` — module path
-3. `data\en\author.yaml` — your name, photo, contacts
-4. `data\en\site.yaml` — site description, OpenGraph
-5. `data\en\sections\about.yaml` — About section
-6. `data\en\sections\experiences.yaml` — work history
-7. `data\en\sections\skills.yaml` — skills with icons
-8. `data\en\sections\education.yaml` — qualifications
-9. `data\en\sections\accomplishments.yaml` — certifications
-10. `data\en\sections\projects.yaml` — projects
-11. `data\en\sections\achievements.yaml` — disable this section
-12. `data\en\sections\featured-posts.yaml` — disable this section
+3. `data\en\author.yaml`
+4. `data\en\site.yaml`
+5. `data\en\sections\about.yaml`
+6. `data\en\sections\experiences.yaml`
+7. `data\en\sections\skills.yaml`
+8. `data\en\sections\education.yaml`
+9. `data\en\sections\accomplishments.yaml`
+10. `data\en\sections\projects.yaml`
+11. `data\en\sections\achievements.yaml` — disable
+12. `data\en\sections\featured-posts.yaml` — disable
 
 ---
 
-## Step 11 — Create the GitHub Actions Workflow
+## Step 11 — Create GitHub Actions Workflows
 
-GitHub Actions is the automated build system. When you push changes to GitHub, it reads
-this workflow file and automatically builds and deploys your site.
-
-### 11.1 — Create the workflows folder
+### Create the workflows folder
 
 ```powershell
 New-Item -ItemType Directory -Path ".github\workflows" -Force
 ```
 
-### 11.2 — Create the deploy workflow
-
-The complete file content is in Part C, item 13. Copy it exactly into a new file:
+### Create deploy.yml
 
 ```powershell
 code .github\workflows\deploy.yml
 ```
 
-### 11.3 — Create the upstream sync workflow
+Paste content from Part C → File 13. Save.
 
-This automatically checks for theme updates every Monday. Content is in Part C, item 14:
+### Create sync-upstream.yml
 
 ```powershell
 code .github\workflows\sync-upstream.yml
 ```
 
+Paste content from Part C → File 14. Save.
+
 ---
 
-## Step 12 — Test the Build Locally
+## Step 12 — Test Locally
 
-Before pushing anything to GitHub, verify the site builds without errors on your computer.
+### Full build test (no browser)
 
 ```powershell
 hugo --minify
 ```
 
-A successful build ends with something like:
-
+Success looks like:
 ```text
 Start building sites …
 Total in 1976 ms
 ```
 
-If you see `Error:` anywhere in the output, fix it before continuing.
-Check the Troubleshooting section at the end of this guide for common errors.
+Any `Error:` in output = fix it before continuing. See Troubleshooting section.
 
-### 12.2 — Preview the site in your browser
+### Preview in browser
 
 ```powershell
 hugo server -w
 ```
 
-Open your browser and go to: `http://localhost:1313/blog/`
+Open `http://localhost:1313/blog/` — your site with your content.
 
-You should see your site with your name, photo, and content. Press `Ctrl+C` to stop.
-
-> **[i] NOTE:** If the site loads but looks unstyled (no fonts, no colours), run:
+> **[i] NOTE:** If CSS looks broken (no fonts/colours), run:
 > ```powershell
 > hugo server -w --baseURL http://localhost:1313/blog/
 > ```
 
+> **[i] NOTE:** To see draft posts locally (hidden on live site):
+> ```powershell
+> hugo server -w -D
+> ```
+
+Press `Ctrl+C` to stop the server.
+
 ---
 
-## Step 13 — Push to GitHub and Go Live
-
-Once the local build is clean, push everything to GitHub:
+## Step 13 — Push and Go Live
 
 ```powershell
 cd "$env:USERPROFILE\Documents\GitHub\blog"
-
 git add .
 git status
 ```
 
-`git status` shows you what files changed. Review it — you should see your YAML files,
-your photo, icons, and workflow files all listed as new/modified.
+Review what changed — your YAML, photo, icons, workflow files should all be listed.
 
 ```powershell
 git commit -m "Initial setup — Hugo Toha blog"
 git push
 ```
 
-`git push` uploads everything to GitHub. The first push may open a browser window to
-confirm your GitHub credentials — follow the prompts.
+Watch the build: `https://github.com/YOUR-USERNAME/blog/actions`
 
-### 13.2 — Watch the build
+- **Deploy Hugo Site** → this is the one to watch (orange = running, green = done, red = failed)
+- **Sync Upstream Fork** → may fail first time, harmless
 
-Go to: `https://github.com/YOUR-USERNAME/blog/actions`
-
-You will see the **Deploy Hugo Site** workflow running (orange dot = running, green = success,
-red = failed). Click on it to see live logs.
-
-The first build takes 2–3 minutes. When it shows a green tick, your site is ready.
-
-> **[i] NOTE:** You will also see a **Sync Upstream Fork** workflow. It may show as failed
-> on first run — this is normal and harmless. It will work correctly every week after that.
+First build takes 2–3 minutes.
 
 ---
 
 ## Step 14 — Enable GitHub Pages
 
-After the first successful build you must tell GitHub to serve your site:
+After the first green build:
 
-1. Go to: `https://github.com/YOUR-USERNAME/blog/settings/pages`
-2. Under **Source** → select **Deploy from a branch**
-3. Under **Branch** → open the dropdown → select **gh-pages**
-4. In the folder dropdown next to it → select **/ (root)**
-5. Click **Save**
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Under **Source** → **Deploy from a branch**
+3. Under **Branch** → select `gh-pages` → `/ (root)`
+4. Click **Save**
 
-Your site is now live at: `https://YOUR-USERNAME.github.io/blog/`
+Site is live at `https://YOUR-USERNAME.github.io/blog/` within 1–10 minutes.
 
-Allow 1–10 minutes for the first load. If you see a 404, wait a few minutes and refresh.
+---
+
+## Step 15 — Custom Domain Setup
+
+Skip this step if you are happy with the default `github.io` URL.
+
+### Step 15.1 — Verify your domain with GitHub (recommended)
+
+This prevents domain takeover attacks. Do this at account level, not repo level.
+
+1. Go to `https://github.com/settings/pages`
+2. Click **Add a domain**
+3. Enter your domain (e.g. `pwsh.in`) → click **Add domain**
+4. GitHub shows you a TXT record to add, something like:
+
+| _Type_ | _Name_ | _Value_ |
+| :--- | :--- | :--- |
+| TXT | `_github-pages-challenge-YOUR-USERNAME.pwsh.in` | `some-random-string` |
+
+5. Add that TXT record in Cloudflare DNS (DNS only, grey cloud)
+6. Back on GitHub → click **Verify**
+
+### Step 15.2 — Set custom domain in repo settings
+
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Under **Custom domain** → type your domain → click **Save**
+
+GitHub creates a CNAME file in `gh-pages` branch automatically.
+
+### Step 15.3 — Add DNS records in Cloudflare
+
+Cloudflare → your domain → **DNS → Records**. Add all of these.
+
+**Every record must be DNS only (grey cloud) — NOT proxied (orange cloud).**
+Orange cloud blocks GitHub's TLS certificate verification permanently.
+
+**4× A records (IPv4):**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| A | `@` | `185.199.108.153` | DNS only ☁️ |
+| A | `@` | `185.199.109.153` | DNS only ☁️ |
+| A | `@` | `185.199.110.153` | DNS only ☁️ |
+| A | `@` | `185.199.111.153` | DNS only ☁️ |
+
+**4× AAAA records (IPv6):**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| AAAA | `@` | `2606:50c0:8000::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8001::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8002::153` | DNS only ☁️ |
+| AAAA | `@` | `2606:50c0:8003::153` | DNS only ☁️ |
+
+**1× CNAME (www redirect):**
+
+| _Type_ | _Name_ | _Value_ | _Proxy_ |
+| :--- | :--- | :--- | :--- |
+| CNAME | `www` | `YOUR-USERNAME.github.io` | DNS only ☁️ |
+
+> **[!] WARNING:** Any extra A/AAAA records on `@` not in this list will block certificate generation. Delete any old hosting records on `@`.
+
+### Step 15.4 — Update hugo.yaml and site.yaml
+
+```powershell
+# In hugo.yaml — change baseURL
+# From: baseURL: https://YOUR-USERNAME.github.io/blog/
+# To:   baseURL: https://pwsh.in/
+
+# In data/en/site.yaml — update OpenGraph url
+# From: url: https://YOUR-USERNAME.github.io/blog/
+# To:   url: https://pwsh.in/
+```
+
+### Step 15.5 — Add CNAME file to static/
+
+This file ensures your custom domain survives every deployment. Without it, GitHub Actions overwrites the CNAME file after every push and breaks the custom domain.
+
+```powershell
+"pwsh.in" | Out-File -FilePath "static\CNAME" -Encoding ascii -NoNewline
+```
+
+### Step 15.6 — Commit and push
+
+```powershell
+git add .
+git commit -m "Custom domain — pwsh.in"
+git push
+```
+
+### Step 15.7 — Verify DNS is resolving
+
+```powershell
+Resolve-DnsName pwsh.in -Type A | Select-Object Name, IPAddress
+```
+
+All four GitHub IPs should appear. If you see anything else, your A records are wrong or proxy is on.
+
+---
+
+## Step 16 — Enable HTTPS
+
+The **Enforce HTTPS** checkbox stays greyed out until GitHub provisions a TLS certificate from Let's Encrypt. This happens automatically after DNS resolves correctly.
+
+### Why it's greyed out — checklist
+
+If the checkbox is greyed out after 30 minutes, check each item:
+
+- [ ] All A/AAAA records in Cloudflare are **DNS only (grey cloud)** — not proxied
+- [ ] No extra A/AAAA records on `@` beyond the eight GitHub IPs
+- [ ] The CNAME file exists in the `gh-pages` branch (GitHub creates this when you save the domain in Settings)
+- [ ] DNS has propagated — verify with `Resolve-DnsName pwsh.in -Type A`
+
+### How to restart certificate provisioning
+
+If the checkbox is still greyed out after everything above checks out:
+
+1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
+2. Click **Remove** next to your custom domain
+3. Type the domain again → click **Save**
+
+This restarts the DNS check and certificate provisioning from scratch.
+
+### Enable it
+
+Once you see a green tick next to your domain in Pages settings:
+tick **Enforce HTTPS** → done.
+
+`http://pwsh.in` will now automatically redirect to `https://pwsh.in`.
 
 ---
 
 ## Part C — Complete File Contents
 
-These are the exact final contents of every file that needs to be created or modified.
-Copy each block exactly. Replace `YOUR-USERNAME` with your GitHub username throughout.
+Every file that needs to be created or modified. Replace `YOUR-USERNAME` throughout.
 
 ---
 
 ### File 1: hugo.yaml
 
-**Path:** `hugo.yaml` (in the root of the blog folder — not inside any subfolder)
-**Action:** Replace the entire existing file content with this.
+**Path:** `hugo.yaml` (repo root) — replace entire file.
 
 ```yaml
-baseURL: https://YOUR-USERNAME.github.io/blog/
+baseURL: https://pwsh.in/
 
 languageCode: en
-title: "Your Name's Blog"
+title: "Vibhu's Blog"
 
-# Use Hugo modules to add theme
 module:
   imports:
   - path: github.com/hugo-toha/toha/v4
@@ -674,16 +643,14 @@ module:
   - source: ./node_modules/katex/dist/fonts
     target: static/fonts
 
-# English only — no language switcher
 languages:
   en:
     languageCode: en
     languageName: English
-    title: "Your Name's Blog"
+    title: "Vibhu's Blog"
     weight: 1
 defaultContentLanguage: en
 
-# Allow raw HTML in markdown files
 markup:
   goldmark:
     renderer:
@@ -703,15 +670,12 @@ enableEmoji: true
 
 params:
   background: /images/site/background.jpg
-
   logo:
     main: /images/site/main-logo.png
     inverted: /images/site/inverted-logo.png
     favicon: /images/site/favicon.png
-
-  gitRepo: https://github.com/YOUR-USERNAME/blog
+  gitRepo: https://github.com/Vibhu2/blog
   gitBranch: main
-
   topNavbar:
     maxVisibleSections: 5
 
@@ -722,10 +686,8 @@ params:
         light: true
         dark: true
         default: system
-
     portfolio:
       enable: true
-
     blog:
       enable: true
       showAuthor: true
@@ -736,38 +698,28 @@ params:
         reddit: true
         whatsapp: true
         email: true
-
     notes:
       enable: true
-
     comment:
       enable: false
-
     analytics:
       enable: false
-
     support:
       enable: false
-
     toc:
       enable: true
-
     tags:
       enable: true
       on_card: true
-
     flags:
       enable: false
-
     embedpdf:
       enable: true
-
     flowchart:
       enable: true
       services:
         mermaid:
           theme: forest
-
     math:
       enable: true
       services:
@@ -785,24 +737,19 @@ params:
             - left: \\(
               right: \\)
               display: false
-
     syntaxHighlight:
       enable: true
       services:
         hljs:
           noHighlightRe: /^no-highlight$/i
-
     videoPlayer:
       enable: true
       services:
         plyr:
-
     copyCodeButton:
       enable: true
-
     readingTime:
       enable: true
-
     pagination:
       maxPostsPerPage: 12
 
@@ -826,11 +773,10 @@ params:
 
 ### File 2: go.mod
 
-**Path:** `go.mod` (root of blog folder)
-**Action:** Replace the entire file. Change only the first line — put your GitHub username and repo name.
+**Path:** `go.mod` (repo root) — change first line only.
 
 ```
-module github.com/YOUR-USERNAME/blog
+module github.com/Vibhu2/blog
 
 go 1.25
 
@@ -841,64 +787,54 @@ require github.com/hugo-toha/toha/v4 v4.13.1-0.20260114145901-84093514293e // in
 
 ### File 3: data/en/author.yaml
 
-**Path:** `data\en\author.yaml`
-**Action:** Replace entire file.
-**Note:** Change `vibhu.png` in the `image` field to match whatever you named your photo in Step 8.
-
 ```yaml
-name: "Your Full Name"
-nickname: "YourFirstName"
+name: "Vibhu Bhatnagar"
+nickname: "Vibhu"
 greeting: "Hi, I am"
 image: "images/author/vibhu.png"
 
 contactInfo:
-  email: "you@example.com"
-  phone: "+XX XXXXXXXXXX"
-  github: YOUR-USERNAME
-  linkedin: your-linkedin-profile-slug
+  email: "vibhu@pwsh.in"
+  phone: "+91 8979989222"
+  github: Vibhu2
+  linkedin: vibhu-bhatnagar-02622798
 
 summary:
-  - Your Primary Job Title
-  - Your Main Specialisation
-  - Another Key Skill
-  - Another Key Skill
-  - X+ years in your field
+  - Senior Wintel Administrator
+  - Active Directory & DNS/DHCP Specialist
+  - Exchange Server SME
+  - PowerShell Automation Engineer
+  - 15+ years in enterprise IT infrastructure
 ```
 
 ---
 
 ### File 4: data/en/site.yaml
 
-**Path:** `data\en\site.yaml`
-**Action:** Replace entire file.
-
 ```yaml
-copyright: © 2026 Your Full Name. All rights reserved.
+copyright: © 2026 Vibhu Bhatnagar. All rights reserved.
 
 disclaimer: "The views and opinions expressed on this blog are my own and do not represent those of my employer. All content is provided for informational purposes only."
 
-description: "Personal blog and portfolio of Your Name — brief description of your specialisation."
+description: "Personal blog and portfolio of Vibhu Bhatnagar — Senior Wintel Administrator specialising in Active Directory, Exchange Server, PowerShell automation, and enterprise IT infrastructure."
 
 customMenus:
 - name: GitHub
-  url: https://github.com/YOUR-USERNAME
+  url: https://github.com/Vibhu2
   hideFromNavbar: false
   showOnFooter: true
 
 openGraph:
-  title: "Your Name — Your Job Title"
+  title: "Vibhu Bhatnagar — Senior Wintel Administrator"
   type: website
-  description: "Description shown when your site is shared on LinkedIn, Twitter, WhatsApp etc."
+  description: "Personal blog and portfolio — Active Directory, Exchange, PowerShell automation and enterprise infrastructure."
   image: images/author/vibhu.png
-  url: https://YOUR-USERNAME.github.io/blog/
+  url: https://pwsh.in/
 ```
 
 ---
 
 ### File 5: data/en/sections/about.yaml
-
-**Path:** `data\en\sections\about.yaml`
-**Action:** Replace entire file.
 
 ```yaml
 section:
@@ -909,57 +845,50 @@ section:
   showOnNavbar: true
   template: sections/about.html
 
-designation: Your Job Title
+designation: Senior Advanced System Administrator
 company:
-  name: Your Company Name
-  url: "https://www.yourcompany.com"
+  name: IT By Design
+  url: "https://www.itbydesign.com"
 
-summary: 'Your professional summary — one paragraph. Describe your experience, specialisations, and key achievements.'
+summary: 'Senior Wintel Administrator with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation — reducing multi-day manual processes to minutes — combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.'
 
 socialLinks:
 - name: Email
   icon: "fas fa-envelope"
-  url: "mailto:you@example.com"
-
+  url: "mailto:vibhu@pwsh.in"
 - name: Github
   icon: "fab fa-github"
-  url: "https://www.github.com/YOUR-USERNAME"
-
+  url: "https://www.github.com/Vibhu2"
 - name: LinkedIn
   icon: "fab fa-linkedin"
-  url: "https://www.linkedin.com/in/YOUR-LINKEDIN-SLUG"
+  url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"
 
 badges:
 - type: certification
-  name: Certification Name
-  url: "https://certification-verify-url.com"
-  badge: "https://images.credly.com/size/680x680/your-badge-id/image.png"
-
+  name: Microsoft Azure Administrator (AZ-104)
+  url: "https://learn.microsoft.com/en-us/certifications/azure-administrator/"
+  badge: "https://images.credly.com/size/680x680/images/336eebfc-0ac3-4553-9a67-b402f491f185/azure-administrator-associate-600x600.png"
+- type: certification
+  name: Datto Certified Technical Specialist
+  url: "https://www.datto.com"
+  badge: "https://images.credly.com/size/680x680/images/ba16c380-fe58-4e71-8f9c-e31bcd0810a6/image.png"
 - type: soft-skill-indicator
   name: Problem Solving
   percentage: 90
   color: blue
-
 - type: soft-skill-indicator
   name: Team Leadership
   percentage: 85
   color: yellow
-
 - type: soft-skill-indicator
   name: Automation Mindset
   percentage: 95
   color: orange
 ```
 
-> **[i] HOW TO GET BADGE IMAGE URLs:** Go to your Credly profile, find your certification badge,
-> right-click the badge image, click "Copy image address". Paste that URL into the `badge:` field.
-
 ---
 
 ### File 6: data/en/sections/experiences.yaml
-
-**Path:** `data\en\sections\experiences.yaml`
-**Action:** Replace entire file. Add/remove companies as needed — the pattern repeats.
 
 ```yaml
 section:
@@ -971,45 +900,87 @@ section:
 
 experiences:
 - company:
-    name: Current Company Name
-    url: "https://www.company.com"
-    location: City, Country
-    overview: One sentence about what the company does.
+    name: IT By Design
+    url: "https://www.itbydesign.com"
+    location: Noida, India
+    overview: IT By Design is a leading managed services provider delivering IT support and infrastructure solutions to businesses worldwide.
   positions:
-  - designation: Your Current Job Title
-    start: Mon YYYY
+  - designation: Senior Advanced System Administrator
+    start: Aug 2019
     responsibilities:
-    - What you did — be specific. Use numbers where possible (150+ clients, 25+ migrations).
-    - Another responsibility.
-    - Another responsibility.
+    - Architected and maintained AD environments across 150+ MSP clients — GPOs, OU structures, FSMO roles, replication topology, and AD health.
+    - Designed and implemented split-brain DNS configurations, zone migrations, and conditional forwarder policies for multi-site enterprise clients.
+    - Deployed DHCP failover pairs and managed scope configurations, reservations, and IPAM — eliminating address conflicts and single points of failure.
+    - Led AD migration and clean-up projects including stale object removal, GPO consolidation, and trust relationship reviews across 22+ client environments.
+    - Executed 25+ on-premises Exchange to Microsoft 365 migrations including hybrid configuration, MX cutover, mail flow validation, and post-migration support.
+    - Delivered Tenant-to-Tenant M365 migrations covering mailboxes, calendars, and Teams data with zero unplanned downtime.
+    - Managed VMware ESXi, vSphere and vCenter Server — provisioning, snapshots, resource pools, vMotion, and HA/DRS configuration.
+    - Executed bulk upgrade of 150+ ESXi hosts to version 8.0.3 with minimal service disruption.
+    - Built Azure AD Sync Monitor tracking 155+ clients — auto-triggers forced sync when threshold exceeded, eliminated daily manual checks entirely.
+    - Automated ESXi host inventory and documentation generation, cutting monthly reporting from 10 days to under 1 hour.
+    - Deployed DUO MFA, Microsoft Defender XDR, and Sophos Endpoint Security; implemented zero-day vulnerability remediation workflows.
+    - Managed Datto and Veeam backup environments — policy design, monitoring, restore testing, and quarterly BCDR exercises across 150+ clients.
+    - Delivered 15% increase in operational efficiency and 20% reduction in ticket volume through automation and preventive maintenance.
 
 - company:
-    name: Previous Company Name
-    url: "https://www.previouscompany.com"
-    location: City, Country
-    overview: One sentence about the company.
+    name: Pacific Infotech
+    url: "https://www.pacificinfotech.co.uk"
+    location: Moradabad, India
+    overview: Pacific Infotech is a UK-based managed services provider.
   positions:
-  - designation: Your Previous Job Title
-    start: Mon YYYY
-    end: Mon YYYY
+  - designation: Senior Analyst & Client Support
+    start: Oct 2011
+    end: Jul 2019
     responsibilities:
-    - Responsibility one.
-    - Responsibility two.
-```
+    - Managed Windows Server and AD infrastructure for 200–350 user environments — DNS, DHCP, GPO, file services, and user administration.
+    - Deployed and maintained Exchange Server 2010/2013 — mailbox management, transport rules, DAG configuration.
+    - Maintained VMware ESXi and Hyper-V platforms — VM provisioning, backup, and disaster recovery planning.
+    - Configured and managed PRTG for full infrastructure monitoring across all client environments.
+    - Managed AppAssure, Backup Exec, and Datto backup environments including DR exercises.
 
-> **[i] NOTE:** If you are still at a company, leave out the `end:` line entirely.
-> Toha will automatically show "Present" for the current role.
+- company:
+    name: Dell International
+    url: "https://www.dell.com"
+    location: Gurgaon, India
+    overview: Dell Technologies is a global leader in IT solutions, hardware, and services.
+  positions:
+  - designation: Client Technical Support Associate
+    start: Jun 2011
+    end: Sep 2011
+    responsibilities:
+    - Provided technical support to US-based clients for Dell hardware and bundled software.
+    - Diagnosed and resolved hardware, OS, virus, malware, and spyware issues.
+
+- company:
+    name: Teleperformance CRM Services
+    url: "https://www.teleperformance.com"
+    location: Gurgaon, India
+    overview: Teleperformance is a global leader in outsourced customer experience management.
+  positions:
+  - designation: Associate — Adobe Technical Support (SME)
+    start: May 2010
+    end: Jun 2011
+    responsibilities:
+    - Provided technical support for Adobe Creative Suite as Subject Matter Expert.
+    - Supported Photoshop, After Effects, Premiere Elements, Premiere Pro, and Encore for US-based customers.
+
+- company:
+    name: Wipro
+    url: "https://www.wipro.com"
+    location: Okhla, India
+    overview: Wipro is a leading global IT and business process services company.
+  positions:
+  - designation: Tech Support — HP
+    start: Jan 2009
+    end: Mar 2010
+    responsibilities:
+    - Provided technical support for HP hardware and peripherals.
+    - Handled inbound support calls resolving hardware and software issues.
+```
 
 ---
 
 ### File 7: data/en/sections/skills.yaml
-
-**Path:** `data\en\sections\skills.yaml`
-**Action:** Replace entire file.
-
-> **[!] CRITICAL:** Every `logo:` path in this file must have a matching file in
-> `assets/images/sections/skills/`. If any file is missing the build will crash.
-> The icons in this file match exactly what was downloaded in Step 9.
 
 ```yaml
 section:
@@ -1037,7 +1008,7 @@ buttons:
 skills:
 - name: PowerShell
   logo: /images/sections/skills/powershell.svg
-  summary: "Expert-level PowerShell automation for AD, Exchange, ESXi reporting, Azure AD sync monitoring, and bulk infrastructure tasks."
+  summary: "Expert-level automation for AD, Exchange, ESXi reporting, Azure AD sync monitoring, and bulk infrastructure tasks. Author of custom modules reducing multi-day processes to minutes."
   categories: ["scripting", "microsoft"]
   url: "https://docs.microsoft.com/en-us/powershell/"
 
@@ -1108,9 +1079,6 @@ skills:
 
 ### File 8: data/en/sections/education.yaml
 
-**Path:** `data\en\sections\education.yaml`
-**Action:** Replace entire file.
-
 ```yaml
 section:
   name: Education
@@ -1121,29 +1089,26 @@ section:
   showOnNavbar: true
 
 degrees:
-- name: Your Highest Degree (e.g. Master of Computer Applications)
+- name: Master of Computer Applications (MCA)
   icon: fa-graduation-cap
-  timeframe: YYYY-YYYY
+  timeframe: 2011-2014
   institution:
-    name: University Name, City
-    url: "https://www.university.edu"
+    name: Punjab Technical University, Moradabad
+    url: "https://www.ptu.ac.in"
   customSections:
     - name: Specialisation
-      content: Your Field of Study
+      content: Computer Science
 
-- name: Your Second Degree (e.g. Bachelor of Computer Applications)
+- name: Bachelor of Computer Applications (BCA)
   icon: fa-university
-  timeframe: YYYY-YYYY
+  timeframe: Completed before 2011
   institution:
-    name: University Name, City
+    name: India
 ```
 
 ---
 
 ### File 9: data/en/sections/accomplishments.yaml
-
-**Path:** `data\en\sections\accomplishments.yaml`
-**Action:** Replace entire file. Add or remove entries to match your certifications.
 
 ```yaml
 section:
@@ -1154,27 +1119,66 @@ section:
   showOnNavbar: true
 
 accomplishments:
-- name: Your Certification Name
-  timeline: "Mon YYYY"
+- name: Microsoft Azure Administrator (AZ-104)
+  timeline: "Aug 2021"
   organization:
-    name: Issuing Organisation
-    url: https://www.org.com
-  courseOverview: "What this certification validates — one or two sentences."
+    name: Microsoft
+    url: https://learn.microsoft.com/en-us/certifications/azure-administrator/
+  courseOverview: "Validates expertise in implementing, managing, and monitoring Azure environments."
 
-- name: Another Certification
-  timeline: "Mon YYYY"
+- name: Microsoft 365 Security Administration
+  timeline: "Aug 2021"
   organization:
-    name: Issuing Organisation
-    url: https://www.org.com
-  courseOverview: "What this covers."
+    name: Microsoft
+    url: https://learn.microsoft.com/en-us/certifications/
+  courseOverview: "Covers M365 security administration including identity, compliance, and threat protection."
+
+- name: Datto Certified Technical Specialist
+  timeline: "Sep 2019"
+  organization:
+    name: Datto
+    url: https://www.datto.com
+  courseOverview: "Certifies proficiency in Datto backup, disaster recovery, and business continuity products."
+
+- name: Sophos Intercept X Advanced with EDR
+  timeline: "Apr 2020"
+  organization:
+    name: Sophos
+    url: https://www.sophos.com
+  courseOverview: "Endpoint protection and EDR — threat hunting, deep learning malware detection, incident response."
+
+- name: Sophos Central Device Encryption
+  timeline: "Apr 2020"
+  organization:
+    name: Sophos
+    url: https://www.sophos.com
+  courseOverview: "Full disk encryption management using BitLocker and FileVault — policy deployment and key recovery."
+
+- name: Sophos Central Email & Phish Threat
+  timeline: "Apr 2020"
+  organization:
+    name: Sophos
+    url: https://www.sophos.com
+  courseOverview: "Email security and simulated phishing training — protecting against email-borne threats."
+
+- name: MCTS — Windows Server 2008 Active Directory
+  timeline: "May 2012"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com
+  courseOverview: "Validated expertise in configuring and managing Active Directory on Windows Server 2008."
+
+- name: Windows Server 2008 Network Infrastructure, Configuring
+  timeline: "Apr 2016"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com
+  courseOverview: "Covers DNS, DHCP, routing, remote access, and network policy services."
 ```
 
 ---
 
 ### File 10: data/en/sections/projects.yaml
-
-**Path:** `data\en\sections\projects.yaml`
-**Action:** Replace entire file.
 
 ```yaml
 section:
@@ -1189,33 +1193,47 @@ buttons:
   filter: "all"
 - name: PowerShell
   filter: "powershell"
+- name: Azure
+  filter: "azure"
 - name: Infrastructure
   filter: "infrastructure"
 
 projects:
-- name: Project Name
+- name: Azure AD Sync Monitor
   role: Author
-  timeline: "YYYY - Present"
-  repo: https://github.com/YOUR-USERNAME/repo-name
-  summary: What this project does. What problem it solves. What impact it had.
+  timeline: "2022 - Present"
+  summary: PowerShell automation monitoring Azure AD Connect sync across 155+ MSP clients. Auto-triggers forced sync when threshold exceeded — eliminated daily manual checks entirely.
+  tags: ["powershell", "azure"]
+
+- name: ESXi Reporting Automation
+  role: Author
+  timeline: "2021 - Present"
+  summary: Automated ESXi host inventory and documentation across client environments. Reduced monthly reporting from 10 days to under 1 hour via PowerCLI.
   tags: ["powershell", "infrastructure"]
 
-- name: Another Project
+- name: Workstation Profile Scanner
   role: Author
-  timeline: "YYYY - Present"
-  summary: Description of the project.
+  timeline: "2020 - Present"
+  summary: Enumerates user profiles, mapped printers, and default printer settings across network machines. Critical input for 22+ server migration projects.
+  tags: ["powershell", "infrastructure"]
+
+- name: Automate/ScreenConnect Reconciliation
+  role: Author
+  timeline: "2021 - Present"
+  summary: API-driven script detecting record discrepancies between ConnectWise Automate and ScreenConnect, with automated service restart for affected endpoints.
+  tags: ["powershell", "infrastructure"]
+
+- name: VBPowershell Module Library
+  role: Author
+  timeline: "2023 - Present"
+  url: "https://github.com/Vibhu2/VBPowershell"
+  summary: Personal PowerShell module library for Windows Server administration — AD, Exchange, reporting, and MSP tooling built to production standards.
   tags: ["powershell"]
 ```
-
-> **[i] NOTE:** Use `repo:` for public GitHub repos (automatically shows star count).
-> Use `url:` instead of `repo:` for anything not on GitHub.
 
 ---
 
 ### File 11: data/en/sections/achievements.yaml
-
-**Path:** `data\en\sections\achievements.yaml`
-**Action:** Replace entire file. This disables the section.
 
 ```yaml
 section:
@@ -1230,9 +1248,6 @@ section:
 
 ### File 12: data/en/sections/featured-posts.yaml
 
-**Path:** `data\en\sections\featured-posts.yaml`
-**Action:** Replace entire file. This disables the section until you have real blog posts.
-
 ```yaml
 section:
   name: Featured Posts
@@ -1246,10 +1261,7 @@ section:
 
 ### File 13: .github/workflows/deploy.yml
 
-**Path:** `.github\workflows\deploy.yml`
-**Action:** Create this file (and folder) — it does not exist in the forked repo.
-
-This is the GitHub Actions workflow that builds and deploys your site automatically.
+**Create `.github\workflows\` folder first, then create this file.**
 
 ```yaml
 name: Deploy Hugo Site
@@ -1300,25 +1312,16 @@ jobs:
           publish_dir: ./public
 ```
 
-**Why these specific settings:**
-
 | _Setting_ | _Why_ |
 | :--- | :--- |
-| `cache: false` on Go | Prevents a known `tar exit code 2` error in GitHub Actions |
-| `node-version: "22"` | Node.js 20 is deprecated in Actions as of 2026 — 22 is current LTS |
-| Hugo from `.deb` file | Pinned to exact version — more reliable than action-based install |
-| `github_token` | Built-in GitHub token — no personal access token or SSH keys needed |
-| `gh-pages` branch, same repo | Eliminates all cross-repo authentication complexity |
+| `cache: false` on Go | Prevents `tar exit code 2` error |
+| `node-version: "22"` | Node 20 deprecated in Actions from 2026 |
+| Hugo from `.deb` file | Pinned exact version, more reliable than action-based install |
+| `github_token` | Built-in token — no PAT or SSH keys needed |
 
 ---
 
 ### File 14: .github/workflows/sync-upstream.yml
-
-**Path:** `.github\workflows\sync-upstream.yml`
-**Action:** Create this file.
-
-This pulls in theme structure updates from the Toha example site every Monday.
-It will not overwrite your content — only structural/template changes from the upstream.
 
 ```yaml
 name: Sync Upstream Fork
@@ -1354,502 +1357,14 @@ jobs:
         run: git push origin main
 ```
 
-> **[i] NOTE:** This workflow will fail on its first run — that is expected and harmless.
-> It succeeds on subsequent weekly runs once the `gh-pages` branch exists.
+> **[i] NOTE:** Fails on first run — normal and harmless. Works on subsequent weekly runs.
 
 ---
 
-## Part D — Day-to-Day Usage
+### File 15: archetypes/default.md
 
-### Writing a New Blog Post
-
-```powershell
-# 1. Go to your blog folder
-cd "$env:USERPROFILE\Documents\GitHub\blog"
-
-# 2. Start the local preview server
-hugo server -w
-```
-
-Your browser will open (or navigate to) `http://localhost:1313/blog/` and show your site live.
-It automatically refreshes whenever you save a file.
-
-```powershell
-# 3. Open a SECOND PowerShell window (don't close the first one — that's your server)
-#    In the new window, go to the blog folder:
-cd "$env:USERPROFILE\Documents\GitHub\blog"
-
-# 4. Create a new post (replace post-title with your actual title, using hyphens not spaces)
-hugo new posts\my-post-title\index.md
-
-# 5. Open and edit the post
-code content\posts\my-post-title\index.md
-```
-
-The generated file will look like this — edit it:
-
-```yaml
----
-title: "My Post Title"
-date: 2026-03-22T00:00:00+05:30
-draft: true
-tags: ["tag1", "tag2"]
-categories: ["Category Name"]
-description: "Short summary shown in post listings and search results."
----
-
-Write your post content here in Markdown.
-
-## Section Heading
-
-Regular paragraph text. **Bold text.** *Italic text.*
-
-- List item one
-- List item two
-
-```python
-# Code block with syntax highlighting
-print("Hello World")
-```
-```
-
-> **[!] IMPORTANT:** `draft: true` makes the post invisible on the live site.
-> Change it to `draft: false` when the post is ready to publish.
-
-### Publishing Your Post
-
-```powershell
-# Make sure you are in the blog folder
-cd "$env:USERPROFILE\Documents\GitHub\blog"
-
-git add .
-git commit -m "Add post: my-post-title"
-git push
-```
-
-Go to `https://github.com/YOUR-USERNAME/blog/actions` — watch the build turn green.
-Your post will be live within 2–3 minutes.
-
-### Adding Images to a Post
-
-Place image files in the same folder as your post:
-
-```text
-content\posts\my-post-title\
-    index.md
-    screenshot.png
-    diagram.jpg
-```
-
-Reference them in your Markdown:
-
-```markdown
-![Description of the image](screenshot.png)
-```
-
-### Updating Your Portfolio (skills, experience, etc.)
-
-```powershell
-# Edit the relevant file
-code data\en\sections\experiences.yaml
-
-# Save the file, then push
-git add .
-git commit -m "Update work experience"
-git push
-```
-
-### Quick Command Reference
-
-| _What you want to do_ | _Command_ |
-| :--- | :--- |
-| Start local preview | `hugo server -w` |
-| Create a new blog post | `hugo new posts\post-name\index.md` |
-| Test the build without starting server | `hugo --minify` |
-| Save and publish all changes | `git add . && git commit -m "message" && git push` |
-| Check build status | Go to GitHub → your blog repo → Actions tab |
-| Update the Toha theme to latest version | `hugo mod tidy` |
-| Stop the local server | Press `Ctrl+C` in the PowerShell running it |
-
----
-
-## Setup Checklist
-
-Work through this in order. Every item must be done before the site will work.
-
-### Tools
-- [ ] `winget --version` returns a version number
-- [ ] `git --version` works
-- [ ] `go version` works
-- [ ] `node --version` works (v18+)
-- [ ] `npm --version` works
-- [ ] `hugo version` works AND shows `+extended`
-- [ ] Git configured — `git config --global user.name` is set
-- [ ] Git configured — `git config --global user.email` is set
-- [ ] Git configured — `git config --global init.defaultBranch main` is set
-- [ ] GitHub CLI installed — `gh --version` works
-- [ ] GitHub CLI authenticated — `gh auth status` shows "Logged in to github.com"
-
-### GitHub & Repo
-- [ ] GitHub account created
-- [ ] `toha-example-site` forked and renamed to `blog`
-- [ ] Repo cloned to `Documents\GitHub\blog`
-- [ ] Inside the `blog` folder in PowerShell
-
-### Dependencies
-- [ ] `hugo mod tidy` completed with no errors
-- [ ] `hugo mod npm pack` completed — `package.json` exists in root
-- [ ] `npm install` completed — `node_modules` folder exists
-
-### Content Cleanup
-- [ ] `data\bn` folder deleted
-- [ ] All `*.bn.md` files deleted from `content\`
-- [ ] Verified clean: `Get-ChildItem -Recurse -Filter "*.bn.md"` returns nothing
-
-### Assets
-- [ ] Profile photo copied to `assets\images\author\` (NOT `static\images\`)
-- [ ] Photo filename matches the `image:` value in `data\en\author.yaml`
-- [ ] All 13 skill icons downloaded to `assets\images\sections\skills\`
-- [ ] Every `logo:` path in `skills.yaml` has a matching file confirmed
-
-### File Changes (Part C)
-- [ ] `hugo.yaml` — `baseURL`, `title`, `gitRepo` updated
-- [ ] `go.mod` — module path changed to `github.com/YOUR-USERNAME/blog`
-- [ ] `data\en\author.yaml` — your real name, photo filename, contacts
-- [ ] `data\en\site.yaml` — your description, OpenGraph, copyright
-- [ ] `data\en\sections\about.yaml` — your role, company, bio, social links, badges
-- [ ] `data\en\sections\experiences.yaml` — your real work history
-- [ ] `data\en\sections\skills.yaml` — your skills, all logos verified
-- [ ] `data\en\sections\education.yaml` — your qualifications
-- [ ] `data\en\sections\accomplishments.yaml` — your certifications
-- [ ] `data\en\sections\projects.yaml` — your projects
-- [ ] `data\en\sections\achievements.yaml` — disabled (`enable: false`)
-- [ ] `data\en\sections\featured-posts.yaml` — disabled (`enable: false`)
-- [ ] `.github\workflows\deploy.yml` — created
-- [ ] `.github\workflows\sync-upstream.yml` — created
-
-### Build & Deploy
-- [ ] `hugo --minify` runs with no errors locally
-- [ ] `hugo server -w` shows correct content at `http://localhost:1313/blog/`
-- [ ] `git add . && git commit -m "..." && git push` completed
-- [ ] GitHub Actions — Deploy Hugo Site shows green tick
-- [ ] `gh-pages` branch exists in the repo
-- [ ] GitHub Pages configured — source = `gh-pages` branch / `/(root)`
-- [ ] Live site accessible at `https://YOUR-USERNAME.github.io/blog/`
-
----
-
-## Troubleshooting
-
-### Installation Issues
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| `winget` not recognised | Install App Installer from the Microsoft Store |
-| Tool not found after install | Close PowerShell completely and open a fresh window |
-| `hugo version` missing `extended` | `winget uninstall Hugo.Hugo` then `winget install Hugo.Hugo.Extended` — reopen PowerShell |
-| `gh auth login` opens no browser | Run `gh auth login --web` and follow the manual code entry |
-
-### Dependency Issues
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| `hugo mod tidy` fails with network error | Check internet connection; try again |
-| `hugo mod tidy` fails: Go not found | Close and reopen PowerShell after Go install |
-| `npm install` fails: no `package.json` | Run `hugo mod npm pack` first, then `npm install` |
-| `npm install` fails: permission error | Run PowerShell as Administrator |
-
-### Build Errors
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| `nil pointer` error on author image | Photo is in `static\images\` not `assets\images\author\` — move it |
-| `nil pointer` error on skill logo | A `logo:` path in `skills.yaml` has no matching file — add the icon file |
-| Bootstrap / fonts not found locally | Run `hugo mod npm pack && npm install` |
-| Build warns about Hugo version incompatibility | Local Hugo is old — `winget install Hugo.Hugo.Extended --force` then reopen PowerShell |
-| Bengali content still causing issues | Re-run the cleanup in Step 7 |
-| `YAML parse error` | YAML is space-sensitive — validate the file at https://yamlchecker.com |
-
-### Git & Push Issues
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| `git push` asks for username/password repeatedly | Run `gh auth login` to set up credential manager |
-| `git push` rejected: remote has changes | Run `git pull --rebase` then `git push` |
-| `git commit` fails: needs name/email | Run `git config --global user.name "Name"` and `git config --global user.email "email"` |
-| `git commit` fails: branch is `master` not `main` | Run `git branch -m master main` then `git push -u origin main` |
-
-### GitHub Actions Issues
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| Build fails: `tar exit code 2` | Add `cache: false` under `setup-go` in `deploy.yml` |
-| Build fails: Node.js 20 deprecated | Change `node-version: "20"` to `"22"` in `deploy.yml` |
-| Deploy fails: exit code 128 | Using PAT or SSH instead of `github_token` — use `github_token: ${{ secrets.GITHUB_TOKEN }}` |
-| `gh-pages` branch never created | Build failed before deploy step — fix build error first, re-push |
-| Sync Upstream fails on first run | Normal — it will work on subsequent weekly runs |
-
-### Site Display Issues
-
-| _Problem_ | _Fix_ |
-| :--- | :--- |
-| Site shows 404 after enabling Pages | Wait 5–10 minutes; confirm Pages set to `gh-pages` / `/(root)` |
-| Live site not updating after push | Check Actions tab — if build failed, site did not update |
-| Local site has no CSS / looks unstyled | Run `hugo server -w --baseURL http://localhost:1313/blog/` |
-| Site still shows "John Doe" | `data\en\author.yaml` or `hugo.yaml` title not updated |
-| Language flag switcher visible | Set `flags: enable: false` in `hugo.yaml` |
-| Profile photo not showing | Photo is in `static\` instead of `assets\images\author\` |
-
----
-
-## Useful Links
-
-| _Resource_ | _URL_ |
-| :--- | :--- |
-| Toha Live Demo | https://toha-example-site.netlify.app |
-| Toha Documentation | https://toha-docs.netlify.app/posts |
-| Toha GitHub | https://github.com/hugo-themes/toha |
-| Toha Example Site Repo | https://github.com/hugo-themes/toha-example-site |
-| Hugo Documentation | https://gohugo.io/documentation/ |
-| Hugo Modules Guide | https://gohugo.io/hugo-modules/ |
-| GitHub Pages Documentation | https://docs.github.com/en/pages |
-| GitHub Actions Documentation | https://docs.github.com/en/actions |
-| GitHub CLI Documentation | https://cli.github.com/manual/ |
-| peaceiris/actions-gh-pages | https://github.com/peaceiris/actions-gh-pages |
-| benc-uk icon collection | https://github.com/benc-uk/icon-collection |
-| simple-icons | https://github.com/simple-icons/simple-icons |
-| Font Awesome icon search | https://fontawesome.com/icons |
-| YAML syntax checker | https://yamlchecker.com |
-| Markdown guide | https://www.markdownguide.org |
-| Credly (certification badges) | https://www.credly.com |
-
----
-
-## Part E — Custom Domain Setup
-
-This section covers pointing your own domain (e.g. `pwsh.in`) at your GitHub Pages site
-and enabling HTTPS. Skip if you are happy with the default `github.io` URL.
-
-### E.1 — How it works
-
-GitHub Pages handles TLS (HTTPS) automatically via Let's Encrypt. You do not need to
-buy or configure a certificate yourself. GitHub will generate one once your DNS records
-are pointing correctly and its DNS check passes.
-
-```text
-Browser → pwsh.in (your domain)
-              ↓  DNS lookup
-         Cloudflare DNS → returns GitHub Pages IPs
-              ↓
-         GitHub Pages servers (185.199.x.x)
-              ↓  TLS handled by GitHub / Let's Encrypt
-         Your site content from gh-pages branch
-```
-
-### E.2 — Step 1: Verify your domain in GitHub account settings first
-
-GitHub strongly recommends verifying domain ownership before attaching it to a repo,
-to prevent domain takeover attacks.
-
-1. Go to `https://github.com/settings/pages` (account-level settings, not the repo)
-2. Click **Add a domain**
-3. Enter your domain (e.g. `pwsh.in`) → click **Add domain**
-4. GitHub shows you a TXT record to add — something like:
-
-| _Type_ | _Name_ | _Value_ |
-| :--- | :--- | :--- |
-| TXT | `_github-pages-challenge-YOUR-USERNAME.pwsh.in` | `random-string-from-github` |
-
-5. Add that TXT record in **Cloudflare → pwsh.in → DNS → Records**
-6. Go back to GitHub and click **Verify** — done
-
-### E.3 — Step 2: Set the custom domain in repo settings
-
-1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
-2. Under **Custom domain** → type your domain (e.g. `pwsh.in`)
-3. Click **Save**
-
-GitHub creates a CNAME file in your `gh-pages` branch automatically. It also starts
-its DNS check immediately — you will see a spinner.
-
-### E.4 — Step 3: Add DNS records in Cloudflare
-
-Go to **Cloudflare → your domain → DNS → Records** and add all of the following.
-
-> **[!] CRITICAL:** Every record must be set to **DNS only (grey cloud)** — NOT proxied
-> (orange cloud). GitHub Pages handles TLS itself. Cloudflare proxying blocks GitHub's
-> certificate verification and the HTTPS checkbox will stay greyed out permanently.
-
-**4× A records — apex domain to GitHub IPs:**
-
-| _Type_ | _Name_ | _Value_ | _Proxy_ |
-| :--- | :--- | :--- | :--- |
-| A | `@` | `185.199.108.153` | DNS only ☁️ |
-| A | `@` | `185.199.109.153` | DNS only ☁️ |
-| A | `@` | `185.199.110.153` | DNS only ☁️ |
-| A | `@` | `185.199.111.153` | DNS only ☁️ |
-
-**4× AAAA records — IPv6 (add these too):**
-
-| _Type_ | _Name_ | _Value_ | _Proxy_ |
-| :--- | :--- | :--- | :--- |
-| AAAA | `@` | `2606:50c0:8000::153` | DNS only ☁️ |
-| AAAA | `@` | `2606:50c0:8001::153` | DNS only ☁️ |
-| AAAA | `@` | `2606:50c0:8002::153` | DNS only ☁️ |
-| AAAA | `@` | `2606:50c0:8003::153` | DNS only ☁️ |
-
-**1× CNAME record — www subdomain:**
-
-| _Type_ | _Name_ | _Value_ | _Proxy_ |
-| :--- | :--- | :--- | :--- |
-| CNAME | `www` | `YOUR-USERNAME.github.io` | DNS only ☁️ |
-
-> **[i] NOTE:** Any extra A, AAAA, ALIAS, or ANAME records on `@` that are NOT the
-> four GitHub IPs above will block certificate generation. Delete any old hosting records.
-
-GitHub will automatically redirect `www.pwsh.in` to `pwsh.in` once both records are present.
-
-### E.5 — Step 4: Update hugo.yaml and site.yaml
-
-Change `baseURL` in `hugo.yaml`:
-
-```yaml
-baseURL: https://pwsh.in/
-```
-
-Update the OpenGraph URL in `data/en/site.yaml`:
-
-```yaml
-openGraph:
-  url: https://pwsh.in/
-```
-
-### E.6 — Step 5: Add a CNAME file to static/
-
-Create `static/CNAME` containing just your domain. This ensures every Hugo build
-preserves the custom domain setting — without it, deployments overwrite the CNAME
-file GitHub created and break the custom domain after every push.
-
-```text
-pwsh.in
-```
-
-Create it with:
-
-```powershell
-"pwsh.in" | Out-File -FilePath "static\CNAME" -Encoding utf8 -NoNewline
-```
-
-### E.7 — Step 6: Commit and push
-
-```powershell
-git add .
-git commit -m "Custom domain — pwsh.in"
-git push
-```
-
-### E.8 — Verify DNS is working
-
-Run this in PowerShell to confirm your domain is resolving to GitHub's IPs:
-
-```powershell
-Resolve-DnsName pwsh.in -Type A | Select-Object Name, IPAddress
-```
-
-Expected — all four GitHub IPs:
-
-```text
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
-
-If you see anything else, your A records in Cloudflare are wrong or the proxy is still on.
-
-### E.9 — Enable HTTPS (Enforce HTTPS checkbox)
-
-**Why it may be greyed out:** The checkbox only becomes active once GitHub's automatic
-DNS check passes and a TLS certificate has been provisioned from Let's Encrypt.
-This process starts the moment you save the custom domain in Step 2.
-
-**Timeline:** DNS check typically passes within 5–15 minutes on Cloudflare (fast propagation).
-Certificate provisioning takes up to 30 minutes after the DNS check goes green.
-
-**If it's still greyed out after 30 minutes:**
-
-1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
-2. Click **Remove** next to your custom domain
-3. Type the domain again and click **Save** — this restarts the provisioning process
-4. Wait again
-
-Common reasons it stays greyed out:
-- Cloudflare proxy is orange (must be grey)
-- Extra A/AAAA records on `@` that aren't the four GitHub IPs
-- DNS hasn't propagated yet — check with `Resolve-DnsName` above
-
-**Once it's active:** Tick **Enforce HTTPS** in the Pages settings. Done.
-
-Your site is now live at `https://pwsh.in/` with a valid certificate and HTTP→HTTPS redirect.
-
----
-
-## Part F — Writing and Publishing Blog Posts
-
-### F.1 — Understanding the blog post structure
-
-Every post lives in its own folder under `content/posts/`:
-
-```text
-content/posts/
-  └── my-post-title/
-        ├── index.md       ← The post content (required)
-        ├── image.png      ← Post images (optional, placed alongside index.md)
-        └── diagram.svg    ← Any other assets for this post
-```
-
-Using a folder per post (instead of a single `.md` file) lets you keep images
-alongside the post rather than in a shared assets folder. This is the recommended
-approach for Toha.
-
-### F.2 — The post front matter (the header block)
-
-Every post starts with a YAML block between `---` lines. This controls how the post
-appears in listings, search results, and on social media when shared.
-
-```yaml
----
-title: "Your Post Title"
-date: 2026-03-22T10:00:00+05:30    # Date and time with timezone offset
-draft: false                         # true = invisible on live site, false = published
-description: "One sentence shown in post listings and Google search results."
-tags: ["PowerShell", "Active Directory", "Windows Server"]
-categories: ["PowerShell Automation"]
-author:
-  name: Your Name
----
-```
-
-**Key fields:**
-
-| _Field_ | _What it does_ |
-| :--- | :--- |
-| `title` | Shown as the post heading and in browser tab |
-| `date` | Controls sort order — newest first |
-| `draft: true` | Post exists but is invisible on live site |
-| `draft: false` | Post is published and visible |
-| `description` | Shown under the title in post listings and in Google |
-| `tags` | Appear on post cards — use specific tech terms |
-| `categories` | Broader grouping — shown in category filter |
-
-> **[!] IMPORTANT:** `draft: true` is the default when you create a post.
-> The post will NOT appear on your live site until you change it to `draft: false`.
-> This is the most common reason a post seems to disappear or never show up.
-
-### F.3 — Your archetype (post template)
-
-Your repo has a custom archetype at `archetypes/default.md` that pre-fills a post
-with the right structure every time you run `hugo new`. It looks like this:
+This is the template Hugo uses whenever you run `hugo new posts\post-name\index.md`.
+It pre-fills the front matter and gives you a consistent structure.
 
 ```markdown
 ---
@@ -1863,153 +1378,173 @@ author:
   name: Vibhu Bhatnagar
 ---
 
+<!--
+BEFORE PUBLISHING:
+  1. Write your description — shown in post listings and Google
+  2. Add relevant tags  — e.g. ["PowerShell", "Active Directory", "Windows Server"]
+  3. Set category      — e.g. "PowerShell Automation", "Infrastructure", "Azure"
+  4. Change draft: true → draft: false when ready to publish
+-->
+
 ## Introduction
+
+<!-- Hook — what problem does this post solve? -->
+
 ## The Problem
+
+<!-- What was wrong / what triggered this? -->
+
 ## The Solution
+
+<!-- What you built or did -->
+
 ## How It Works
+
+<!-- Technical walkthrough -->
+
 ## Results
+
+<!-- What changed after — numbers are best -->
+
+---
+
+*Questions or feedback? Reach out on [LinkedIn](https://www.linkedin.com/in/vibhu-bhatnagar-02622798) or leave a comment below.*
 ```
 
-You get a ready-to-fill skeleton every time. Just add your content and flip `draft: false`.
+---
 
-### F.4 — Full workflow: write, preview, publish
+## Part D — Writing and Publishing Blog Posts
 
-#### Step 1 — Open your blog folder in a terminal
+This section covers the complete daily blogging workflow from idea to live post.
+
+---
+
+### D.1 — How Posts Work
+
+Each blog post is a folder inside `content\posts\` containing an `index.md` file.
+Any images for that post sit alongside the `index.md` in the same folder.
+
+```text
+content\posts\
+  my-post-title\
+    index.md         ← Post content (Markdown)
+    screenshot.png   ← Images for this post (optional)
+    diagram.jpg
+```
+
+The folder name becomes the URL: `https://pwsh.in/posts/my-post-title/`
+
+---
+
+### D.2 — Start the Local Preview Server
+
+Before writing, start the local server so you can see changes instantly in your browser.
 
 ```powershell
 cd "$env:USERPROFILE\Documents\GitHub\blog"
+hugo server -w
 ```
 
-#### Step 2 — Start the local preview server
+Open your browser to `http://localhost:1313/`
+
+The `-w` flag means "watch" — any file you save automatically refreshes the browser.
+
+**To see draft posts** (posts with `draft: true`) in the local preview:
 
 ```powershell
-hugo server -w --buildDrafts
+hugo server -w -D
 ```
 
-- `-w` — watches for file changes and reloads automatically
-- `--buildDrafts` — makes draft posts visible locally so you can preview before publishing
+> **[i] NOTE:** Local preview uses `localhost:1313` not your custom domain, so CSS may
+> look different from the live site if your `baseURL` is set to `https://pwsh.in/`.
+> For a pixel-perfect local preview:
+> ```powershell
+> hugo server -w --baseURL http://localhost:1313/
+> ```
 
-Open `http://localhost:1313/blog/` in your browser (or `http://localhost:1313/` if using
-a custom domain baseURL — the local server serves from root regardless).
+Press `Ctrl+C` to stop the server when done.
 
-Leave this terminal running. The site updates live as you save files.
+---
 
-#### Step 3 — Create a new post (in a second PowerShell window)
+### D.3 — Create a New Post
 
-Open a new PowerShell window:
+Open a **second PowerShell window** (keep the server running in the first one):
 
 ```powershell
 cd "$env:USERPROFILE\Documents\GitHub\blog"
 
-# Replace my-post-title with your actual title using hyphens instead of spaces
-hugo new posts/my-post-title/index.md
+# Replace 'my-post-title' with your actual title — use hyphens, no spaces
+hugo new posts\my-post-title\index.md
 ```
 
-Hugo creates the file with your archetype template pre-filled and prints the path:
-`Content "content/posts/my-post-title/index.md" created`
-
-#### Step 4 — Edit the post
+This creates the file with front matter pre-filled from the archetype template.
+Open it to edit:
 
 ```powershell
 code content\posts\my-post-title\index.md
 ```
 
-Or open in Notepad:
+---
 
-```powershell
-notepad content\posts\my-post-title\index.md
-```
+### D.4 — The Post File (Front Matter + Content)
 
-Edit the front matter fields (title, description, tags, categories).
-Write your post content below the second `---`. Save the file — your browser reloads
-automatically and shows the post in the listing (because `--buildDrafts` is on).
-
-#### Step 5 — Add images (optional)
-
-Place image files in the same folder as the post:
-
-```powershell
-# Example: copy a screenshot into the post folder
-Copy-Item "$env:USERPROFILE\Desktop\screenshot.png" "content\posts\my-post-title\"
-```
-
-Reference in your Markdown:
-
-```markdown
-![Description of the image](screenshot.png)
-```
-
-No path needed — Hugo resolves it relative to the post folder automatically.
-
-#### Step 6 — Set draft: false when ready to publish
-
-Open the post file and change the front matter:
+When you open the new file it looks like this:
 
 ```yaml
-draft: false
+---
+title: "My Post Title"
+date: 2026-03-22T10:00:00+05:30
+draft: true
+description: ""
+tags: [""]
+categories: [""]
+author:
+  name: Vibhu Bhatnagar
+---
 ```
 
-Save. The local server will now show it exactly as it will appear on the live site
-(run without `--buildDrafts` to do a final check):
+**Fill in each field:**
 
-```powershell
-# Stop the current server (Ctrl+C), then restart without --buildDrafts
-hugo server -w
+| _Field_ | _What to put_ | _Notes_ |
+| :--- | :--- | :--- |
+| `title` | Full post title | Shown as H1 heading and in browser tab |
+| `date` | Publication date | Format: `YYYY-MM-DDTHH:MM:SS+05:30` (IST = +05:30) |
+| `draft` | `true` or `false` | `true` = hidden everywhere. Change to `false` to publish |
+| `description` | 1–2 sentence summary | Shown in post listings, Google results, and social shares |
+| `tags` | Array of tags | e.g. `["PowerShell", "Active Directory", "Windows Server"]` |
+| `categories` | Array with one category | e.g. `["PowerShell Automation"]` or `["Infrastructure"]` |
+
+**Optional front matter fields:**
+
+```yaml
+hero: hero.jpg           # Hero image (place in same folder as index.md)
+menu:
+  sidebar:
+    name: Short Title    # Shorter name shown in sidebar navigation
+    identifier: unique-id
+    weight: 10           # Controls sort order — lower = higher up
 ```
 
-Confirm the post appears correctly at `http://localhost:1313/`.
+> **[!] IMPORTANT:** `draft: true` hides the post from the live site and from
+> `hugo server -w` (but shows in `hugo server -w -D`).
+> Always change to `draft: false` before pushing when you want it to go live.
 
-#### Step 7 — Test the production build
+---
 
-```powershell
-hugo --minify
-```
+### D.5 — Writing in Markdown
 
-Must complete with no errors. If you see any `ERROR` lines, fix them before pushing.
-Common issue: an image referenced in Markdown that doesn't exist in the post folder.
+After the front matter `---` closing line, write your post content in Markdown.
 
-#### Step 8 — Push to publish
-
-```powershell
-git add .
-git commit -m "Post: your post title here"
-git push
-```
-
-GitHub Actions builds and deploys automatically. Watch the progress at:
-`https://github.com/YOUR-USERNAME/blog/actions`
-
-Build takes 2–3 minutes. Post is live on your site when the green tick appears.
-
-### F.5 — Modifying an existing post
-
-```powershell
-# Open the post
-code content\posts\post-folder-name\index.md
-
-# Preview changes
-hugo server -w
-
-# Build to verify no errors
-hugo --minify
-
-# Publish
-git add .
-git commit -m "Update post: title"
-git push
-```
-
-### F.6 — Markdown reference for writing posts
-
-You write posts in Markdown — plain text with simple symbols for formatting.
+**Basic formatting:**
 
 ```markdown
 ## Section Heading
+
 ### Sub-heading
 
-Normal paragraph text. **Bold text.** *Italic text.* `inline code`.
+Regular paragraph text. **Bold text.** *Italic text.* `inline code`.
 
-- Bullet list item
+- Unordered list item
 - Another item
 
 1. Numbered list
@@ -2017,321 +1552,14 @@ Normal paragraph text. **Bold text.** *Italic text.* `inline code`.
 
 [Link text](https://example.com)
 
-![Image alt text](image-filename.png)
-```
-
-**Code blocks with syntax highlighting:**
-
-````markdown
-```powershell
-Get-Service | Where-Object Status -eq 'Running'
-```
-
-```python
-print("Hello World")
-```
-
-```bash
-systemctl status nginx
-```
-````
-
-Toha supports syntax highlighting for PowerShell, Bash, Python, YAML, JSON,
-and dozens of other languages — just put the language name after the opening backticks.
-
-**Tip block (note/warning callout):**
-
-```markdown
-> **Note:** Something the reader should be aware of.
-
-> **Warning:** Something important that could cause problems.
-```
-
-### F.7 — Post categories and tags — recommended values
-
-Keep these consistent across posts so the filter and tag pages work well.
-
-**Suggested categories (pick one per post):**
-
-```text
-PowerShell Automation
-Active Directory
-Exchange & M365
-Azure & Cloud
-Windows Server
-Virtualisation
-Security & Backup
-Monitoring & Alerting
-Career & MSP Life
-```
-
-**Tags — be specific, use the actual technology names:**
-
-```text
-PowerShell    Active Directory    Azure AD       Exchange Server
-Windows Server    DNS    DHCP    GPO    FSMO    Hyper-V    VMware
-ConnectWise    Datto    Veeam    Microsoft 365    Intune    PRTG
-MSP    Automation    Scripting    Security
-```
-
-### F.8 — Quick reference
-
-| _Task_ | _Command_ |
-| :--- | :--- |
-| Start local server (see drafts) | `hugo server -w --buildDrafts` |
-| Start local server (published only) | `hugo server -w` |
-| Create new post | `hugo new posts/post-name/index.md` |
-| Test production build | `hugo --minify` |
-| Publish all changes | `git add . && git commit -m "msg" && git push` |
-| Watch build on GitHub | GitHub → blog repo → Actions tab |
-| Stop local server | `Ctrl+C` |
-
----
-
-
-
-```text
-blog/                                        ← Root of your Hugo project
-│
-├── .github/
-│   └── workflows/
-│       ├── deploy.yml                       ← Builds + deploys on every push to main
-│       └── sync-upstream.yml               ← Weekly theme update check
-│
-├── assets/
-│   └── images/
-│       ├── author/
-│       │   └── vibhu.png                   ← Profile photo — MUST be here
-│       ├── sections/
-│       │   └── skills/
-│       │       └── *.svg / *.png           ← Skill icons — MUST be here
-│       └── site/
-│           ├── background.jpg              ← Homepage background image
-│           ├── favicon.png                 ← Browser tab icon
-│           ├── main-logo.png               ← Navbar logo
-│           └── inverted-logo.png           ← Navbar logo (dark mode)
-│
-├── content/
-│   └── posts/                              ← Your blog posts go here
-│       └── post-name/
-│           ├── index.md                    ← Post content
-│           └── image.png                   ← Post images (alongside index.md)
-│
-├── data/
-│   └── en/
-│       ├── author.yaml                     ← Your name, photo, contacts, summary
-│       ├── site.yaml                       ← Description, copyright, OpenGraph
-│       └── sections/
-│           ├── about.yaml
-│           ├── accomplishments.yaml
-│           ├── achievements.yaml
-│           ├── education.yaml
-│           ├── experiences.yaml
-│           ├── featured-posts.yaml
-│           ├── projects.yaml
-│           ├── recent-posts.yaml
-│           └── skills.yaml
-│
-├── static/
-│   └── files/
-│       └── resume.pdf                      ← Optional downloadable resume
-│
-├── go.mod                                  ← Hugo module — theme version pinned here
-├── go.sum                                  ← Auto-generated, do not edit
-├── hugo.yaml                               ← Main site configuration
-├── package.hugo.json                       ← npm template (used by hugo mod npm pack)
-└── package.json                            ← Generated by hugo mod npm pack — do not edit
-```
-
----
-
-_Hugo + Toha + GitHub Pages Guide — v4.1 — March 2026_
-
----
-
-## Custom Domain Setup (pwsh.in)
-
-This section documents the custom domain configuration completed after initial setup.
-
-### What Was Changed
-
-| _File / Location_ | _Change_ |
-| :--- | :--- |
-| `hugo.yaml` | `baseURL` changed from `https://vibhu2.github.io/blog/` to `https://pwsh.in/` |
-| `data/en/site.yaml` | OpenGraph `url` updated to `https://pwsh.in/` |
-| `static/CNAME` | New file created containing `pwsh.in` |
-| GitHub Pages Settings | Custom domain set to `pwsh.in` |
-| Cloudflare DNS | A, AAAA, and CNAME records added |
-
-### Cloudflare DNS Records Required
-
-All records must be **DNS only (grey cloud)** — NOT proxied (orange cloud).
-Cloudflare proxying blocks GitHub's Let's Encrypt certificate verification.
-
-**A records — apex domain:**
-
-| _Type_ | _Name_ | _Value_ |
-| :--- | :--- | :--- |
-| A | `@` | `185.199.108.153` |
-| A | `@` | `185.199.109.153` |
-| A | `@` | `185.199.110.153` |
-| A | `@` | `185.199.111.153` |
-
-**AAAA records — IPv6:**
-
-| _Type_ | _Name_ | _Value_ |
-| :--- | :--- | :--- |
-| AAAA | `@` | `2606:50c0:8000::153` |
-| AAAA | `@` | `2606:50c0:8001::153` |
-| AAAA | `@` | `2606:50c0:8002::153` |
-| AAAA | `@` | `2606:50c0:8003::153` |
-
-**CNAME — www redirect:**
-
-| _Type_ | _Name_ | _Value_ |
-| :--- | :--- | :--- |
-| CNAME | `www` | `vibhu2.github.io` |
-
-### GitHub Pages Settings
-
-1. Go to `https://github.com/YOUR-USERNAME/blog/settings/pages`
-2. Under **Custom domain** → enter your domain → click **Save**
-3. Wait for the DNS check to go green (5–30 minutes)
-4. Tick **Enforce HTTPS** once the green tick appears
-
-### Why HTTPS Checkbox is Greyed Out
-
-GitHub must verify your DNS before it can issue a TLS certificate via Let's Encrypt.
-The checkbox stays greyed out until the DNS check passes.
-
-**Fix if it stays greyed out:**
-1. Confirm all Cloudflare records are DNS only (grey cloud) — not proxied
-2. Confirm no extra A/AAAA records exist on `@` pointing to other IPs
-3. Go to Pages Settings → click **Remove** next to the domain → retype it → click **Save**
-   This restarts the certificate provisioning process
-
-**Verify DNS from PowerShell:**
-```powershell
-Resolve-DnsName pwsh.in -Type A | Select-Object Name, IPAddress
-# Must return all four GitHub IPs: 185.199.108/109/110/111.153
-```
-
----
-
-## Blogging — Complete Workflow
-
-### How Blog Posts Are Structured
-
-Every post lives in its own folder inside `content/posts/`:
-
-```text
-content/posts/
-  my-post-title/
-    index.md        ← The post content (required)
-    screenshot.png  ← Any images used in the post (optional)
-    diagram.jpg     ← More images (optional)
-```
-
-The folder name becomes part of the URL:
-`https://pwsh.in/posts/my-post-title/`
-
-### Step 1 — Start the Local Preview Server
-
-Always write and preview locally before pushing. Open PowerShell and run:
-
-```powershell
-cd "$env:USERPROFILE\Documents\GitHub\blog"
-hugo server -w
-```
-
-Open your browser at `http://localhost:1313/` — the site loads with live reload.
-Every time you save a file the browser refreshes automatically.
-
-> **[i] INFO:** With a custom domain set as `baseURL`, local preview may show unstyled.
-> Fix with:
-> ```powershell
-> hugo server -w --baseURL http://localhost:1313/
-> ```
-
-Press `Ctrl+C` to stop the server when done.
-
-### Step 2 — Create a New Post
-
-Open a **second** PowerShell window (keep the server running in the first), then:
-
-```powershell
-cd "$env:USERPROFILE\Documents\GitHub\blog"
-hugo new posts\your-post-title\index.md
-```
-
-Hugo creates the file at `content\posts\your-post-title\index.md` with a starter template.
-
-**Naming rules for the folder:**
-- Lowercase only
-- Hyphens instead of spaces
-- No special characters
-- Keep it short and descriptive — it becomes your URL
-
-### Step 3 — Edit the Post
-
-```powershell
-code content\posts\your-post-title\index.md
-```
-
-The file opens with this default front matter at the top:
-
-```yaml
----
-title: "Your Post Title"
-date: 2026-03-22T10:00:00+05:30
-draft: true
-description: "Short summary shown in listings and search results."
-tags: ["Tag1", "Tag2"]
-categories: ["Category Name"]
----
-```
-
-**Front matter fields explained:**
-
-| _Field_ | _What it does_ | _Notes_ |
-| :--- | :--- | :--- |
-| `title` | Post heading and browser tab | Use proper title case |
-| `date` | Publication date and sort order | ISO format with timezone (`+05:30` for IST) |
-| `draft` | `true` = invisible on live site | **Change to `false` before publishing** |
-| `description` | Summary shown in post listings | Keep under 160 characters |
-| `tags` | Filterable labels | Multiple tags — use an array |
-| `categories` | Top-level grouping | Usually one per post |
-
-Write your post content below the closing `---` using Markdown.
-
-### Step 4 — Markdown Basics
-
-```markdown
-## Section Heading
-
-Regular paragraph text. **Bold.** *Italic.* `inline code`.
-
-### Sub-heading
-
-- Bullet point one
-- Bullet point two
-  - Nested bullet
-
-1. Numbered item one
-2. Numbered item two
-
-[Link text](https://example.com)
-
 ![Image alt text](screenshot.png)
-
-> This is a blockquote — good for tips or callouts.
 ```
 
 **Code blocks with syntax highlighting:**
 
 ````markdown
 ```powershell
-Get-Process | Where-Object { $_.CPU -gt 100 }
+Get-ADUser -Filter * | Select-Object Name, SamAccountName
 ```
 
 ```python
@@ -2339,142 +1567,371 @@ print("Hello World")
 ```
 
 ```bash
-grep -r "error" /var/log/
+sudo apt update && sudo apt upgrade
 ```
 ````
 
-### Step 5 — Adding Images
+**Block quote:**
+
+```markdown
+> This is a block quote — useful for important notes or callouts.
+```
+
+**Table:**
+
+```markdown
+| _Column 1_ | _Column 2_ | _Column 3_ |
+| :--- | :---: | ---: |
+| Left aligned | Centered | Right aligned |
+| Value | Value | Value |
+```
+
+---
+
+### D.6 — Adding Images to a Post
 
 Place image files in the same folder as `index.md`:
 
-```powershell
-# Copy an image into your post folder
-Copy-Item "$env:USERPROFILE\Desktop\screenshot.png" `
-  "content\posts\your-post-title\screenshot.png"
+```text
+content\posts\my-post-title\
+  index.md
+  screenshot.png
+  architecture-diagram.jpg
 ```
 
-Reference in the post:
+Reference in your post:
 
 ```markdown
 ![Description of what the image shows](screenshot.png)
 ```
 
-Images are automatically resized and optimised by Hugo at build time.
+For a hero/banner image at the top of the post, add to front matter:
 
-### Step 6 — Preview Your Post
+```yaml
+hero: hero.jpg
+```
 
-With `hugo server -w` still running in the first window, save your file.
-The browser refreshes and shows your post at `http://localhost:1313/posts/your-post-title/`
+And place `hero.jpg` in the same folder.
 
-> **[i] INFO:** If the post does not appear, check that `draft: false` is set.
-> Draft posts are hidden from the local server by default. To preview drafts:
-> ```powershell
-> hugo server -w -D
-> ```
-> The `-D` flag includes draft posts in the local preview only — they still
-> won't appear on the live site until `draft: false` is set.
+---
 
-### Step 7 — Publish
+### D.7 — Test Before Publishing
 
-When the post looks right locally:
+With the local server running, check:
+
+- Post appears at `http://localhost:1313/posts/my-post-title/`
+- Title, date, tags display correctly
+- Code blocks render with syntax highlighting
+- Images load correctly
+- No spelling mistakes
+
+Run a full build to catch any errors:
 
 ```powershell
-# Make sure you are in the blog root folder
+hugo --minify
+```
+
+No errors = safe to publish.
+
+---
+
+### D.8 — Publish the Post
+
+1. Set `draft: false` in the front matter
+2. Save the file
+3. Push to GitHub:
+
+```powershell
 cd "$env:USERPROFILE\Documents\GitHub\blog"
-
-# Stage all changes
 git add .
-
-# Commit with a meaningful message
-git commit -m "Add post: your-post-title"
-
-# Push to GitHub — Actions builds and deploys automatically
+git commit -m "Add post: my-post-title"
 git push
 ```
 
-Go to `https://github.com/YOUR-USERNAME/blog/actions` — watch the **Deploy Hugo Site**
-workflow. Green tick = live. Takes 2–3 minutes.
+4. Watch the build: `https://github.com/Vibhu2/blog/actions`
+5. Green tick = live at `https://pwsh.in/posts/my-post-title/`
 
-Your post is live at: `https://pwsh.in/posts/your-post-title/`
+Build takes 2–3 minutes.
 
-### Step 8 — Edit or Update an Existing Post
+---
+
+### D.9 — Edit an Existing Post
 
 ```powershell
 # Open the post
-code content\posts\your-post-title\index.md
+code content\posts\my-post-title\index.md
 
-# Make changes, save, then push
+# Edit, save, then push
 git add .
-git commit -m "Update post: your-post-title"
+git commit -m "Update post: my-post-title"
 git push
 ```
 
-No other steps needed — same workflow as creating a new post.
+---
 
-### Deleting a Sample Post
+### D.10 — Delete the Sample Posts
 
-The forked repo includes three sample posts you should delete once you have real content:
+The forked repo includes sample posts you should remove once you have real content.
+Check what sample posts exist:
 
 ```powershell
-cd "$env:USERPROFILE\Documents\GitHub\blog"
+Get-ChildItem content\posts
+```
 
-Remove-Item -Recurse -Force "content\posts\introduction"
-Remove-Item -Recurse -Force "content\posts\markdown-sample"
-Remove-Item -Recurse -Force "content\posts\shortcodes"
-Remove-Item -Recurse -Force "content\posts\category"
+Remove the ones you don't want (adjust folder names to what exists):
+
+```powershell
+Remove-Item -Recurse -Force "content\posts\introduction" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "content\posts\markdown-sample" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "content\posts\shortcodes" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "content\posts\category" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "content\posts\rich-content" -ErrorAction SilentlyContinue
 
 git add .
 git commit -m "Remove sample posts"
 git push
 ```
 
-### Your First Real Post — What's Already Created
+> **[i] NOTE:** Your real first post is already created and live:
+> `content\posts\automating-ad-sync-monitoring-with-powershell\index.md`
+> Open it with `code content\posts\automating-ad-sync-monitoring-with-powershell\index.md`
+> to edit or update it.
 
-A first blog post has been created at:
-
-```text
-content/posts/automating-ad-sync-monitoring-with-powershell/index.md
-```
-
-**Post details:**
-- **Title:** Automating Azure AD Sync Monitoring Across 155 MSP Clients with PowerShell
-- **Category:** PowerShell Automation
-- **Tags:** PowerShell, Azure AD, Automation, MSP, Active Directory
-- **Status:** `draft: false` — will publish on next push
-
-To edit it before publishing:
-```powershell
-code "content\posts\automating-ad-sync-monitoring-with-powershell\index.md"
-```
-
-### Post Front Matter — Full Reference
-
-```yaml
 ---
-title: "Post Title Here"
-date: 2026-03-22T10:00:00+05:30    # Publication date (IST = +05:30)
-draft: false                         # true = hidden, false = live
-description: "SEO summary text."    # Max 160 chars
-tags: ["PowerShell", "Azure AD"]    # Array of tags
-categories: ["PowerShell Automation"]
-hero: hero.jpg                       # Optional: hero image (place in same folder)
-menu:
-  sidebar:
-    name: Short Title                # Optional: name in sidebar
-    identifier: unique-id            # Optional: must be unique across all posts
-    weight: 10                       # Optional: controls sort order in sidebar
----
-```
 
-### Complete Blogging Quick Reference
+### D.11 — Blogging Quick Reference
 
 | _Task_ | _Command_ |
 | :--- | :--- |
 | Start local preview | `hugo server -w` |
 | Start preview including drafts | `hugo server -w -D` |
+| Start preview with correct CSS | `hugo server -w --baseURL http://localhost:1313/` |
 | Create new post | `hugo new posts\post-name\index.md` |
 | Open post for editing | `code content\posts\post-name\index.md` |
 | Test full build (no server) | `hugo --minify` |
-| Publish everything | `git add . && git commit -m "msg" && git push` |
-| Check live build status | GitHub → blog repo → Actions tab |
-| See live site | https://pwsh.in |
+| Publish all changes | `git add . && git commit -m "msg" && git push` |
+| Watch live build status | GitHub → Vibhu2/blog → Actions tab |
+| View live site | https://pwsh.in |
+
+---
+
+## Setup Checklist
+
+### Tools
+- [ ] `winget --version` works
+- [ ] `git --version` works
+- [ ] `go version` works
+- [ ] `node --version` works (v18+)
+- [ ] `npm --version` works
+- [ ] `hugo version` shows `+extended`
+- [ ] `gh --version` works
+- [ ] `git config --global user.name` is set
+- [ ] `git config --global user.email` is set
+- [ ] `git config --global init.defaultBranch` is `main`
+- [ ] `gh auth status` shows logged in to github.com
+
+### GitHub & Repo
+- [ ] GitHub account exists
+- [ ] `toha-example-site` forked and named `blog`
+- [ ] Repo cloned to `Documents\GitHub\blog`
+
+### Dependencies
+- [ ] `hugo mod tidy` — no errors
+- [ ] `hugo mod npm pack` — `package.json` exists
+- [ ] `npm install` — `node_modules` exists
+
+### Content Cleanup
+- [ ] `data\bn` folder deleted
+- [ ] All `*.bn.md` files deleted
+- [ ] `Get-ChildItem -Recurse -Filter "*.bn.md"` returns nothing
+
+### Assets
+- [ ] Profile photo in `assets\images\author\` (NOT `static\`)
+- [ ] Photo filename matches `image:` in `author.yaml`
+- [ ] All skill icons downloaded to `assets\images\sections\skills\`
+- [ ] Every `logo:` in `skills.yaml` has a matching file
+
+### Files (Part C)
+- [ ] `hugo.yaml` — baseURL, title, gitRepo updated
+- [ ] `go.mod` — module path updated
+- [ ] `data\en\author.yaml` — real info
+- [ ] `data\en\site.yaml` — real info
+- [ ] `data\en\sections\about.yaml`
+- [ ] `data\en\sections\experiences.yaml`
+- [ ] `data\en\sections\skills.yaml`
+- [ ] `data\en\sections\education.yaml`
+- [ ] `data\en\sections\accomplishments.yaml`
+- [ ] `data\en\sections\projects.yaml`
+- [ ] `data\en\sections\achievements.yaml` — disabled
+- [ ] `data\en\sections\featured-posts.yaml` — disabled
+- [ ] `.github\workflows\deploy.yml` — created
+- [ ] `.github\workflows\sync-upstream.yml` — created
+- [ ] `archetypes\default.md` — updated
+
+### Build & Deploy
+- [ ] `hugo --minify` — no errors
+- [ ] Local server shows correct content
+- [ ] All changes pushed to `main`
+- [ ] GitHub Actions — Deploy Hugo Site shows green
+- [ ] `gh-pages` branch exists
+- [ ] GitHub Pages configured — `gh-pages` / `/(root)`
+- [ ] Site accessible at `https://YOUR-USERNAME.github.io/blog/`
+
+### Custom Domain (optional)
+- [ ] Domain verified at account level (`github.com/settings/pages`)
+- [ ] Custom domain set in repo Pages settings
+- [ ] All 4 A records added in Cloudflare — DNS only
+- [ ] All 4 AAAA records added — DNS only
+- [ ] CNAME for `www` added — DNS only
+- [ ] No extra records on `@`
+- [ ] `hugo.yaml` baseURL updated to custom domain
+- [ ] `site.yaml` OpenGraph URL updated
+- [ ] `static\CNAME` file contains domain name
+- [ ] `Resolve-DnsName` returns all 4 GitHub IPs
+- [ ] Enforce HTTPS ticked in Pages settings
+
+---
+
+## Troubleshooting
+
+### Installation
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| `winget` not recognised | Install App Installer from Microsoft Store |
+| Any tool not found after install | Close PowerShell, open fresh window |
+| `hugo version` missing `+extended` | `winget uninstall Hugo.Hugo` then `winget install Hugo.Hugo.Extended` — restart PS |
+| `gh auth login` no browser opens | Run `gh auth login --web` |
+
+### Dependencies
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| `hugo mod tidy` network error | Check internet connection |
+| `npm install` no `package.json` | Run `hugo mod npm pack` first |
+| Bootstrap / fonts not found locally | Run `hugo mod npm pack && npm install` |
+
+### Build Errors
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| `nil pointer` on author image | Photo is in `static\` not `assets\images\author\` |
+| `nil pointer` on skill logo | Logo file missing — add to `assets\images\sections\skills\` |
+| Bengali content errors | Re-run Step 7 cleanup commands |
+| `YAML parse error` | Validate at https://yamlchecker.com |
+| Local Hugo version warning | `winget install Hugo.Hugo.Extended --force` — restart PS |
+
+### Git & Push
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| `git push` asks for password | Run `gh auth login` |
+| `git push` rejected | `git pull --rebase` then push |
+| `git commit` needs name/email | Run `git config --global` commands from Step 2 |
+| Branch is `master` not `main` | `git branch -m master main && git push -u origin main` |
+
+### GitHub Actions
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| `tar exit code 2` | Add `cache: false` under `setup-go` |
+| Node.js 20 deprecation | Change `node-version: "20"` to `"22"` |
+| Deploy fails exit code 128 | Use `github_token: ${{ secrets.GITHUB_TOKEN }}` |
+| `gh-pages` branch not created | Build failed — fix errors first, re-push |
+
+### Custom Domain & HTTPS
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| Enforce HTTPS greyed out | Cloudflare proxy is orange — switch all records to DNS only (grey) |
+| Enforce HTTPS still greyed out after 30 min | Remove domain in Pages settings, re-add — restarts cert provisioning |
+| Site 404 after setting custom domain | DNS not propagated — wait 10 min, check with `Resolve-DnsName` |
+| Custom domain breaks after push | Add `static\CNAME` file containing your domain |
+| Certificate never provisions | Extra A/AAAA records on `@` in Cloudflare — delete them |
+
+### Display
+
+| _Problem_ | _Fix_ |
+| :--- | :--- |
+| Local CSS broken | `hugo server -w --baseURL http://localhost:1313/` |
+| Site shows "John Doe" | `author.yaml` not updated |
+| Language flag switcher visible | `flags: enable: false` in `hugo.yaml` |
+| Draft post not showing locally | Run `hugo server -w -D` |
+| Draft post showing on live site | `draft: true` is NOT set — check front matter |
+
+---
+
+## Useful Links
+
+| _Resource_ | _URL_ |
+| :--- | :--- |
+| Live site | https://pwsh.in |
+| Source repo | https://github.com/Vibhu2/blog |
+| Toha Live Demo | https://toha-example-site.netlify.app |
+| Toha Documentation | https://toha-docs.netlify.app/posts |
+| Toha GitHub | https://github.com/hugo-themes/toha |
+| Hugo Documentation | https://gohugo.io/documentation/ |
+| GitHub Pages Docs | https://docs.github.com/en/pages |
+| GitHub Actions Docs | https://docs.github.com/en/actions |
+| GitHub CLI Docs | https://cli.github.com/manual/ |
+| GitHub Pages HTTPS docs | https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https |
+| GitHub Custom Domain docs | https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site |
+| peaceiris/actions-gh-pages | https://github.com/peaceiris/actions-gh-pages |
+| benc-uk icon collection | https://github.com/benc-uk/icon-collection |
+| simple-icons | https://github.com/simple-icons/simple-icons |
+| Font Awesome icons | https://fontawesome.com/icons |
+| YAML checker | https://yamlchecker.com |
+| Markdown guide | https://www.markdownguide.org |
+| Credly (cert badges) | https://www.credly.com |
+
+---
+
+## Repo File Structure
+
+```text
+blog/
+├── .github/workflows/
+│   ├── deploy.yml               ← Builds + deploys on push to main
+│   └── sync-upstream.yml        ← Weekly theme update sync
+├── archetypes/
+│   └── default.md               ← Post template used by hugo new
+├── assets/images/
+│   ├── author/
+│   │   └── vibhu.png            ← Profile photo — MUST be here not static/
+│   ├── sections/skills/
+│   │   └── *.svg / *.png        ← Skill icons — MUST be here
+│   └── site/
+│       ├── background.jpg
+│       ├── favicon.png
+│       ├── main-logo.png
+│       └── inverted-logo.png
+├── content/
+│   └── posts/
+│       └── post-name/
+│           ├── index.md         ← Post content
+│           └── image.png        ← Post images (alongside index.md)
+├── data/en/
+│   ├── author.yaml
+│   ├── site.yaml
+│   └── sections/
+│       ├── about.yaml
+│       ├── accomplishments.yaml
+│       ├── achievements.yaml    ← disabled
+│       ├── education.yaml
+│       ├── experiences.yaml
+│       ├── featured-posts.yaml  ← disabled
+│       ├── projects.yaml
+│       ├── recent-posts.yaml
+│       └── skills.yaml
+├── static/
+│   ├── CNAME                    ← Custom domain — survives every deploy
+│   └── files/resume.pdf         ← Optional downloadable resume
+├── go.mod                       ← Hugo module, Toha version pinned
+├── hugo.yaml                    ← Main site config
+├── package.hugo.json            ← npm template
+└── package.json                 ← Generated by hugo mod npm pack
+```
+
+---
+
+_Hugo + Toha + GitHub Pages Guide — v5.0 — March 2026_

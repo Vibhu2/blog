@@ -1,4 +1,10 @@
 ---
-title: Services Auto start but stopped
-
+title: PowerShell Short Codes
+menu:
+  notes:
+    name: Powershell
+    identifier: notes-powershell
+    weight: 10
 ---
+
+# PowerShell Notes

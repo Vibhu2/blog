@@ -10,7 +10,7 @@
 (get-date) - (Get-ComputerInfo).OsLastBootUpTime
 ```
 or
-```
+```powershell
 (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
 ```
 

@@ -1,38 +1,93 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PowerShell Short Codes on Vibhu's Blog</title><link>https://pwsh.in/notes/powershell/</link><description>Recent content in PowerShell Short Codes on Vibhu's Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://pwsh.in/notes/powershell/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>https://pwsh.in/notes/powershell/basics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/basics/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>To get last boot time of the machine.&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Get last boot time of the machine&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>(get-date) - (Get-ComputerInfo).OsLastBootUpTime
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>or&lt;/p>
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>(Get-Date) - (Get-ComputerInfo).OsLastBootUpTime
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Alternative:&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>(Get-CimInstance Win32_OperatingSystem).LastBootUpTime
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
+&lt;hr>
 &lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Get list of stopped services&lt;/span>&lt;/h5>
 &lt;div class="card">
-&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-Service | Where-Object {$_.Status &lt;span style="color:#f92672">-eq&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Stopped&amp;#34;&lt;/span> &lt;span style="color:#f92672">-and&lt;/span> $_.Starttype &lt;span style="color:#f92672">-eq&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Automatic&amp;#34;&lt;/span>}
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-Service | Where-Object { $_.Status &lt;span style="color:#f92672">-eq&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Stopped&amp;#39;&lt;/span> &lt;span style="color:#f92672">-and&lt;/span> $_.StartType &lt;span style="color:#f92672">-eq&lt;/span> &lt;span style="color:#e6db74">&amp;#39;Automatic&amp;#39;&lt;/span> }
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
+&lt;hr>
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Setting execution Policy on machine&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Set execution policy on machine&lt;/span>&lt;/h5>
 &lt;div class="card">
 &lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
 &lt;/div>
+&lt;hr>
 &lt;div class="note-card ">
 &lt;div class="item">
-&lt;h5 class="note-title">&lt;span>Get all Drive Disk Space.&lt;/span>&lt;/h5>
+&lt;h5 class="note-title">&lt;span>Get all drive disk space&lt;/span>&lt;/h5>
 &lt;div class="card">
 &lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-PSDrive -PSProvider FileSystem
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item></channel></rss>
+&lt;/div>
+&lt;hr>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Get system drive free space&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>(Get-PSDrive $env:SystemDrive.Trim(&lt;span style="color:#e6db74">&amp;#39;:&amp;#39;&lt;/span>)).Free / &lt;span style="color:#ae81ff">1&lt;/span>GB
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;hr>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Check BIOS information&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-CimInstance Win32_BIOS
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;hr>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Check computer information&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-CimInstance Win32_ComputerSystem
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;hr>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Check printer information on a machine&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Get-CimInstance Win32_Printer | Select-Object Name, PortName, &lt;span style="color:#66d9ef">Default&lt;/span>| Format-List
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;hr>
+&lt;div class="note-card ">
+&lt;div class="item">
+&lt;h5 class="note-title">&lt;span>Keep System Awake ( VB ) Script&lt;/span>&lt;/h5>
+&lt;div class="card">
+&lt;div class="card-body">&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>set wsc = CreateObject(&lt;span style="color:#e6db74">&amp;#34;WScript.Shell&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">Do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>Five minutes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WScript.Sleep(&lt;span style="color:#ae81ff">5&lt;/span>*&lt;span style="color:#ae81ff">60&lt;/span>*&lt;span style="color:#ae81ff">1000&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wsc.SendKeys(&lt;span style="color:#e6db74">&amp;#34;{F13}&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Loop
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This is a vbs script so save it as keepawake.vbs and run it.&lt;/p></description></item></channel></rss>

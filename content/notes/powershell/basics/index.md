@@ -129,3 +129,30 @@ $services = "ltsvcmon","labvnc","ltservice"
 Restart-Service -Name $services -Force -ErrorAction SilentlyContinue
 ```
 {{< /note >}}
+
+---
+{{< note title="Schedules task in last 30 days" >}}
+
+```powershell
+$cutoff = (Get-Date).AddDays(-30)
+
+Get-ScheduledTask | ForEach-Object {
+    $info = Get-ScheduledTaskInfo $_
+    [PSCustomObject]@{
+        TaskName    = $_.TaskName
+        State       = $_.State
+        LastRunTime = $info.LastRunTime
+		TaskPath    = $_.TaskPath
+        #LastResult  = $info.LastTaskResult
+    }
+} | Where-Object { $_.LastRunTime -ge $cutoff } |
+Sort-Object LastRunTime | FT -auto
+```
+Common LastTaskResult codes:
+
+0 → Success ✅
+1 → Incorrect function / generic failure ⚠
+2147942402 (0x80070002) → File not found 📂
+2147943726 (0x8007052E) → Logon failure 🔐
+
+{{< /note >}}

@@ -17,7 +17,7 @@ weight: 8
 
 ---
 
-{{< note title="Get list of stopped services" >}}
+{{< note title="Get list of Stopped Services" >}}
 
 ```powershell
 Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic' }
@@ -26,7 +26,7 @@ Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Auto
 
 ---
 
-{{< note title="Set execution policy on machine" >}}
+{{< note title="Set Execution Policy on Machine" >}}
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
@@ -35,7 +35,7 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 
 ---
 
-{{< note title="Get all drive disk space" >}}
+{{< note title="Get all Drive Disk Space" >}}
 
 ```powershell
 Get-PSDrive -PSProvider FileSystem
@@ -44,7 +44,7 @@ Get-PSDrive -PSProvider FileSystem
 
 ---
 
-{{< note title="Get system drive free space" >}}
+{{< note title="Get System Drive free Space" >}}
 
 ```powershell
 (Get-PSDrive $env:SystemDrive.Trim(':')).Free / 1GB
@@ -52,7 +52,7 @@ Get-PSDrive -PSProvider FileSystem
 {{< /note >}}
 
 ---
-{{< note title="Check BIOS information" >}}
+{{< note title="Check BIOS Information" >}}
 
 ```powershell
 Get-CimInstance Win32_BIOS
@@ -60,7 +60,7 @@ Get-CimInstance Win32_BIOS
 {{< /note >}}
 
 ---
-{{< note title="Check computer information" >}}
+{{< note title="Check computer Information" >}}
 
 ```powershell
 Get-CimInstance Win32_ComputerSystem
@@ -68,7 +68,7 @@ Get-CimInstance Win32_ComputerSystem
 {{< /note >}}
 
 ---
-{{< note title="Check printer information on a machine" >}}
+{{< note title="Check Printer Information on a Machine" >}}
 
 ```powershell
 Get-CimInstance Win32_Printer | Select-Object Name, PortName, Default| Format-List
@@ -101,7 +101,7 @@ choco install powershell -force --yes choco install powershell-core -force --yes
 {{< /note >}}
 
 ---
-{{< note title="Checking who rebooted a production server" >}}
+{{< note title="Who Rebooted Production Server" >}}
 
 ```powershell
 Get-EventLog –Log System –Newest 100 | Where-Object {$_.EventID –eq ‘1074’} | FT MachineName, UserName, TimeGenerated -AutoSize
@@ -131,7 +131,7 @@ Restart-Service -Name $services -Force -ErrorAction SilentlyContinue
 {{< /note >}}
 
 ---
-{{< note title="Schedules task in last 30 days" >}}
+{{< note title="Schedules Task In Last 30 days" >}}
 
 ```powershell
 $cutoff = (Get-Date).AddDays(-30)
@@ -155,4 +155,12 @@ Common LastTaskResult codes:
 2147942402 (0x80070002) → File not found 📂
 2147943726 (0x8007052E) → Logon failure 🔐
 
+{{< /note >}}
+
+---
+{{< note title="Storage Information">}}
+
+```powershell
+get-volume
+```
 {{< /note >}}

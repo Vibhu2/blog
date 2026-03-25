@@ -3,16 +3,18 @@ identifier: notes-powershell-basics
 parent: notes-powershell
 weight: 8
 ---
-
 {{< note title="Get last boot time of the machine" >}}
+
 ```powershell
 (Get-Date) - (Get-ComputerInfo).OsLastBootUpTime
 ```
 
 **Alternative:**
+
 ```powershell
 (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
 ```
+
 {{< /note >}}
 
 ---
@@ -22,6 +24,7 @@ weight: 8
 ```powershell
 Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic' }
 ```
+
 {{< /note >}}
 
 ---
@@ -31,6 +34,7 @@ Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Auto
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 ```
+
 {{< /note >}}
 
 ---
@@ -40,6 +44,7 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 ```powershell
 Get-PSDrive -PSProvider FileSystem
 ```
+
 {{< /note >}}
 
 ---
@@ -49,34 +54,42 @@ Get-PSDrive -PSProvider FileSystem
 ```powershell
 (Get-PSDrive $env:SystemDrive.Trim(':')).Free / 1GB
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Check BIOS Information" >}}
 
 ```powershell
 Get-CimInstance Win32_BIOS
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Check computer Information" >}}
 
 ```powershell
 Get-CimInstance Win32_ComputerSystem
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Check Printer Information on a Machine" >}}
 
 ```powershell
 Get-CimInstance Win32_Printer | Select-Object Name, PortName, Default| Format-List
 
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Keep System Awake ( VB ) Script" >}}
 
 ```powershell
@@ -87,10 +100,12 @@ WScript.Sleep(5*60*1000)
 wsc.SendKeys("{F13}")
 Loop
 ```
+
 This is a vbs script so save it as keepawake.vbs and run it.
 {{< /note >}}
 
 ---
+
 {{< note title="Install PowerShell core using chocolaty" >}}
 
 ```powershell
@@ -98,25 +113,31 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
  iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco install powershell -force --yes choco install powershell-core -force --yes Start-Sleep -Seconds 90 exit exit
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Who Rebooted Production Server" >}}
 
 ```powershell
 Get-EventLog –Log System –Newest 100 | Where-Object {$_.EventID –eq ‘1074’} | FT MachineName, UserName, TimeGenerated -AutoSize
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Check Computer Domain" >}}
 
 ```powershell
 (Get-CimInstance Win32_ComputerSystem).Domain
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Restart LTServices." >}}
 
 ```powershell
@@ -128,9 +149,11 @@ Stop-Process -Name $processes -Force -ErrorAction SilentlyContinue-Force
 $services = "ltsvcmon","labvnc","ltservice"
 Restart-Service -Name $services -Force -ErrorAction SilentlyContinue
 ```
+
 {{< /note >}}
 
 ---
+
 {{< note title="Schedules Task In Last 30 days" >}}
 
 ```powershell
@@ -148,6 +171,7 @@ Get-ScheduledTask | ForEach-Object {
 } | Where-Object { $_.LastRunTime -ge $cutoff } |
 Sort-Object LastRunTime | FT -auto
 ```
+
 Common LastTaskResult codes:
 
 0 → Success ✅
@@ -158,9 +182,20 @@ Common LastTaskResult codes:
 {{< /note >}}
 
 ---
+
 {{< note title="Storage Information">}}
 
 ```powershell
 get-volume
+```
+
+{{< /note >}}
+
+{{< note title="Remove Header from Transcript">}}
+
+```powershell
+Start-Transcript -Path "C:\Realtime\DC-Diagnostic_DSI.txt" -IncludeInvocationHeader $false -Force
+# Your commands here
+Stop-Transcript
 ```
 {{< /note >}}

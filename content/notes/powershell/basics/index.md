@@ -198,4 +198,24 @@ Start-Transcript -Path "C:\Realtime\DC-Diagnostic_DSI.txt" -IncludeInvocationHea
 # Your commands here
 Stop-Transcript
 ```
+
+{{< /note >}}
+
+
+{{< note title="Complete Wireless Report Generation ">}}
+
+```powershell
+netsh wlan show wlanreport
+```
+
+{{< /note >}}
+
+
+{{< note title="Quick Lan Speed Test  ">}}
+
+```powershell
+Get-NetAdapter | Select-Object Name, LinkSpeed, Status
+Get-NetAdapterStatistics | Select-Object Name, ReceivedPackets, ReceivedDiscardedPackets, OutboundDiscardedPackets
+```
+
 {{< /note >}}

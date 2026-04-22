@@ -19,6 +19,8 @@ buttons:
   filter: "security"
 - name: Monitoring
   filter: "monitoring"
+- name: Database
+  filter: "database"
 
 skills:
 - name: PowerShell
@@ -88,3 +90,15 @@ skills:
   summary: "Version control for PowerShell modules, scripts, and documentation. GitHub for code management and CI/CD workflows."
   categories: ["scripting"]
   url: "https://git-scm.com/"
+
+- name: SQL
+  logo: /images/sections/skills/sql.svg
+  summary: "SQL querying and database administration across SQL Server environments — stored procedures, views, reporting queries, and database maintenance tasks in MSP and enterprise contexts."
+  categories: ["database"]
+  url: "https://www.microsoft.com/en-us/sql-server"
+
+- name: Linux
+  logo: /images/sections/skills/linux.svg
+  summary: "Linux server administration covering RHEL, Ubuntu, and CentOS — bash scripting, service management, cron jobs, user/permission management, and log analysis in hybrid MSP environments."
+  categories: ["scripting"]
+  url: "https://www.linux.org/"

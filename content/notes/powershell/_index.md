@@ -1,10 +1,10 @@
 ---
-title: PowerShell Short Codes
+title: PowerShell
 menu:
   notes:
-    name: Powershell
+    name: PowerShell
     identifier: notes-powershell
     weight: 10
 ---
 
-# PowerShell Notes
+# PowerShell Quick Reference

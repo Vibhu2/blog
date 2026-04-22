@@ -10,6 +10,8 @@ buttons:
   filter: "all"
 - name: PowerShell
   filter: "powershell"
+- name: PSGallery
+  filter: "psgallery"
 - name: Azure
   filter: "azure"
 - name: Infrastructure
@@ -39,6 +41,27 @@ projects:
   timeline: "2021 - Present"
   summary: API-driven PowerShell script that detects record discrepancies between ConnectWise Automate and ScreenConnect platforms, with automated service restart for affected endpoints.
   tags: ["powershell", "infrastructure"]
+
+- name: VB.WorkstationReport
+  role: Author
+  timeline: "Apr 2026 - Present"
+  url: "https://www.powershellgallery.com/packages/VB.WorkstationReport"
+  summary: "PSGallery module for end-to-end workstation auditing in MSP environments. Collects user profiles, printer mappings, folder redirections, OneDrive backup status, Sync Center state, and network interfaces — all orchestrated via a single Invoke-VBWorkstationReport call with optional Nextcloud upload."
+  tags: ["powershell", "psgallery", "infrastructure"]
+
+- name: VB.NextCloud
+  role: Author
+  timeline: "Apr 2026 - Present"
+  url: "https://www.powershellgallery.com/packages/VB.NextCloud"
+  summary: "PSGallery module providing WebDAV utilities for Nextcloud from PowerShell. Single-file upload via PUT (Set-VBNextcloudFile), batch orchestration with auto folder creation (Start-VBNextcloudUpload), and PROPFIND-based directory and folder listing — enabling fully automated file sync workflows."
+  tags: ["powershell", "psgallery"]
+
+- name: VB.ServerInventory
+  role: Author
+  timeline: "Apr 2026 - Present"
+  url: "https://www.powershellgallery.com/packages/VB.ServerInventory"
+  summary: "PSGallery module with 34 cmdlets across 10 categories for comprehensive Windows Server auditing — system/disk/network, AD health, GPO analysis, security (BitLocker, firewall, Azure AD join), DHCP/DNS, RDS, installed apps, Windows features, scheduled tasks, and shares. Built for pre-migration discovery and MSP documentation."
+  tags: ["powershell", "psgallery", "infrastructure"]
 
 - name: VBPowershell Module Library
   role: Author

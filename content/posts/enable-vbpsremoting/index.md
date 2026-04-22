@@ -1,20 +1,9 @@
-$content = @"
 ---
 title: "Automating PowerShell Remoting Setup with Enable-VBPsremoting"
 date: 2026-04-22T14:30:00+05:30
 draft: false
-description: "Learn how to automate PowerShell remoting configuration across your infrastructure with the Enable-VBPsremoting script"
-tags: ["PowerShell", "Remote Management", "Windows Administration", "Automation", "WinRM"]
-categories: ["PowerShell Automation"]
-author:
-  name: Vibhu Bhatnagar
----
----
-title: "Automating PowerShell Remoting Setup with Enable-VBPsremoting"
-date: 2026-04-22T14:30:00+05:30
-draft: false
-description: "Learn how to automate PowerShell remoting configuration across your infrastructure with the Enable-VBPsremoting script"
-tags: ["PowerShell", "Remote Management", "Windows Administration", "Automation", "WinRM"]
+description: "Learn how to automate PowerShell remoting and Remote Desktop configuration across your infrastructure with the Enable-VBPsremoting v2.0 function"
+tags: ["PowerShell", "Remote Management", "Windows Administration", "Automation", "WinRM", "RDP"]
 categories: ["PowerShell Automation"]
 author:
   name: Vibhu Bhatnagar
@@ -24,18 +13,36 @@ author:
 
 Managing systems across a network can be time-consuming, especially when dealing with multiple servers or workstations. **PowerShell Remoting** is a game-changer for system administrators — it allows you to execute commands and scripts on remote machines directly from your admin workstation.
 
-However, setting up remoting manually involves several steps: enabling the WinRM service, configuring Windows Firewall rules, and managing trusted hosts. This is where the **Enable-VBPsremoting** script comes in.
+However, setting up remoting manually involves several steps: enabling the WinRM service, configuring Windows Firewall rules, and managing trusted hosts. And if you also want to enable Remote Desktop, that's even more configuration.
+
+This is where the **Enable-VBPsremoting** function comes in — a powerful, automated solution for deploying remoting (and optionally RDP) across your infrastructure.
+
+## What's New in v2.0?
+
+The updated `Enable-VBPsremoting.ps1` now features:
+
+- **PowerShell Function** — Reusable function you can import into your profile or modules
+- **RDP Support** — Optional `-EnableRDP` switch to enable Remote Desktop alongside PS Remoting
+- **Enhanced Error Handling** — Comprehensive try-catch blocks with detailed error reporting
+- **Status Report Output** — Returns a detailed PSCustomObject with configuration status
+- **Verification Section** — Displays actual configuration values after setup completes
+- **Formatted Console Output** — Color-coded progress indicators and status summary table
 
 ## What Does the Script Do?
 
-The `Enable-VBPsremoting.ps1` script automates the entire PowerShell remoting setup process by:
+The `Enable-VBPsremoting` function automates the entire PowerShell remoting setup process by:
 
 - **Enabling WinRM Service** — Activates the Windows Remote Management service required for remoting
-- **Configuring Firewall Rules** — Opens necessary firewall ports to allow remote connections
+- **Configuring Firewall Rules** — Opens WinRM ports (5985/HTTP, 5986/HTTPS) for remote connections
 - **Setting Trusted Hosts** — Establishes trust relationships between your admin machine and target systems
-- **Validating Configuration** — Ensures remoting is properly enabled and ready for use
+- **Validating Configuration** — Displays actual settings and verifies remoting is operational
 
-Once the script completes, you can immediately use PowerShell remoting to manage target systems.
+**Optional RDP Configuration** (when `-EnableRDP` is specified):
+- **Enabling Remote Desktop** — Sets registry value to allow RDP connections
+- **Opening RDP Firewall Rules** — Enables port 3389 (TCP) for RDP traffic
+- **Configuring NLA** — Enables Network Level Authentication for enhanced security
+
+Once the function completes, you can immediately use PowerShell remoting and/or RDP to manage target systems.
 
 ## Why Use PowerShell Remoting?
 
@@ -54,12 +61,13 @@ Once the script completes, you can immediately use PowerShell remoting to manage
 - Managing services and processes across domain-joined and standalone systems
 - Running inventory scripts to collect hardware and software information
 - Executing administrative tasks without leaving your admin workstation
+- Enabling RDP for emergency access while keeping remoting as primary management interface
 
 ## How to Use Enable-VBPsremoting
 
 ### Prerequisites
 
-- **Local Administrator Rights** — Required to enable WinRM and modify firewall rules
+- **Local Administrator Rights** — Required to enable WinRM, RDP, and modify firewall rules
 - **Windows PowerShell 4.0+** (or Windows Management Framework 4.0+)
 - **Target Machines** — Must be Windows Server 2008 R2+ or Windows 7+ (with WMF 4.0+)
 
@@ -76,18 +84,7 @@ cd ITAdmin_Public_Scripts\SCRIPTS
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Vibhu2/ITAdmin_Public_Scripts/main/SCRIPTS/Enable-VBPsremoting.ps1" -OutFile "Enable-VBPsremoting.ps1"
 ```
 
-### Step 2: Review the Script
-
-Always review scripts before executing them, especially in production environments:
-
-```powershell
-# Open in your preferred editor
-code Enable-VBPsremoting.ps1
-# or
-notepad Enable-VBPsremoting.ps1
-```
-
-### Step 3: Run with Appropriate Privileges
+### Step 2: Run with Appropriate Privileges
 
 ```powershell
 # Option 1: Run as Administrator (simplest approach)
@@ -97,29 +94,59 @@ notepad Enable-VBPsremoting.ps1
 # Option 2: Run from existing admin session
 cd C:\path\to\script
 .\Enable-VBPsremoting.ps1
+
+# Option 3: Enable both PS Remoting and RDP
+.\Enable-VBPsremoting.ps1 -EnableRDP
 ```
 
-### Step 4: Verify Remoting is Enabled
+### Step 3: Review the Output
 
-After the script completes, confirm PowerShell remoting is operational:
+The function displays a detailed configuration report showing:
+
+- PowerShell Remoting status
+- WinRM service configuration
+- Firewall rules status
+- Remote Desktop status (if enabled)
+- Next steps for testing
+
+## Usage Examples
+
+### Enable PS Remoting Only
 
 ```powershell
-# Test remoting on local machine
-Enable-PSRemoting -Force
+# Direct execution
+.\Enable-VBPsremoting.ps1
 
-# Verify listener is active
-Get-PSSession
+# Or import and call as a function
+. .\Enable-VBPsremoting.ps1
+Enable-VBPsRemoting
+```
 
-# Test remote connection to a remote machine
-$session = New-PSSession -ComputerName <RemoteComputerName> -Credential (Get-Credential)
-Invoke-Command -Session $session -ScriptBlock { Write-Host "Remoting Works!" }
+### Enable PS Remoting + RDP
+
+```powershell
+# With RDP enabled
+.\Enable-VBPsremoting.ps1 -EnableRDP
+
+# Or as a function call
+. .\Enable-VBPsremoting.ps1
+Enable-VBPsRemoting -EnableRDP
+```
+
+### Get Help
+
+```powershell
+# View full help documentation
+. .\Enable-VBPsremoting.ps1
+Get-Help Enable-VBPsRemoting -Full
+
+# View examples
+Get-Help Enable-VBPsRemoting -Examples
 ```
 
 ## Common Use Cases
 
-### 1. **Mass Server Patching**
-
-Once remoting is enabled on all servers, apply updates to your entire fleet:
+### 1. Mass Server Patching
 
 ```powershell
 $servers = "Server01", "Server02", "Server03"
@@ -130,9 +157,7 @@ $servers | ForEach-Object {
 }
 ```
 
-### 2. **Service Management Across Multiple Servers**
-
-Stop or start services on multiple systems simultaneously:
+### 2. Service Management Across Multiple Servers
 
 ```powershell
 $servers = Get-Content servers.txt
@@ -141,9 +166,7 @@ Invoke-Command -ComputerName $servers -ScriptBlock {
 }
 ```
 
-### 3. **System Inventory Collection**
-
-Gather hardware and software information from your entire infrastructure:
+### 3. System Inventory Collection
 
 ```powershell
 $servers = "Server01", "Server02"
@@ -154,25 +177,40 @@ $servers | ForEach-Object {
 }
 ```
 
+### 4. Batch Enable RDP on Multiple Servers
+
+```powershell
+# Import the function
+. .\Enable-VBPsremoting.ps1
+
+# Enable on local machine
+$report = Enable-VBPsRemoting -EnableRDP
+
+# Check status
+$report
+```
+
 ## Troubleshooting Tips
 
 | Issue | Solution |
 |-------|----------|
 | **WinRM service won't start** | Check service startup type: `Set-Service WinRM -StartupType Automatic` |
-| **Firewall still blocks remoting** | Verify port 5985 (HTTP) or 5986 (HTTPS) is open |
+| **Firewall still blocks remoting** | Verify port 5985 (HTTP) is open: `Get-NetFirewallRule -DisplayGroup "Windows Remote Management"` |
 | **"Access Denied" errors** | Ensure you're running PowerShell as Administrator |
-| **Trusted hosts not set** | Manually configure: `Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*"` |
-| **"Connecting to remote server failed"** | Check network connectivity: `Test-NetConnection -ComputerName <IP> -Port 5985` |
+| **Trusted hosts not set** | Manually configure: `Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force` |
+| **RDP not working after script** | Verify firewall rule: `Get-NetFirewallRule -DisplayGroup "Remote Desktop"` |
+| **NLA causing RDP issues** | Disable NLA if needed: `Set-ItemProperty "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name SecurityLayer -Value 0` |
 
 ## Security Considerations
 
 ### Best Practices
 
 - **Use HTTPS (Port 5986)** — Enable SSL/TLS for encrypted remoting sessions
-- **Restrict TrustedHosts** — Don't set to `"*"` in production; specify explicit IP ranges or hostnames
-- **Implement Kerberos Authentication** — When working within an Active Directory domain
-- **Enable CredSSP for Delegation** — If you need to delegate credentials to nested remoting sessions
-- **Audit Remoting Activity** — Monitor who's accessing your systems remotely
+- **Restrict TrustedHosts** — Don't set to `"*"` in production; specify explicit IP ranges
+- **Implement Kerberos Authentication** — When working within Active Directory domains
+- **Enable CredSSP for Delegation** — If delegating credentials to nested sessions
+- **Audit Remoting Activity** — Monitor remote access for security
+- **RDP Security** — Enable Network Level Authentication (NLA) and enforce strong passwords
 
 ### Recommended Configuration for Production
 
@@ -180,12 +218,11 @@ $servers | ForEach-Object {
 # Set specific trusted hosts instead of wildcard
 Set-Item WSMan:\localhost\Client\TrustedHosts -Value "192.168.1.0/24" -Force
 
-# Enable HTTPS listener with certificate
-New-PSSessionConfigurationFile -Path "$PSHOME\SessionConfig.pssc" -RunAsVirtualAccount -Force
-Register-PSSessionConfiguration -Path "$PSHOME\SessionConfig.pssc" -Name "AdminSession" -Force
-
 # Enable remoting over HTTPS
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
+
+# For RDP: Enforce NLA
+Set-ItemProperty "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name SecurityLayer -Value 1
 ```
 
 ## Next Steps
@@ -196,11 +233,14 @@ After enabling PowerShell remoting on your infrastructure:
 2. **Document Trusted Hosts** — Keep a record of which systems are trusted
 3. **Create Baseline Scripts** — Develop reusable scripts for common administrative tasks
 4. **Implement Logging** — Enable Module Logging and Script Block Logging for security auditing
-5. **Train Your Team** — Share PowerShell remoting best practices with your team
+5. **Plan RDP Strategy** — Decide which systems need RDP enabled alongside PS Remoting
+6. **Train Your Team** — Share PowerShell remoting and RDP best practices with your team
 
 ## Conclusion
 
-The `Enable-VBPsremoting` script transforms PowerShell remoting from a manual, error-prone setup process into a quick, automated deployment. Whether you're managing a small network of servers or a large-scale infrastructure, this script saves time and reduces configuration mistakes.
+The `Enable-VBPsremoting` v2.0 function transforms PowerShell remoting from a manual, error-prone setup process into a quick, automated deployment. With optional RDP support, it handles both primary management channels (PowerShell Remoting) and fallback access (Remote Desktop) in a single operation.
+
+Whether managing a small network of servers or a large-scale infrastructure, this function saves time, reduces configuration mistakes, and provides comprehensive status reporting.
 
 **Get started today** — download the script, test it in a safe environment, and unlock the power of remote PowerShell administration across your organization.
 
@@ -209,6 +249,3 @@ The `Enable-VBPsremoting` script transforms PowerShell remoting from a manual, e
 **Find the script here:** [GitHub Repository](https://github.com/Vibhu2/ITAdmin_Public_Scripts/blob/main/SCRIPTS/Enable-VBPsremoting.ps1)
 
 **Questions or Issues?** Reach out or file an issue on GitHub!
-"@
-
-$content | Out-File -Path "content\posts\enable-vbpsremoting\index.md" -Encoding utf8 -Force

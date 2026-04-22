@@ -34,8 +34,8 @@ badges:
 
 - type: certification
   name: Datto Certified Technical Specialist
-  url: "https://www.datto.com"
-  badge: "https://images.credly.com/size/680x680/images/ba16c380-fe58-4e71-8f9c-e31bcd0810a6/image.png"
+  url: "https://www.datto.com/learning/"
+  badge: "/images/certifications/datto-cts-badge.svg"
 
 - type: soft-skill-indicator
   name: Problem Solving

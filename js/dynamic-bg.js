@@ -5,6 +5,7 @@
  * Post listing : Picsum seed-based thumbnails (img.card-img-top) per post slug
  *
  * Picsum URL formats used:
+ *   list of images https://picsum.photos/images ( this is where to get images ID's for the homepage )
  *   Curated : https://picsum.photos/id/{ID}/1920/1080
  *   Seeded  : https://picsum.photos/seed/{slug}/1920/1080
  */

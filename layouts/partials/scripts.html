@@ -1,0 +1,9 @@
+{{- partial "helpers/script-bundle.html" -}}
+
+<script>
+window.VBBlogConfig = {
+  isHome: {{ .IsHome }},
+  isPost: {{ eq .Type "posts" | safeJS }}
+};
+</script>
+<script src="/js/dynamic-bg.js" defer></script>

@@ -16,6 +16,36 @@
     color: #6495ed;
     font-size: 1.05rem;
   }
+
+  /* ── Posts sidebar — scrollable post list ─────────────────────────── */
+  .post-list-scroll {
+    max-height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    padding-right: 4px;
+  }
+
+  /* Slim scrollbar — webkit */
+  .post-list-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .post-list-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .post-list-scroll::-webkit-scrollbar-thumb {
+    background: rgba(100, 149, 237, 0.45);
+    border-radius: 2px;
+  }
+  .post-list-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 149, 237, 0.8);
+  }
+
+  /* Firefox */
+  .post-list-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 149, 237, 0.45) transparent;
+  }
 </style>
 
 

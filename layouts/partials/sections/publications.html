@@ -1,0 +1,117 @@
+{{/*
+  Dynamic Articles Section — layouts/partials/sections/publications.html
+  v1.0 — 2026-04-24
+
+  Reads posts from content/posts/ automatically via Hugo's page index.
+  Filter buttons are built from the master category list in publications.yaml:
+    - A button appears only when >=1 published post carries a matching tag.
+    - Max 8 buttons shown at once (priority order from YAML).
+    - Adding a new post: tag it in frontmatter — it appears here automatically.
+    - Adding a new category: add it to publications.yaml categories list.
+*/}}
+
+{{ $sectionID := .section.id | default (replace (lower .section.name) " " "-") }}
+
+{{/* ── Gather all published posts, newest first ──────────────────────── */}}
+{{ $allPosts := where site.RegularPages "Section" "posts" }}
+{{ $allPosts = $allPosts.ByDate.Reverse }}
+
+{{/* ── Determine which master categories have >=1 matching post ──────── */}}
+{{ $activeCategories := slice }}
+{{ range .categories }}
+  {{ $cat := . }}
+  {{ $catTags := $cat.tags }}
+  {{ $hasMatch := false }}
+  {{ range $allPosts }}
+    {{ $postTags := .Params.tags | default (slice) }}
+    {{ if intersect $postTags $catTags }}
+      {{ $hasMatch = true }}
+    {{ end }}
+  {{ end }}
+  {{ if $hasMatch }}
+    {{ $activeCategories = $activeCategories | append $cat }}
+  {{ end }}
+{{ end }}
+
+{{/* ── Cap at 8 visible filter buttons ───────────────────────────────── */}}
+{{ $visibleCategories := first 8 $activeCategories }}
+
+<div class="container-fluid anchor pb-5 publications-section" id="{{ $sectionID }}">
+
+  {{ if not (.section.hideTitle) }}
+  <h1 class="text-center">
+    <span id="{{ $sectionID }}"></span>{{ .section.name }}
+  </h1>
+  {{ end }}
+
+  {{/* ── Filter buttons ──────────────────────────────────────────────── */}}
+  <div class="container ms-auto text-center">
+    <div class="btn-group flex-wrap" role="pub-group" id="publication-filter-buttons">
+      <button type="button" class="btn btn-dark pub-filtr-control" data-filter="pub-all">
+        All
+      </button>
+      {{ range $visibleCategories }}
+      <button type="button" class="btn btn-dark pub-filtr-control" data-filter="pub-{{ .filter }}">
+        {{ .label }}
+      </button>
+      {{ end }}
+    </div>
+  </div>
+
+  {{/* ── Article cards ────────────────────────────────────────────────── */}}
+  <div class="container filtr-publications">
+    <div class="row" id="publication-card-holder">
+
+      {{ range $allPosts }}
+        {{ $post := . }}
+        {{ $postTags := $post.Params.tags | default (slice) }}
+
+        {{/* Build data-category: pub-all + one entry per matching visible category */}}
+        {{ $dataCategories := slice "pub-all" }}
+        {{ range $visibleCategories }}
+          {{ $cat := . }}
+          {{ if intersect $postTags $cat.tags }}
+            {{ $dataCategories = $dataCategories | append (printf "pub-%s" $cat.filter) }}
+          {{ end }}
+        {{ end }}
+        {{ $dataCategories = $dataCategories | uniq }}
+
+        <div class="col-12 p-2 pub-filtr-item" data-category='{{ delimit $dataCategories "," }}'>
+          <div class="card mt-3">
+            <div class="card-header">
+              <h5 class="card-title mb-0">{{ $post.Title }}</h5>
+              <div class="sub-title">
+                <span>
+                  <a href="{{ $post.Permalink }}">pwsh.in</a>
+                </span>
+                <span class="ms-2">{{ $post.Date.Format "2 January 2006" }}</span>
+              </div>
+              <div class="authors">
+                <span class="me-2 author-name">Vibhu Bhatnagar</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <p>{{ $post.Description | default $post.Summary }}</p>
+            </div>
+            <div class="card-footer">
+              <div class="tags">
+                {{ range $postTags }}
+                <span class="btn badge btn-info ms-1 p-1">{{ . }}</span>
+                {{ end }}
+              </div>
+              <div class="details-btn">
+                <a class="btn btn-outline-info ms-1 ps-2 mb-2"
+                   href="{{ $post.Permalink }}"
+                   target="_blank" rel="noopener"
+                   role="button">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {{ end }}{{/* end range allPosts */}}
+
+    </div>{{/* end publication-card-holder */}}
+  </div>{{/* end filtr-publications */}}
+
+</div>{{/* end publications-section */}}

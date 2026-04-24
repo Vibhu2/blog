@@ -9,9 +9,11 @@ section:
 designation: Senior Advanced System Administrator
 company:
   name: IT By Design
-  url: "https://www.itbydesign.com"
+  url: "http://itbd.net/"
 
-summary: 'Senior Wintel Administrator with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation — reducing multi-day manual processes to minutes — combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.'
+summary: '<p class="pwsh-tagline"><strong>PWSH</strong> &mdash; <em>Professionals with Wisdom and Sincerity at Heart</em></p>
+
+Senior Wintel Administrator with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation &mdash; reducing multi-day manual processes to minutes &mdash; combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.'
 
 socialLinks:
 - name: Email

@@ -1,8 +1,10 @@
 /**
- * dynamic-bg.js — v2.4
+ * dynamic-bg.js — v2.5
  * Homepage     : Curated Picsum IDs — rotates daily, same image all day
  * Posts        : Picsum seed-based image — same photo every visit per post (#hero-area)
  * Post listing : Picsum seed-based thumbnails (img.card-img-top) per post slug
+ * Tag pages    : Same thumbnail logic — fires on kind-term (e.g. /tags/powershell/)
+ *                and kind-taxonomy (e.g. /tags/)
  *
  * Picsum URL formats used:
  *   list of images https://picsum.photos/images ( this is where to get images ID's for the homepage )
@@ -79,8 +81,11 @@
     }
   }
 
-  /* ── Post card thumbnails — listing page (/posts/) and homepage recent-posts */
-  var isListing = document.body.classList.contains('kind-section');
+  /* ── Post card thumbnails — listing page (/posts/), tag pages, and homepage recent-posts */
+  var body      = document.body.classList;
+  var isListing = body.contains('kind-section')   /* /posts/ listing          */
+               || body.contains('kind-term')       /* /tags/powershell/ etc.   */
+               || body.contains('kind-taxonomy');  /* /tags/ index             */
   if (isListing || cfg.isHome) {
     var cardScope = isListing
       ? document

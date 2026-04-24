@@ -1,0 +1,99 @@
+/**
+ * dynamic-bg.js — v2.4
+ * Homepage     : Curated Picsum IDs — rotates daily, same image all day
+ * Posts        : Picsum seed-based image — same photo every visit per post (#hero-area)
+ * Post listing : Picsum seed-based thumbnails (img.card-img-top) per post slug
+ *
+ * Picsum URL formats used:
+ *   list of images https://picsum.photos/images ( this is where to get images ID's for the homepage )
+ *   Curated : https://picsum.photos/id/{ID}/1920/1080
+ *   Seeded  : https://picsum.photos/seed/{slug}/1920/1080
+ */
+(function () {
+  'use strict';
+
+  var cfg = window.VBBlogConfig;
+  if (!cfg) return;
+
+  var PICSUM = 'https://picsum.photos';
+
+  /* ── Preload image then swap background — avoids a jarring flash ─────── */
+  function applyBg(el, url) {
+    var img = new Image();
+    img.onload = function () {
+      el.style.backgroundImage    = 'url(' + url + ')';
+      el.style.backgroundSize     = 'cover';
+      el.style.backgroundPosition = 'center';
+    };
+    img.onerror = function () {
+      console.warn('[dynamic-bg] image failed to load:', url);
+    };
+    img.src = url;
+  }
+
+  /* ── Extract the last path segment as a slug ─────────────────────────── */
+  function getSlug() {
+    var path  = window.location.pathname.replace(/\/+$/, '');
+    var parts = path.split('/');
+    return parts[parts.length - 1] || 'home';
+  }
+
+  /* ── Homepage — curated Picsum IDs, rotates daily ───────────────────── */
+  if (cfg.isHome) {
+    var homeEl = document.getElementById('homePageBackgroundImageDivStyled');
+    if (homeEl) {
+      var curatedIds = [
+        10,   /* dark forest          */
+        26,   /* moody mountain       */
+        42,   /* dark abstract        */
+        64,   /* night cityscape      */
+        103,  /* atmospheric nature   */
+        110,  /* architectural detail */
+        127,  /* dark minimal         */
+        143,  /* misty landscape      */
+        164,  /* dark moody           */
+        177,  /* urban geometry       */
+        200,  /* abstract dark        */
+        240,  /* geometric structure  */
+        338,  /* dark corridor        */
+        381,  /* industrial           */
+        447   /* night architecture   */
+      ];
+      var dayIndex = Math.floor(Math.random() * curatedIds.length);
+      var homeUrl  = PICSUM + '/id/' + curatedIds[dayIndex] + '/1920/1080';
+      applyBg(homeEl, homeUrl);
+    } else {
+      console.warn('[dynamic-bg] #homePageBackgroundImageDivStyled not found');
+    }
+  }
+
+  /* ── Blog post — consistent photo per post, unique across all posts ──── */
+  if (cfg.isPost) {
+    var postEl = document.getElementById('hero-area');
+    if (postEl) {
+      var slug    = getSlug();
+      var postUrl = PICSUM + '/seed/' + slug + '/1920/1080';
+      applyBg(postEl, postUrl);
+    } else {
+      console.warn('[dynamic-bg] #hero-area not found');
+    }
+  }
+
+  /* ── Post card thumbnails — listing page (/posts/) and homepage recent-posts */
+  var isListing = document.body.classList.contains('kind-section');
+  if (isListing || cfg.isHome) {
+    var cardScope = isListing
+      ? document
+      : document.getElementById('recent-post-cards');
+    if (cardScope) {
+      var cards = cardScope.querySelectorAll('img.card-img-top');
+      cards.forEach(function (img) {
+        var link     = img.closest('a.post-card-link');
+        var href     = link ? link.getAttribute('href') : '';
+        var cardSlug = href.replace(/\/+$/, '').split('/').pop() || 'post';
+        img.src = PICSUM + '/seed/' + cardSlug + '/800/450';
+      });
+    }
+  }
+
+}());

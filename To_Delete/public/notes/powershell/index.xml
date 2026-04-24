@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PowerShell on Vibhu&#39;s Blog</title>
+    <link>http://localhost:1314/notes/powershell/</link>
+    <description>Recent content in PowerShell on Vibhu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="http://localhost:1314/notes/powershell/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Basics</title>
+      <link>http://localhost:1314/notes/powershell/basics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/basics/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;PowerShell Version&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$PSVersionTable
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Get Help for Any Command&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Help Get-Service -Full
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Help Get-Service -Examples
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Find Commands by Noun or Verb&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# All commands that work with services&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Command -Noun Service
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# All commands that use the verb &amp;#39;Get&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Command -Verb Get
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;List All Aliases&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Alias
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Pipeline — Filter &amp;amp; Select&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Filter objects&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Process | Where-Object { $_.CPU &lt;span style=&#34;color:#f92672&#34;&gt;-gt&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Select specific properties&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Process | Select-Object Name, CPU, WorkingSet | Sort-Object CPU -Descending
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Format Output&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Table&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Service | Format-Table Name, Status, StartType -AutoSize
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# List (detailed)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Service -Name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wuauserv&amp;#34;&lt;/span&gt; | Format-List *
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>System Information</title>
+      <link>http://localhost:1314/notes/powershell/system-info/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/system-info/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Last Boot Time&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Method 1 — TimeSpan since boot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(Get-Date) - (Get-ComputerInfo).OsLastBootUpTime
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Method 2 — Exact timestamp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(Get-CimInstance Win32_OperatingSystem).LastBootUpTime
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Computer System Details&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-CimInstance Win32_ComputerSystem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;BIOS Information&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-CimInstance Win32_BIOS
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Check Computer Domain&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(Get-CimInstance Win32_ComputerSystem).Domain
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;All Drive Disk Space&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-PSDrive -PSProvider FileSystem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;System Drive Free Space (GB)&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(Get-PSDrive $env:SystemDrive.Trim(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;:&amp;#39;&lt;/span&gt;)).Free / &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;GB
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Volume Storage Information&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Volume
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Printer Information&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-CimInstance Win32_Printer |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, PortName, &lt;span style=&#34;color:#66d9ef&#34;&gt;Default&lt;/span&gt; |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Format-List
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Services &amp; Scheduled Tasks</title>
+      <link>http://localhost:1314/notes/powershell/services-tasks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/services-tasks/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Get Stopped Automatic Services&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-Service |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Where-Object { $_.Status &lt;span style=&#34;color:#f92672&#34;&gt;-eq&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Stopped&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-and&lt;/span&gt; $_.StartType &lt;span style=&#34;color:#f92672&#34;&gt;-eq&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Automatic&amp;#39;&lt;/span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Set Execution Policy&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Restart LTServices (ConnectWise Automate)&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Stop related processes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$processes = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ltsvcmon&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ltsvc&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;lttray&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;labvnc&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;labtechupdate&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Stop-Process -Name $processes -Force -ErrorAction SilentlyContinue
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Restart services&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$services = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ltsvcmon&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;labvnc&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ltservice&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Restart-Service -Name $services -Force -ErrorAction SilentlyContinue
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Scheduled Tasks Run in Last 30 Days&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$cutoff = (Get-Date).AddDays(&lt;span style=&#34;color:#ae81ff&#34;&gt;-30&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-ScheduledTask | ForEach-Object {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    $info = Get-ScheduledTaskInfo $_
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [&lt;span style=&#34;color:#66d9ef&#34;&gt;PSCustomObject&lt;/span&gt;]@{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        TaskName    = $_.TaskName
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        State       = $_.State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        LastRunTime = $info.LastRunTime
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        TaskPath    = $_.TaskPath
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} | Where-Object { $_.LastRunTime &lt;span style=&#34;color:#f92672&#34;&gt;-ge&lt;/span&gt; $cutoff } |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Sort-Object LastRunTime |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Format-Table -AutoSize
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Common &lt;code&gt;LastTaskResult&lt;/code&gt; codes:&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Networking</title>
+      <link>http://localhost:1314/notes/powershell/networking/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/networking/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Quick LAN Speed Test&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Adapter speed and status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-NetAdapter | Select-Object Name, LinkSpeed, Status
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Packet statistics&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-NetAdapterStatistics |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, ReceivedPackets, ReceivedDiscardedPackets, OutboundDiscardedPackets
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Wireless Report Generation&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;netsh wlan show wlanreport
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Generates a full HTML report saved to:
+&lt;code&gt;C:\ProgramData\Microsoft\Windows\WlanReport\wlan-report-latest.html&lt;/code&gt;&lt;/p&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Utilities &amp; Scripting</title>
+      <link>http://localhost:1314/notes/powershell/utilities/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/utilities/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Keep System Awake (VBS)&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-vbscript&#34; data-lang=&#34;vbscript&#34;&gt;Set wsc = CreateObject(&amp;#34;WScript.Shell&amp;#34;)
+Do
+    &amp;#39; Sleep 5 minutes, then send a harmless keypress
+    WScript.Sleep(5 * 60 * 1000)
+    wsc.SendKeys(&amp;#34;{F13}&amp;#34;)
+Loop
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Save as &lt;code&gt;keepawake.vbs&lt;/code&gt; and run with &lt;code&gt;wscript keepawake.vbs&lt;/code&gt;.&lt;/p&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Remove Header from Transcript&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Start-Transcript -Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C:\Logs\output.txt&amp;#34;&lt;/span&gt; -IncludeInvocationHeader $false -Force
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Your commands here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Stop-Transcript
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Install Chocolatey &amp;#43; PowerShell Core&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Step 1 — Install Chocolatey&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Set-ExecutionPolicy Bypass -Scope &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt; -Force
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;System.Net.ServicePointManager&lt;/span&gt;]::SecurityProtocol =
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [&lt;span style=&#34;color:#66d9ef&#34;&gt;System.Net.ServicePointManager&lt;/span&gt;]::SecurityProtocol &lt;span style=&#34;color:#f92672&#34;&gt;-bor&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3072&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://community.chocolatey.org/install.ps1&amp;#39;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Step 2 — Install PowerShell Core&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;choco install powershell-core -y --force
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Active Directory</title>
+      <link>http://localhost:1314/notes/powershell/active-directory/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1314/notes/powershell/active-directory/</guid>
+      <description>&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Get AD Group Members Recursively&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-ADGroupMember -Identity &amp;lt;group_name&amp;gt; -Recursive |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, SamAccountName
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Find Inactive Enabled User Accounts&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$tspan = (New-TimeSpan -Days &lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$inacUser = Search-ADAccount -AccountInactive -TimeSpan $tspan -UsersOnly |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Where-Object { $_.Enabled &lt;span style=&#34;color:#f92672&#34;&gt;-eq&lt;/span&gt; $true } |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, DistinguishedName, LastLogonDate
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$($inacUser.Count)&lt;span style=&#34;color:#e6db74&#34;&gt; inactive enabled user accounts found&amp;#34;&lt;/span&gt; -ForegroundColor Green
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$inacUser
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Get Users Created in the Last 7 Days&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$week = (Get-Date).AddDays(&lt;span style=&#34;color:#ae81ff&#34;&gt;-7&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ADuserInWeek = Get-ADUser -Filter { whenCreated &lt;span style=&#34;color:#f92672&#34;&gt;-ge&lt;/span&gt; $week } -Properties WhenCreated |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, WhenCreated, DistinguishedName
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$($ADuserInWeek.Count)&lt;span style=&#34;color:#e6db74&#34;&gt; users created in the last 7 days&amp;#34;&lt;/span&gt; -ForegroundColor Green
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ADuserInWeek
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Verify DC DNS SRV Records&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Resolve-DnsName -Type ALL -Name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;_ldap._tcp.dc._msdcs.&lt;/span&gt;$env:USERDNSDOMAIN&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;List All Installed Software&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-ItemProperty HKLM&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt;\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object DisplayName, DisplayVersion, Publisher, InstallDate |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Format-Table -AutoSize
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Get All Active Users with Last Logon Timestamp&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Get-ADUser -Filter { Enabled &lt;span style=&#34;color:#f92672&#34;&gt;-eq&lt;/span&gt; $true } -Properties LastLogonTimeStamp |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Select-Object Name, @{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Name       = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LastLogon&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Expression = { [&lt;span style=&#34;color:#66d9ef&#34;&gt;DateTime&lt;/span&gt;]::FromFileTime($_.LastLogonTimeStamp).ToString(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dd-MM-yyyy HH:mm:ss&amp;#39;&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } | Sort-Object LastLogon -Descending
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;note-card &#34;&gt;
+    &lt;div class=&#34;item&#34;&gt;
+        &lt;h5 class=&#34;note-title&#34;&gt;&lt;span&gt;Backup All GPOs&lt;/span&gt;&lt;/h5&gt;
+        
+            &lt;div class=&#34;card&#34;&gt;
+                &lt;div class=&#34;card-body&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Backup-GPO -All -Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C:\Temp\AllGPO&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        
+    &lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    
+    
+  </channel>
+</rss>

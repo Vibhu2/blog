@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+    <title>Managing Printer Mappings Across User Profiles with PowerShell</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+
+
+
+<link rel="canonical" href="http://localhost:1314/posts/printer-mapping-powershell-vb-workstationreport/" />
+
+
+<link rel="stylesheet" href="/application.255c9025a7ce1bfcfc269835fc67d4b6f9708547fb1ff8580d75e9ca2195df06.css" integrity="sha256-JVyQJafOG/z8Jpg1/GfUtvlwhUf7H/hYDXXpyiGV3wY=" />
+
+
+
+
+
+  
+
+  
+  
+  
+    
+  
+  
+
+  <link rel="icon" type="image/png" href="/images/site/favicon_hu_a9180e8b9b024b5f.png" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Vibhu Bhatnagar — Senior Wintel Administrator"/>
+<meta property="og:type" content="website"/>
+<meta property="og:description" content="Personal blog and portfolio of Vibhu Bhatnagar — Active Directory, Exchange, PowerShell automation and enterprise infrastructure."/>
+<meta property="og:image" content="/images/author/vibhu.png">
+<meta property="og:url" content="https://pwsh.in/">
+
+    
+<meta name="description" content="How I built a set of PowerShell functions inside VB.WorkstationReport to migrate, replace, and add printer mappings across all user profiles on Windows workstations — without touching a single machine manually." />
+
+
+    
+
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-posts kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+    
+  
+  
+
+
+
+  
+  
+    
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      
+        <img src="/images/site/main-logo_hu_f0b88c9f9c6d9a1f.png" id="logo" alt="Logo">
+      Vibhu&#39;s Blog</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#experiences">Experiences</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#education">Education</a>
+                </li>
+              
+            
+            
+              
+              
+            
+            
+              
+              
+            
+            
+            
+              
+              
+            
+            
+              
+              
+            
+            
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                
+                  
+                    
+                    
+                  
+                  
+                    
+                    
+                  
+                  
+                    
+                    
+                  
+                  
+                    
+                    
+                  
+                  
+                    
+                    
+                      <a class="dropdown-item" href="/#projects">Projects</a>
+                    
+                  
+                  
+                    
+                    
+                      <a class="dropdown-item" href="/#publications">Articles</a>
+                    
+                  
+                  
+                  
+                    
+                    
+                      <a class="dropdown-item" href="/#recent-posts">Recent Posts</a>
+                    
+                  
+                  
+                    
+                    
+                      <a class="dropdown-item" href="/#accomplishments">Accomplishments</a>
+                    
+                  
+                  
+              </div>
+            </li>
+          
+        
+        
+          <div id="top-navbar-divider"></div>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" id="blog-link" href="/posts">Posts</a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" id="note-link" href="/notes">Notes</a>
+          </li>
+        
+        
+            
+              <li class="nav-item">
+                <a class="nav-link" href="https://github.com/Vibhu2">GitHub</a>
+              </li>
+            
+        
+        
+        
+          
+
+
+
+  
+  
+
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle"  href="#" id="themeSelector" role="button"
+  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <img id="navbar-theme-icon-svg" class="theme-icon" src="/icons/moon-svgrepo-com.svg" width=20 alt="Dark Theme">
+</a>
+<div id="themeMenu" class="dropdown-menu dropdown-menu-icons-only" aria-labelledby="themeSelector">
+  
+  <a class="dropdown-item nav-link" href="#" data-scheme="light">
+    <img class="theme-icon" src="/icons/sun-svgrepo-com.svg" width=20 alt="Light Theme">
+  </a>
+  
+  
+  <a class="dropdown-item nav-link" href="#" data-scheme="dark">
+    <img class="theme-icon" src="/icons/moon-svgrepo-com.svg" width=20 alt="Dark Theme">
+  </a>
+  
+  
+  <a class="dropdown-item nav-link" href="#" data-scheme="system">
+    <img class="theme-icon" src="/icons/computer-svgrepo-com.svg" width=20 alt="System Theme">
+  </a>
+  
+</div>
+</li>
+
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+    <img src="/images/site/main-logo_hu_f0b88c9f9c6d9a1f.png" class="d-none" id="main-logo" alt="Logo">
+  
+  
+    <img src="/images/site/inverted-logo_hu_a9180e8b9b024b5f.png" class="d-none" id="inverted-logo" alt="Inverted Logo">
+  
+  
+</nav>
+
+
+
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/author/vibhu_hu_375ecfb0712e09bd.png' alt="Author Image">
+          <h5 class="author-name">Vibhu Bhatnagar</h5>
+          <p class="text-muted">Thursday, April 23, 2026 | 10 minutes</p>
+        </div>
+        
+
+        <div class="title">
+          <h1>Managing Printer Mappings Across User Profiles with PowerShell</h1>
+        </div>
+
+        
+
+        
+          <div class="tags">
+  <ul style="padding-left: 0;">
+    
+    
+    <li><a href="/tags/powershell/" class="btn btn-sm btn-outline-info rounded">PowerShell</a></li>
+    
+    
+    <li><a href="/tags/printers/" class="btn btn-sm btn-outline-info rounded">Printers</a></li>
+    
+    
+    <li><a href="/tags/windows/" class="btn btn-sm btn-outline-info rounded">Windows</a></li>
+    
+    
+    <li><a href="/tags/module/" class="btn btn-sm btn-outline-info rounded">Module</a></li>
+    
+    
+    <li><a href="/tags/registry/" class="btn btn-sm btn-outline-info rounded">Registry</a></li>
+    
+    
+    <li><a href="/tags/rmm/" class="btn btn-sm btn-outline-info rounded">RMM</a></li>
+    
+    
+    <li><a href="/tags/sysadmin/" class="btn btn-sm btn-outline-info rounded">Sysadmin</a></li>
+    
+  </ul>
+</div>
+
+        
+        <div class="post-content" id="post-content">
+          <p>Printer management at scale is one of those problems that looks trivial until you are staring at 200 workstations, each with multiple user profiles, each with their own mapped printers, and a print server migration starting in two days.</p>
+<p>Doing it manually is not an option. Doing it via Group Policy works for connected machines but breaks for laptops on VPN, offline profiles, and anyone who mapped printers manually outside GPO. What you actually need is something that understands how Windows stores printer mappings per user, can work on both online and offline profiles, and can be deployed from your RMM in a single script run.</p>
+<p>This post covers the three functions I built into the <code>VB.WorkstationReport</code> module to solve this — and why each one exists.</p>
+<hr>
+<h2 id="the-problem-with-printer-mappings-at-scale">The Problem With Printer Mappings at Scale</h2>
+<p>Windows stores printer mappings inside each user&rsquo;s registry hive (<code>NTUSER.DAT</code>). Every user on a machine has their own copy. This means:</p>
+<ul>
+<li>There is no single machine-level list of &ldquo;who has what printer&rdquo;</li>
+<li>A user who is not currently logged in has their hive sitting on disk as <code>NTUSER.DAT</code> — you cannot read or write it without mounting it first</li>
+<li>UNC printers (<code>\\server\printer</code>) and IP printers (<code>10.30.1.50</code>) are stored differently and need different handling</li>
+<li>Running <code>Add-Printer</code> or <code>Remove-Printer</code> only works for the currently logged-in user — you cannot use them to update another user&rsquo;s mappings</li>
+</ul>
+<p>When you have a print server migration, or you need to push a new printer to every user on a fleet of machines, none of the built-in cmdlets give you what you need.</p>
+<hr>
+<h2 id="how-windows-stores-printer-mappings">How Windows Stores Printer Mappings</h2>
+<p>Before looking at the functions, it helps to understand what is actually being written to the registry.</p>
+<p>For each user profile, the relevant keys are:</p>
+<pre tabindex="0"><code>HKU\{SID}\Printers\Connections\,,server,sharename
+</code></pre><p>This is the connection marker for a UNC printer. The backslashes in the path are replaced with commas — <code>\\server\printer</code> becomes <code>,,server,printer</code>. The presence of this subkey is what tells Windows the printer is mapped for this user.</p>
+<pre tabindex="0"><code>HKU\{SID}\Software\Microsoft\Windows NT\CurrentVersion\Devices
+</code></pre><p>This maps each printer name to its port. For a UNC printer the value is <code>winspool,Ne00:</code>. For a direct IP printer it is <code>winspool,IP_10.30.1.50</code>.</p>
+<pre tabindex="0"><code>HKU\{SID}\Software\Microsoft\Windows NT\CurrentVersion\PrinterPorts
+</code></pre><p>Same as <code>Devices</code> but includes timeout values: <code>winspool,Ne00:,15,45</code>. Only present on some profiles — the functions skip it gracefully if it does not exist.</p>
+<pre tabindex="0"><code>HKU\{SID}\Software\Microsoft\Windows NT\CurrentVersion\Windows  (Device value)
+</code></pre><p>Stores the user&rsquo;s default printer as a string: <code>PrinterName,winspool,Ne00:</code>.</p>
+<hr>
+<h2 id="the-function-chain">The Function Chain</h2>
+<p>The three new functions build on top of existing <code>VB.WorkstationReport</code> functions rather than duplicating their logic:</p>
+<pre tabindex="0"><code>Set-VBUserPrinterMigration  /  Add-VBUserPrinter
+  |
+  |-- Get-VBUserProfile             enumerate all non-system profiles, Loaded flag
+  |-- Mount-VBUserHive              mount NTUSER.DAT for offline profiles
+  |-- Get-VBUserPrinterMappings     optional pre-migration backup snapshot
+  |-- Update-VBUserPrinterRegistry  registry writes per user  [private]
+  |-- Dismount-VBUserHive           safe hive unload after work is done
+</code></pre><p><code>Mount-VBUserHive</code> returns an <code>AlreadyLoaded</code> flag — if the user was already logged in, the hive is already at <code>HKU\{SID}</code> and no mount is needed. Either way, the registry path is identical, so the same code handles both online and offline users with no branching needed.</p>
+<p><code>Dismount-VBUserHive</code> checks the <code>HiveMounted</code> flag on the mount result — it only unloads hives that the function itself mounted. It never touches a hive that was already loaded before we started.</p>
+<hr>
+<h2 id="migrating-existing-printer-mappings--set-vbuserprintermigration">Migrating Existing Printer Mappings — <code>Set-VBUserPrinterMigration</code></h2>
+<p>This function is for when a printer a user already has mapped needs to be replaced with a different one. It will only touch a user&rsquo;s printer if that user actually has the old printer mapped — nobody gets a printer they did not already have.</p>
+<h3 id="supported-migration-types">Supported migration types</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">From</th>
+          <th style="text-align: left">To</th>
+          <th style="text-align: left">Example use case</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">UNC → UNC</td>
+          <td style="text-align: left"><code>\\OldServer\HP01</code> → <code>\\NewServer\HP01</code></td>
+          <td style="text-align: left">Print server migration</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">UNC → IP</td>
+          <td style="text-align: left"><code>\\PrintServer\HP01</code> → <code>10.30.1.50</code></td>
+          <td style="text-align: left">Move from shared to direct IP</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">IP → UNC</td>
+          <td style="text-align: left"><code>10.30.1.60</code> → <code>\\PrintServer\Canon02</code></td>
+          <td style="text-align: left">Consolidate direct IPs to a print server</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">IP → IP</td>
+          <td style="text-align: left"><code>10.30.1.50</code> → <code>10.30.1.55</code></td>
+          <td style="text-align: left">Printer replaced at same location</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="input-the-mapping-csv">Input: the mapping CSV</h3>
+<p>The primary input is a CSV file. This is the format to use when deploying via RMM because it separates the data from the script — one CSV, many machines.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-csv" data-lang="csv"><span style="display:flex;"><span><span style="color:#e6db74">OldPath</span>,<span style="color:#e6db74">NewPath</span>,<span style="color:#e6db74">DriverName</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\HP_Floor2</span>,<span style="color:#e6db74">10.30.1.50</span>,<span style="color:#e6db74">HP LaserJet 400 M401</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\Canon_HR</span>,<span style="color:#e6db74">10.30.1.51</span>,<span style="color:#e6db74">Canon Generic Plus PCL6</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">10.30.1.60</span>,<span style="color:#e6db74">\\PrintServer02\Ricoh_Reception</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\Zebra_Labels</span>,<span style="color:#e6db74">\\PrintServer02\Zebra_Labels</span>,
+</span></span></code></pre></div><p>Column rules:</p>
+<ul>
+<li><code>OldPath</code> — the printer the user currently has mapped (UNC or IP)</li>
+<li><code>NewPath</code> — what to replace it with (UNC or IP)</li>
+<li><code>DriverName</code> — required when <code>NewPath</code> is an IP address, blank is fine for UNC destinations</li>
+</ul>
+<p>To create the CSV from PowerShell before deploying:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$csv = <span style="color:#e6db74">@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">OldPath,NewPath,DriverName
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\HP_Floor2,10.30.1.50,HP LaserJet 400 M401
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\Canon_HR,10.30.1.51,Canon Generic Plus PCL6
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">10.30.1.60,\\PrintServer02\Ricoh_Reception,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">\\PrintServer01\Zebra_Labels,\\PrintServer02\Zebra_Labels,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;@</span>
+</span></span><span style="display:flex;"><span>$csv | Out-File -FilePath <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span> -Encoding UTF8
+</span></span></code></pre></div><h3 id="running-the-migration">Running the migration</h3>
+<p>Always run a dry run first. This shows exactly what would change without touching anything:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Set-VBUserPrinterMigration -MappingCsv <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span> -WhatIf
+</span></span></code></pre></div><p>Once you are satisfied with the output, run it for real. The <code>-BackupMappings</code> flag captures each user&rsquo;s current printer state to a CSV before making any changes — useful for rollback reference:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Set-VBUserPrinterMigration -MappingCsv <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span> `
+</span></span><span style="display:flex;"><span>    -BackupMappings `
+</span></span><span style="display:flex;"><span>    -BackupPath <span style="color:#e6db74">&#39;C:\Realtime\Reports\PrinterBackup.csv&#39;</span>
+</span></span></code></pre></div><p>To target a single user only:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Set-VBUserPrinterMigration -MappingCsv <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span> -TargetUser <span style="color:#e6db74">&#39;jdoe&#39;</span>
+</span></span></code></pre></div><p>For UNC to UNC migrations where all printers share the same path pattern, the hashtable input is cleaner than a CSV:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$mappings = @{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;\\OldPrintServer\HP01&#39;</span>    = <span style="color:#e6db74">&#39;\\NewPrintServer\HP01&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;\\OldPrintServer\Canon02&#39;</span> = <span style="color:#e6db74">&#39;\\NewPrintServer\Canon02&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;\\OldPrintServer\Zebra01&#39;</span> = <span style="color:#e6db74">&#39;\\NewPrintServer\Zebra01&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>Set-VBUserPrinterMigration -PrinterMappings $mappings
+</span></span></code></pre></div><h3 id="what-the-output-looks-like">What the output looks like</h3>
+<p>The function returns one object per user per mapping rule. Pipe it to <code>Export-Csv</code> for a full audit trail:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$results = Set-VBUserPrinterMigration -MappingCsv <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Full results to CSV</span>
+</span></span><span style="display:flex;"><span>$results | Export-Csv -Path <span style="color:#e6db74">&#34;\\FileServer\Logs\Migration_</span>$env:COMPUTERNAME<span style="color:#e6db74">.csv&#34;</span> `
+</span></span><span style="display:flex;"><span>    -NoTypeInformation -Encoding UTF8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Review only failures</span>
+</span></span><span style="display:flex;"><span>$results | Where-Object { $_.Status <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Failed&#39;</span> } | Format-Table
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># See what was skipped (user did not have that printer)</span>
+</span></span><span style="display:flex;"><span>$results | Where-Object { $_.Action <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Skipped&#39;</span> }
+</span></span></code></pre></div><p>Each result object contains:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>ComputerName</code></td>
+          <td style="text-align: left">Machine the change was applied to</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Username</code></td>
+          <td style="text-align: left">User profile that was processed</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>OldPath</code></td>
+          <td style="text-align: left">The printer that was replaced</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>NewPath</code></td>
+          <td style="text-align: left">The printer that was added</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Action</code></td>
+          <td style="text-align: left"><code>Migrated</code>, <code>Skipped</code>, <code>AlreadyMigrated</code>, or <code>Failed</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Details</code></td>
+          <td style="text-align: left">Exactly which registry keys were written or removed</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Status</code></td>
+          <td style="text-align: left"><code>Success</code> or <code>Failed</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Timestamp</code></td>
+          <td style="text-align: left">When the action ran</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="rmm-deployment-pattern">RMM deployment pattern</h3>
+<p>Since machine-level IP port creation requires the script to run locally (not over WinRM), the recommended pattern for fleet deployment via RMM is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Deploy CSV to machine first (push via RMM file copy)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Then run:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$results = Set-VBUserPrinterMigration -MappingCsv <span style="color:#e6db74">&#39;C:\Temp\PrinterMappings.csv&#39;</span> `
+</span></span><span style="display:flex;"><span>    -BackupMappings `
+</span></span><span style="display:flex;"><span>    -BackupPath <span style="color:#e6db74">&#34;\\FileServer\Logs\Backup_</span>$env:COMPUTERNAME<span style="color:#e6db74">.csv&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$results | Export-Csv `
+</span></span><span style="display:flex;"><span>    -Path <span style="color:#e6db74">&#34;\\FileServer\Logs\Migration_</span>$env:COMPUTERNAME<span style="color:#e6db74">.csv&#34;</span> `
+</span></span><span style="display:flex;"><span>    -NoTypeInformation `
+</span></span><span style="display:flex;"><span>    -Encoding UTF8
+</span></span></code></pre></div><p>Each machine writes its own log file named by <code>$env:COMPUTERNAME</code> — no collisions when 200 machines run simultaneously.</p>
+<hr>
+<h2 id="adding-new-printers-to-user-profiles--add-vbuserprinter">Adding New Printers to User Profiles — <code>Add-VBUserPrinter</code></h2>
+<p><code>Set-VBUserPrinterMigration</code> only acts on printers that are already mapped — it will not add a printer to a user who does not already have the old one. Sometimes you need to push a new printer to everyone regardless of their current setup. That is what <code>Add-VBUserPrinter</code> is for.</p>
+<p>Common use cases:</p>
+<ul>
+<li>A new department printer has been installed and needs pushing to all user profiles</li>
+<li>A specific user needs a printer added directly without any migration</li>
+<li>You want to set a printer as the default for a group of users</li>
+</ul>
+<h3 id="adding-an-ip-printer-to-all-users">Adding an IP printer to all users</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># First confirm the driver is installed on the machine</span>
+</span></span><span style="display:flex;"><span>Get-PrinterDriver | Select-Object Name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Then add the printer to all profiles</span>
+</span></span><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;10.30.1.55&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -PrinterName <span style="color:#e6db74">&#39;HP_Accounts&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -DriverName  <span style="color:#e6db74">&#39;HP LaserJet 400 M401&#39;</span>
+</span></span></code></pre></div><p><code>PrinterName</code> becomes the display name in the user&rsquo;s printer list. <code>DriverName</code> is required for IP destinations — the function validates this immediately and throws a clear error if it is missing rather than failing silently mid-run.</p>
+<h3 id="adding-a-unc-printer-to-all-users">Adding a UNC printer to all users</h3>
+<p>UNC printers do not need a driver name. Windows pulls the driver from the print server when the user next logs on.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;\\PrintServer02\Canon_Reception&#39;</span>
+</span></span></code></pre></div><h3 id="targeting-a-single-user">Targeting a single user</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># By username</span>
+</span></span><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;10.30.1.55&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -PrinterName <span style="color:#e6db74">&#39;HP_Accounts&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -DriverName  <span style="color:#e6db74">&#39;HP LaserJet 400 M401&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -TargetUser  <span style="color:#e6db74">&#39;jdoe&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># By SID</span>
+</span></span><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;\\PrintServer02\Finance_HP&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -TargetUser  <span style="color:#e6db74">&#39;S-1-5-21-3456789012-1234567890-123456789-1001&#39;</span>
+</span></span></code></pre></div><h3 id="setting-the-new-printer-as-default">Setting the new printer as default</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;10.30.1.55&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -PrinterName <span style="color:#e6db74">&#39;HP_Accounts&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -DriverName  <span style="color:#e6db74">&#39;HP LaserJet 400 M401&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -TargetUser  <span style="color:#e6db74">&#39;jdoe&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -SetAsDefault
+</span></span></code></pre></div><p>This writes to <code>HKU\{SID}\...\Windows → Device</code> — the same key Windows itself updates when a user changes their default printer.</p>
+<h3 id="idempotency">Idempotency</h3>
+<p>Running the function multiple times against the same machine is safe. If the printer is already in a user&rsquo;s profile the function returns <code>Action = 'AlreadyExists'</code> and moves on without writing anything:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$results = Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;\\PrintServer02\Canon_Reception&#39;</span>
+</span></span><span style="display:flex;"><span>$results | Where-Object { $_.Action <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;AlreadyExists&#39;</span> }
+</span></span></code></pre></div><h3 id="dry-run">Dry run</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Add-VBUserPrinter -PrinterPath <span style="color:#e6db74">&#39;10.30.1.55&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -PrinterName <span style="color:#e6db74">&#39;HP_Accounts&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -DriverName  <span style="color:#e6db74">&#39;HP LaserJet 400 M401&#39;</span> `
+</span></span><span style="display:flex;"><span>                  -WhatIf
+</span></span></code></pre></div><hr>
+<h2 id="the-registry-worker--update-vbuserprinterregistry">The Registry Worker — <code>Update-VBUserPrinterRegistry</code></h2>
+<p>This is the private function that does the actual registry work inside <code>Set-VBUserPrinterMigration</code>. You do not call it directly — it is an internal component of the module. It is worth understanding what it does because it is where the four migration types are actually handled.</p>
+<p>For each mapping rule it:</p>
+<ol>
+<li>Normalises paths (forward slashes to backslashes, trims trailing slashes, lowercases for comparison)</li>
+<li>Converts UNC paths to connection key names: <code>\\server\printer</code> → <code>,,server,printer</code></li>
+<li>Searches for the old printer — UNC via the <code>Connections</code> subkey, IP via the port value in the <code>Devices</code> key</li>
+<li>Checks idempotency — if the new printer already exists and the old one is already gone, returns <code>AlreadyMigrated</code> and skips</li>
+<li>Reads the old <code>Devices</code> value to carry it forward for UNC→UNC migrations (preserves the assigned port)</li>
+<li>Adds the new <code>Connections</code> key and/or <code>Devices</code>/<code>PrinterPorts</code> entries</li>
+<li>Removes the old entries</li>
+<li>Updates the <code>Device</code> value in the <code>Windows</code> key if the migrated printer was the user&rsquo;s default</li>
+</ol>
+<p>The separation between <code>Set-VBUserPrinterMigration</code> (orchestration) and <code>Update-VBUserPrinterRegistry</code> (registry work) means the registry logic is isolated, testable, and reusable by other functions if needed — without exposing unsafe entry points.</p>
+<hr>
+<h2 id="the-supporting-functions">The Supporting Functions</h2>
+<p>These existed in the module before the printer migration work and are called by both new functions.</p>
+<h3 id="get-vbuserprofile"><code>Get-VBUserProfile</code></h3>
+<p>Enumerates all non-system user profiles via <code>Win32_UserProfile</code>. The <code>Loaded</code> property tells you whether each profile&rsquo;s hive is currently active in <code>HKEY_USERS</code> — i.e. whether the user is currently logged in.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Get-VBUserProfile | Select-Object Username, SID, Loaded, ProfilePath
+</span></span></code></pre></div><h3 id="mount-vbuserhive"><code>Mount-VBUserHive</code></h3>
+<p>Mounts a user&rsquo;s <code>NTUSER.DAT</code> to <code>HKU\{SID}</code> if it is not already loaded. Accepts <code>SID</code> or <code>Username</code>. Returns <code>HiveMounted</code> (did we mount it) and <code>AlreadyLoaded</code> (was it already there).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$mount = Mount-VBUserHive -Username <span style="color:#e6db74">&#39;jdoe&#39;</span>
+</span></span></code></pre></div><h3 id="dismount-vbuserhive"><code>Dismount-VBUserHive</code></h3>
+<p>Unloads a hive mounted by <code>Mount-VBUserHive</code>. Pipeline-compatible with the mount result. Critically: it only unloads hives where <code>HiveMounted = $true</code> — if the hive was already loaded before we started (active user session), it is left alone.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># In production code, always use finally to guarantee dismount</span>
+</span></span><span style="display:flex;"><span>$mount = Mount-VBUserHive -Username <span style="color:#e6db74">&#39;jdoe&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ... registry work ...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span> {
+</span></span><span style="display:flex;"><span>    $mount | Dismount-VBUserHive | Out-Null
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>A GC flush and one-second sleep run before <code>reg.exe unload</code> — this releases any stale PowerShell handles to registry keys that would otherwise cause an &ldquo;Access is denied&rdquo; error.</p>
+<h3 id="get-vbuserprintermappings"><code>Get-VBUserPrinterMappings</code></h3>
+<p>Audits current printer mappings for all users. Used by <code>Set-VBUserPrinterMigration</code> for the optional pre-migration backup snapshot. Also useful standalone for a before/after comparison:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Before migration</span>
+</span></span><span style="display:flex;"><span>Get-VBUserPrinterMappings -TableOutput | Export-Csv <span style="color:#e6db74">&#39;Before.csv&#39;</span> -NoTypeInformation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Run migration...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># After migration</span>
+</span></span><span style="display:flex;"><span>Get-VBUserPrinterMappings -TableOutput | Export-Csv <span style="color:#e6db74">&#39;After.csv&#39;</span> -NoTypeInformation
+</span></span></code></pre></div><hr>
+<h2 id="important-notes">Important Notes</h2>
+<p><strong>Drivers for IP printers must already be installed.</strong> The functions do not install drivers. Run <code>Get-PrinterDriver | Select-Object Name</code> on the target machine to confirm the driver is present before adding an IP printer.</p>
+<p><strong>Machine-level port and printer creation requires local execution.</strong> <code>Add-PrinterPort</code> and <code>Add-Printer</code> do not work reliably over WinRM on PS 5.1. Both functions throw a terminating error if you try to target a remote machine for an IP printer operation. The intended deployment model is RMM pushing the script to run locally on each workstation.</p>
+<p><strong>A user logoff/logon may be required for changes to take full effect.</strong> The registry writes happen immediately, but active Windows sessions cache some printer state. The changes will be fully applied at the next logon.</p>
+<p><strong>Always run <code>-WhatIf</code> first.</strong> Both functions support <code>-WhatIf</code> via <code>SupportsShouldProcess</code>. There is no cost to a dry run and it confirms exactly which users and which printers will be affected before anything is changed.</p>
+<hr>
+<h2 id="module-version">Module Version</h2>
+<p>All functions are part of <code>VB.WorkstationReport</code> v1.8.0.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Verify module version</span>
+</span></span><span style="display:flex;"><span>Get-Module VB.WorkstationReport | Select-Object Name, Version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># List all printer management functions</span>
+</span></span><span style="display:flex;"><span>Get-Command -Module VB.WorkstationReport | Where-Object { $_.Name <span style="color:#f92672">-like</span> <span style="color:#e6db74">&#39;*Printer*&#39;</span> <span style="color:#f92672">-or</span> $_.Name <span style="color:#f92672">-like</span> <span style="color:#e6db74">&#39;*Hive*&#39;</span> }
+</span></span></code></pre></div>
+        </div>
+
+        
+        <div class="row ps-3 pe-3">
+        
+          <div class="col-md-6 share-buttons">
+          
+            <strong>Share on:</strong>
+            
+            <a class="btn icon-button bg-facebook" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f" target="_blank">
+              <i class="fab fa-facebook"></i>
+            </a>
+            
+            
+                <a class="btn icon-button bg-twitter" href="https://twitter.com/share?url=http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f&text=Managing%20Printer%20Mappings%20Across%20User%20Profiles%20with%20PowerShell&via=Vibhu%27s%20Blog" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+            
+            
+                <a  class="btn icon-button bg-reddit" href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f&title=Managing%20Printer%20Mappings%20Across%20User%20Profiles%20with%20PowerShell" target="_blank">
+                  <i class="fab fa-reddit"></i>
+                </a>
+            
+            
+            
+            
+                <a class="btn icon-button bg-linkedin" href="https://www.linkedin.com/shareArticle?url=http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f&title=Managing%20Printer%20Mappings%20Across%20User%20Profiles%20with%20PowerShell" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+            
+            
+             
+            
+                 <a class="btn icon-button bg-whatsapp" href="https://api.whatsapp.com/send?text=Managing%20Printer%20Mappings%20Across%20User%20Profiles%20with%20PowerShell http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f" target="_blank">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+            
+            
+                <a class="btn icon-button" href="mailto:?subject=Managing%20Printer%20Mappings%20Across%20User%20Profiles%20with%20PowerShell&body=http%3a%2f%2flocalhost%3a1314%2fposts%2fprinter-mapping-powershell-vb-workstationreport%2f" target="_blank">
+                  <i class="fas fa-envelope-open-text"></i>
+                </a>
+            
+          
+          </div>
+
+        
+        
+          
+            
+          
+          <div class="col-md-6 btn-improve-page">
+             
+               <a href="https://github.com/Vibhu2/blog/edit/main/content/posts%5cprinter-mapping-powershell-vb-workstationreport%5cindex.md" title="Improve this page" target="_blank" rel="noopener">
+            
+                <i class="fas fa-code-branch"></i>
+                Improve this page
+              </a>
+          </div>
+        
+        </div>
+
+
+
+      
+      <hr />
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem-with-printer-mappings-at-scale">The Problem With Printer Mappings at Scale</a></li>
+    <li><a href="#how-windows-stores-printer-mappings">How Windows Stores Printer Mappings</a></li>
+    <li><a href="#the-function-chain">The Function Chain</a></li>
+    <li><a href="#migrating-existing-printer-mappings--set-vbuserprintermigration">Migrating Existing Printer Mappings — <code>Set-VBUserPrinterMigration</code></a>
+      <ul>
+        <li><a href="#supported-migration-types">Supported migration types</a></li>
+        <li><a href="#input-the-mapping-csv">Input: the mapping CSV</a></li>
+        <li><a href="#running-the-migration">Running the migration</a></li>
+        <li><a href="#what-the-output-looks-like">What the output looks like</a></li>
+        <li><a href="#rmm-deployment-pattern">RMM deployment pattern</a></li>
+      </ul>
+    </li>
+    <li><a href="#adding-new-printers-to-user-profiles--add-vbuserprinter">Adding New Printers to User Profiles — <code>Add-VBUserPrinter</code></a>
+      <ul>
+        <li><a href="#adding-an-ip-printer-to-all-users">Adding an IP printer to all users</a></li>
+        <li><a href="#adding-a-unc-printer-to-all-users">Adding a UNC printer to all users</a></li>
+        <li><a href="#targeting-a-single-user">Targeting a single user</a></li>
+        <li><a href="#setting-the-new-printer-as-default">Setting the new printer as default</a></li>
+        <li><a href="#idempotency">Idempotency</a></li>
+        <li><a href="#dry-run">Dry run</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-registry-worker--update-vbuserprinterregistry">The Registry Worker — <code>Update-VBUserPrinterRegistry</code></a></li>
+    <li><a href="#the-supporting-functions">The Supporting Functions</a>
+      <ul>
+        <li><a href="#get-vbuserprofile"><code>Get-VBUserProfile</code></a></li>
+        <li><a href="#mount-vbuserhive"><code>Mount-VBUserHive</code></a></li>
+        <li><a href="#dismount-vbuserhive"><code>Dismount-VBUserHive</code></a></li>
+        <li><a href="#get-vbuserprintermappings"><code>Get-VBUserPrinterMappings</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#important-notes">Important Notes</a></li>
+    <li><a href="#module-version">Module Version</a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+    
+  </section>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#skills">Skills</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#experiences">Experiences</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#education">Education</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#projects">Projects</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#publications">Articles</a>
+                </li>
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#recent-posts">Recent Posts</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="http://localhost:1314/#accomplishments">Accomplishments</a>
+                </li>
+              
+              
+            
+              
+                
+                    <li class="nav-item">
+                      <a class="smooth-scroll" href="https://github.com/Vibhu2">GitHub</a>
+                    </li>
+                
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:vibhu@pwsh.in target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>vibhu@pwsh.in</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/Vibhu2 target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>Vibhu2</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://www.linkedin.com/in/vibhu-bhatnagar-02622798 target="_blank" rel="noopener">
+                  <span><i class="fab fa-linkedin"></i></span> <span>Vibhu Bhatnagar</span>
+                </a></li>
+              
+            
+              
+                <li><a href=tel:&#43;91%208979989222 target="_blank" rel="noopener">
+                  <span><i class="fas fa-phone-alt"></i></span> <span>&#43;91 8979989222</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    <hr />
+    <div class="container">
+      <p id="disclaimer"><strong>Liability Notice:</strong> The views and opinions expressed on this blog are my own and do not represent those of my employer. All content is provided for informational purposes only.</p>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_be7279b2506ad3f1.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2026 Vibhu Bhatnagar. All rights reserved.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.2b0f415d05385a2fc64da4bb5a1ab519f0c941f8c63188830d9492d77815a275.js" integrity="sha256-Kw9BXQU4Wi/GTaS7Whq1GfDJQfjGMYiDDZSS13gVonU=" defer></script>
+<script>
+window.VBBlogConfig = {
+  isHome:  false ,
+  isPost: true
+};
+</script>
+<script src="/js/dynamic-bg.js" defer></script>
+
+
+    
+     
+
+    
+    
+
+</body>
+</html>

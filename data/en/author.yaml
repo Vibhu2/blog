@@ -1,6 +1,7 @@
 name: "Vibhu Bhatnagar"
 nickname: "Vibhu"
 greeting: "Hi, I am"
+subtitle: "Professional with Wisdom and Sincerity at Heart"
 image: "images/author/vibhu.png"  # must exist in assets/images/author/
 contactInfo:
   email: "vibhu@pwsh.in"

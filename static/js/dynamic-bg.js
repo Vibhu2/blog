@@ -1,5 +1,5 @@
 /**
- * dynamic-bg.js — v2.3
+ * dynamic-bg.js — v2.4
  * Homepage     : Curated Picsum IDs — rotates daily, same image all day
  * Posts        : Picsum seed-based image — same photo every visit per post (#hero-area)
  * Post listing : Picsum seed-based thumbnails (img.card-img-top) per post slug
@@ -79,16 +79,21 @@
     }
   }
 
-  /* ── Post listing page — replace card thumbnail images ───────────────── */
-  /* Detected via body class "kind-section" (Hugo sets this on list pages)  */
-  if (document.body.classList.contains('kind-section')) {
-    var cards = document.querySelectorAll('img.card-img-top');
-    cards.forEach(function (img) {
-      var link     = img.closest('a.post-card-link');
-      var href     = link ? link.getAttribute('href') : '';
-      var cardSlug = href.replace(/\/+$/, '').split('/').pop() || 'post';
-      img.src = PICSUM + '/seed/' + cardSlug + '/800/450';
-    });
+  /* ── Post card thumbnails — listing page (/posts/) and homepage recent-posts */
+  var isListing = document.body.classList.contains('kind-section');
+  if (isListing || cfg.isHome) {
+    var cardScope = isListing
+      ? document
+      : document.getElementById('recent-post-cards');
+    if (cardScope) {
+      var cards = cardScope.querySelectorAll('img.card-img-top');
+      cards.forEach(function (img) {
+        var link     = img.closest('a.post-card-link');
+        var href     = link ? link.getAttribute('href') : '';
+        var cardSlug = href.replace(/\/+$/, '').split('/').pop() || 'post';
+        img.src = PICSUM + '/seed/' + cardSlug + '/800/450';
+      });
+    }
   }
 
 }());

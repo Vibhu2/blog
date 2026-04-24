@@ -51,15 +51,24 @@
         64,   /* night cityscape      */
         103,  /* atmospheric nature   */
         110,  /* architectural detail */
-        127,  /* dark minimal         */
         143,  /* misty landscape      */
-        164,  /* dark moody           */
         177,  /* urban geometry       */
         200,  /* abstract dark        */
-        240,  /* geometric structure  */
         338,  /* dark corridor        */
         381,  /* industrial           */
-        447   /* night architecture   */
+        447,  /* night architecture   */
+        237,  /* Black Dog            */
+        249,  /* London Bridge night lights */
+        277,  /* Farm Land            */
+        301,  /* Autumn               */
+        317,  /* Desert Bridge        */
+        324,  /* Jungle               */
+        353,  /* Forest               */
+        393,  /* Dark Sand and hill   */
+        443,  /* Winter hill          */
+        478,  /* Train track          */
+        681,  /* Night sky            */
+        704   /* Bamboo forest        */
       ];
       var dayIndex = Math.floor(Math.random() * curatedIds.length);
       var homeUrl  = PICSUM + '/id/' + curatedIds[dayIndex] + '/1920/1080';

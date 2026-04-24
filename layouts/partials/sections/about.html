@@ -1,0 +1,99 @@
+{{/*
+  layouts/partials/sections/about.html — v1.0 — 2026-04-24
+  Override of Toha's about section partial.
+  Change: renders .tagline field (from about.yaml) as a styled callout
+          between the author name and designation. Everything else is
+          identical to Toha's original template at commit 84093514293e.
+*/}}
+
+{{ $sectionID := replace (lower .section.name) " " "-" }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+{{ $author := site.Data.author }}
+{{ if (index site.Data site.Language.Lang).author }}
+  {{ $author = (index site.Data site.Language.Lang).author }}
+{{ end }}
+
+<div class="container anchor p-lg-5 about-section" id="{{ $sectionID }}">
+  <div class="row pt-sm-2 pt-md-4 align-self-center">
+
+    {{ if or (.softSkills) (.badges) }}
+    <div class="col-sm-6">
+    {{ else }}
+    <div class="col-sm-12">
+    {{ end }}
+
+      {{/* Author name */}}
+      <h3 class="p-1">{{ $author.name }}</h3>
+
+      {{/* ── PWSH tagline — rendered directly below the name ─────────── */}}
+      {{ with .tagline }}
+      <p class="pwsh-tagline p-1">
+        <strong>PWSH</strong> &mdash; <em>{{ . }}</em>
+      </p>
+      {{ end }}
+
+      {{/* Designation + company */}}
+      {{ if .designation }}
+      <h5 class="p-1">
+        {{ .designation }}
+        {{ if .company }}
+        {{ i18n "at" }} <a href="{{ .company.url }}" title="{{ .company.name }}" target="_blank" rel="noopener">{{ .company.name }}</a>
+        {{ end }}
+      </h5>
+      {{ end }}
+
+      {{/* Summary paragraph */}}
+      <p class="p-1 text-justify">
+        {{ .summary | markdownify }}
+      </p>
+
+      {{/* Social links */}}
+      <div class="text-container ms-auto">
+        <ul class="social-link d-flex">
+          {{ range .socialLinks }}
+          <li>
+            {{ if eq .name "Email" }}
+              <a href="mailto:{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
+            {{ else if eq .name (i18n "phone") }}
+              <a href="tel:{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
+            {{ else }}
+              <a href="{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
+            {{ end }}
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+
+      {{/* Resume button */}}
+      {{ if .resume }}
+      <a href="{{ .resume | relURL }}" title="{{ i18n "resume" }}" target="#">
+        <button class="btn btn-dark">{{ i18n "resume" }}</button>
+      </a>
+      {{ end }}
+
+      {{/* Resource links */}}
+      {{ range .resourceLinks }}
+      <a href="{{ .url | relURL }}" title="{{ .title }}" target="#">
+        <button class="btn btn-dark">{{ .title }}</button>
+      </a>
+      {{ end }}
+
+    </div>
+
+    {{/* Badges + soft skills */}}
+    <div class="col-sm-6 pt-5 ps-md-4 ps-sm-3 pt-sm-0">
+      <div class="row">
+        {{ range .badges }}
+          {{ partial "misc/badge.html" . }}
+        {{ end }}
+        {{ range .softSkills }}
+          {{ partial "misc/soft-skills.html" . }}
+        {{ end }}
+      </div>
+    </div>
+
+  </div>
+</div>

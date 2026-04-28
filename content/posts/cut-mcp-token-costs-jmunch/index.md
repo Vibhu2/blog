@@ -1,7 +1,7 @@
 ---
 title: "Cut MCP Token Costs 88% with jmunch-mcp"
 date: 2026-04-24T23:36:10+05:30
-draft: true
+draft: False
 description: "jmunch-mcp is a transparent proxy that intercepts fat MCP payloads and replaces them with handles your agent queries surgically — saving up to 98% on tokens."
 tags: ["Automation", "Windows", "AI Tools", "MCP"]
 categories: ["Automation"]

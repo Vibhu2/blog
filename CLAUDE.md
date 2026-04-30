@@ -9,53 +9,73 @@ Personal blog and portfolio site for Vibhu Bhatnagar (pwsh.in), built with **Hug
 ## Development Commands
 
 ```bash
-# Install dependencies (run after cloning or updating theme)
-hugo mod tidy && npm install
+# Full install (run after cloning or after theme update)
+mise run install          # hugo mod tidy + hugo mod npm pack + npm install
 
-# Local dev server with live reload
-hugo server -w                     # http://localhost:1313
+# Local dev server with live reload — http://localhost:1313
+mise run server           # or: hugo server -w
 
 # Production build
-hugo --minify --gc
+mise run build            # or: hugo --minify --gc
 
 # Theme management
-hugo mod get -u                    # Update theme to latest release
-mise run update                    # mise shorthand for theme update
+mise run update           # update theme to latest release (hugo mod get -u)
+mise run update-to-main   # update theme to main branch HEAD
+mise run fix-security     # npm audit fix --force
 ```
 
-The `mise.toml` file defines all task shortcuts (`mise run build`, `mise run server`, etc.). Hugo requires the "Extended" variant for SCSS compilation.
+All task shortcuts are defined in `mise.toml`. Hugo **must** be the Extended variant (required for SCSS compilation).
+
+Full install sequence after cloning: `hugo mod tidy && hugo mod npm pack && npm install`
 
 ## Architecture
 
-### Content
+### Layout Override System
 
-- `content/posts/` — Blog articles. Each post is a directory with `index.md` + optional images.
-- `content/notes/powershell/` — Knowledge base organized by topic (basics, active-directory, networking, etc.).
-- Frontmatter fields used: `title`, `date`, `draft`, `description`, `tags`, `hero` (background image path).
+Hugo merges `layouts/` on top of the theme — any file here shadows its theme counterpart at the same relative path. Current overrides:
+
+| File | What it does |
+|------|-------------|
+| `layouts/partials/scripts.html` | Injects `window.VBBlogConfig` then loads `dynamic-bg.js` after Toha's script bundle |
+| `layouts/partials/extend-head.html` | Canonical URL, Open Graph, Twitter Card, JSON-LD (WebSite + TechArticle) |
+| `layouts/partials/sections/about.html` | Renders `.tagline` from `about.yaml` as a styled callout between author name and designation |
+| `layouts/posts/list.html` | Replaces Toha's sidebar with a dynamic list built from `site.RegularPages` filtered to the posts section |
+| `layouts/robots.txt` | Custom robots file |
+
+### Dynamic Backgrounds (`static/js/dynamic-bg.js`)
+
+Reads `window.VBBlogConfig` (set by `scripts.html`) to determine page context, then applies Picsum Photos images with no API key needed:
+
+- **Homepage** — random pick from a curated list of 25 Picsum IDs → `#homePageBackgroundImageDivStyled`
+- **Post pages** — seed derived from URL slug for a consistent per-post image → `#hero-area`
+- **Card thumbnails** (listing/tag/taxonomy pages) — slug-seeded thumbnails replacing `img.card-img-top` src
+
+The curated ID list for homepage rotation lives in `dynamic-bg.js`. A post's `hero` frontmatter field bypasses the dynamic background entirely.
 
 ### Portfolio Data
 
-All portfolio/homepage sections are driven by YAML files in `data/en/sections/`:
-- `experiences.yaml`, `skills.yaml`, `projects.yaml` — primary career data
-- `about.yaml`, `education.yaml`, `achievements.yaml`, `accomplishments.yaml` — supporting sections
-- `author.yaml`, `site.yaml` — global author and site metadata
+All homepage sections are data-driven from `data/en/sections/`:
+- `experiences.yaml`, `skills.yaml`, `projects.yaml` — primary career sections
+- `about.yaml` — designation, social links, tagline (rendered by the custom `about.html` partial)
+- `education.yaml`, `achievements.yaml`, `accomplishments.yaml`, `publications.yaml` — supporting sections
+- `author.yaml`, `site.yaml` — global author metadata and site copyright/OG config
 
-### Theme Customization
+### Content Structure
 
-The Toha theme is pulled via Go modules (`go.mod`). Overrides live in:
-- `layouts/partials/scripts.html` — injects `VBBlogConfig` global and loads `dynamic-bg.js`
-- `static/js/dynamic-bg.js` — custom dynamic background logic (daily-rotating Picsum photos, seed-based per-post images)
+- `content/posts/` — each post is a directory (`post-slug/index.md` + optional images)
+- `content/notes/powershell/` — knowledge-base pages by topic
+- Post frontmatter: `title`, `date`, `draft`, `description`, `tags`, `categories`, `hero` (optional image path override)
 
-Hugo merges `layouts/` on top of the theme, so any file placed here overrides its theme counterpart at the same relative path.
+### Theme & Dependencies
+
+- Theme pulled via Go modules (`go.mod`) — pinned to a specific Toha v4 commit
+- To develop against a local theme clone, uncomment the `replace` directive in `go.mod`
+- npm packages are declared in `package.json` and installed via `hugo mod npm pack` + `npm install` (Hugo mounts `node_modules` into the build)
 
 ### Deployment
 
-GitHub Actions (`.github/workflows/deploy.yml`) builds on push to `main` and deploys to the `gh-pages` branch. The live site is served from that branch at `pwsh.in` (CNAME in `static/CNAME`).
-
-## Dynamic Backgrounds
-
-Posts get a consistent background derived from their slug (seed-based), homepage rotates daily. See `dynamic-backgrounds.md` for the full implementation notes and the list of curated Picsum image IDs.
+`.github/workflows/deploy.yml` triggers on push to `main`: installs Hugo Extended 0.146.0, runs the full install + build, then pushes the output to the `gh-pages` branch via `peaceiris/actions-gh-pages`. The live domain `pwsh.in` is configured via `static/CNAME`.
 
 ## Notes on Repo State
 
-`Vibhu2/` is an untracked nested Git repository (a local copy of the GitHub profile repo) that was never added as a submodule. It is safe to ignore; it has no effect on the blog build.
+`Vibhu2/` is an untracked nested Git repository (a local copy of the GitHub profile repo). It is safe to ignore and has no effect on the blog build.

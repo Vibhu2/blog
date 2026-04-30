@@ -202,3 +202,5 @@ Import-Module C:\Path\To\VB.WorkstationReport\VB.WorkstationReport.psd1
 ## Source
 
 The function is part of the `VB.WorkstationReport` module. The embedded C# impersonation logic is adapted from the open-source [RunAsUser module by KelvinTegelaar](https://github.com/KelvinTegelaar/RunAsUser), published under the MIT licence.
+
+{{< post-cta module="VB.WorkstationReport" module_url="https://www.powershellgallery.com/packages/VB.WorkstationReport" >}}

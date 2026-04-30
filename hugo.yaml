@@ -1,12 +1,12 @@
 baseURL: https://pwsh.in/
 
 languageCode: en
-title: "Vibhu's Blog"
+title: "Vibhu Bhatnagar — PowerShell & Infrastructure Engineer"
 
 enableRobotsTXT: true
 disableHugoGeneratorInject: true
 
-description: "Vibhu Bhatnagar — Senior Wintel Administrator, PowerShell automation engineer, and Active Directory specialist with 15+ years in enterprise IT. Technical articles on PowerShell, AD, M365, and infrastructure automation."
+description: "Vibhu Bhatnagar — Senior Infrastructure Engineer with 15+ years in Windows Server, Active Directory, Exchange, PowerShell automation, and Azure. PowerShell module author with 3 modules on PSGallery."
 
 # Use Hugo modules to add theme
 module:
@@ -29,7 +29,7 @@ languages:
   en:
     languageCode: en
     languageName: English
-    title: "Vibhu's Blog"
+    title: "Vibhu Bhatnagar — PowerShell & Infrastructure Engineer"
     weight: 1
 defaultContentLanguage: en
 
@@ -54,7 +54,7 @@ enableEmoji: true
 params:
   background: /images/site/background.jpg
 
-  description: "Vibhu Bhatnagar — Senior Wintel Administrator, PowerShell automation engineer, and Active Directory specialist with 15+ years in enterprise IT. Technical articles on PowerShell, AD, M365, and infrastructure automation."
+  description: "Vibhu Bhatnagar — Senior Infrastructure Engineer with 15+ years in Windows Server, Active Directory, Exchange, PowerShell automation, and Azure. PowerShell module author with 3 modules on PSGallery."
 
   logo:
     main: /images/site/main-logo.png

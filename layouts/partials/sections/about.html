@@ -76,7 +76,8 @@
 
       {{/* Resource links */}}
       {{ range .resourceLinks }}
-      <a href="{{ .url | relURL }}" title="{{ .title }}" target="#">
+      {{ $isExternal := or (strings.HasPrefix .url "http://") (strings.HasPrefix .url "https://") }}
+      <a href="{{ if $isExternal }}{{ .url }}{{ else }}{{ .url | relURL }}{{ end }}" title="{{ .title }}" {{ if $isExternal }}target="_blank" rel="noopener"{{ else }}target="#"{{ end }}>
         <button class="btn btn-dark">{{ .title }}</button>
       </a>
       {{ end }}

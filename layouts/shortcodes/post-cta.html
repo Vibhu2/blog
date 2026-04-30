@@ -1,0 +1,33 @@
+{{/* post-cta shortcode — appended to blog posts */}}
+{{/* Usage: {{< post-cta module="VB.WorkstationReport" module_url="https://..." >}} */}}
+
+{{ $module := .Get "module" }}
+{{ $moduleUrl := .Get "module_url" }}
+
+<div class="post-cta-block mt-5 pt-4 border-top">
+
+{{ if $module }}
+<h5>📦 Related PowerShell Module</h5>
+<p>
+  This post relates to <a href="{{ $moduleUrl | default (printf "https://www.powershellgallery.com/packages/%s" $module) }}" target="_blank" rel="noopener"><strong>{{ $module }}</strong></a> — available on PowerShell Gallery.
+</p>
+<pre><code class="language-powershell">Install-Module -Name {{ $module }} -Repository PSGallery</code></pre>
+{{ end }}
+
+<h5>🤝 Connect with Me</h5>
+<p>
+  Found this useful? I write about PowerShell, Windows infrastructure, and enterprise automation.
+</p>
+<div class="d-flex flex-wrap gap-2 mb-3">
+  <a href="https://www.linkedin.com/in/vibhu-bhatnagar-02622798" target="_blank" rel="noopener" class="btn btn-sm btn-primary">
+    <i class="fab fa-linkedin me-1"></i>Connect on LinkedIn
+  </a>
+  <a href="https://github.com/Vibhu2" target="_blank" rel="noopener" class="btn btn-sm btn-dark">
+    <i class="fab fa-github me-1"></i>Follow on GitHub
+  </a>
+  <a href="/posts/" class="btn btn-sm btn-outline-secondary">
+    <i class="fas fa-book me-1"></i>Browse All Posts
+  </a>
+</div>
+
+</div>

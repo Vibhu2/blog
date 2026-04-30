@@ -1,7 +1,7 @@
 name: "Vibhu Bhatnagar"
 nickname: "Vibhu"
 greeting: "Hi, I am"
-subtitle: "Professional with Wisdom and Sincerity at Heart"
+subtitle: "Senior Infrastructure Engineer · PowerShell Module Author · 15+ Years Windows & Azure"
 image: "images/author/vibhu.png"  # must exist in assets/images/author/
 contactInfo:
   email: "vibhu@pwsh.in"

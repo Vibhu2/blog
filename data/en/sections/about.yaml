@@ -13,7 +13,9 @@ company:
 
 summary: '<p class="pwsh-tagline"><strong>PWSH</strong> &mdash; <em>Professionals with Wisdom and Sincerity at Heart</em></p>
 
-Senior Wintel Administrator with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation &mdash; reducing multi-day manual processes to minutes &mdash; combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.'
+Senior Infrastructure Engineer with 15+ years of hands-on experience specialising in Active Directory architecture, DNS/DHCP infrastructure, and full Exchange Server lifecycle management. Proven track record delivering AD migrations, DNS redesigns, DHCP failover implementations, and diverse migration projects across 150+ managed client environments. Deep expertise in PowerShell automation &mdash; reducing multi-day manual processes to minutes &mdash; combined with strong VMware vSphere/vCenter and Hyper-V virtualisation skills.
+
+<p class="mt-3"><span class="badge bg-primary me-2">📦 3 Modules Published</span><span class="badge bg-secondary">228+ Downloads on PowerShell Gallery</span></p>'
 
 socialLinks:
 - name: Email
@@ -26,6 +28,12 @@ socialLinks:
 
 - name: LinkedIn
   icon: "fab fa-linkedin"
+  url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"
+
+resourceLinks:
+- title: "Hire Me / Available for Roles"
+  url: "/hire"
+- title: "View LinkedIn Profile"
   url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"
 
 badges:

@@ -21,25 +21,29 @@ projects:
 - name: Azure AD Sync Monitor
   role: Author
   timeline: "2022 - Present"
-  summary: PowerShell automation that monitors Azure AD Connect sync status across 155+ MSP clients via the partner portal. Auto-triggers forced sync when threshold is exceeded and reports failures — eliminated daily manual checks entirely.
+  url: "https://github.com/Vibhu2/VBPowershell"
+  summary: "PowerShell automation monitoring Azure AD Connect sync across 155+ MSP clients. Auto-triggers forced sync when threshold is exceeded and reports failures — eliminated daily manual checks entirely."
   tags: ["powershell", "azure"]
 
 - name: ESXi Reporting Automation
   role: Author
   timeline: "2021 - Present"
-  summary: Automated ESXi host inventory and documentation generation across client environments. Reduced monthly reporting time from 10 days to under 1 hour by pulling host data via PowerCLI and generating structured reports automatically.
+  url: "https://github.com/Vibhu2/VBPowershell"
+  summary: "Automated ESXi host inventory and documentation generation across client environments. Reduced monthly reporting from 10 days → under 1 hour by pulling host data via PowerCLI and generating structured reports."
   tags: ["powershell", "infrastructure"]
 
 - name: Workstation Profile Scanner
   role: Author
   timeline: "2020 - Present"
-  summary: Enumerates all user profiles, mapped printers, and default printer settings across network machines. Critical input for 22+ server migration projects — eliminated weeks of manual pre-migration discovery work.
+  url: "https://www.powershellgallery.com/packages/VB.WorkstationReport"
+  summary: "Enumerates all user profiles, mapped printers, and default printer settings across network machines. Critical input for 22+ server migration projects — eliminated weeks of manual pre-migration discovery work."
   tags: ["powershell", "infrastructure"]
 
 - name: Automate/ScreenConnect Reconciliation
   role: Author
   timeline: "2021 - Present"
-  summary: API-driven PowerShell script that detects record discrepancies between ConnectWise Automate and ScreenConnect platforms, with automated service restart for affected endpoints.
+  url: "https://github.com/Vibhu2/VBPowershell"
+  summary: "API-driven PowerShell script detecting record discrepancies between ConnectWise Automate and ScreenConnect, with automated service restart for affected endpoints — saves ~2 hours per incident response."
   tags: ["powershell", "infrastructure"]
 
 - name: VB.WorkstationReport

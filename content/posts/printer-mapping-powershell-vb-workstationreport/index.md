@@ -379,3 +379,5 @@ Get-Module VB.WorkstationReport | Select-Object Name, Version
 # List all printer management functions
 Get-Command -Module VB.WorkstationReport | Where-Object { $_.Name -like '*Printer*' -or $_.Name -like '*Hive*' }
 ```
+
+{{< post-cta module="VB.WorkstationReport" module_url="https://www.powershellgallery.com/packages/VB.WorkstationReport" >}}

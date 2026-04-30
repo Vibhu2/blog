@@ -1,0 +1,90 @@
+name: Update PSGallery Stats
+
+# Runs daily at 06:00 IST (00:30 UTC) — away from midnight to keep site stable.
+# Also triggerable manually from the Actions tab.
+on:
+  schedule:
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch PSGallery stats
+        shell: pwsh
+        run: |
+          $modules = @(
+            "VB.WorkstationReport",
+            "VB.NextCloud",
+            "VB.ServerInventory"
+          )
+
+          $descriptions = @{
+            "VB.WorkstationReport" = "End-to-end workstation auditing — user profiles, printer mappings, folder redirections, OneDrive backup status, and network interfaces."
+            "VB.NextCloud"         = "WebDAV utilities for Nextcloud from PowerShell — single-file upload, batch orchestration with auto folder creation, and directory listing."
+            "VB.ServerInventory"   = "34 cmdlets across 10 categories for comprehensive Windows Server auditing — AD health, GPO, security, DHCP/DNS, RDS, and more."
+          }
+
+          $totalDownloads = 0
+          $moduleLines = @()
+          $today = (Get-Date -Format "yyyy-MM-dd")
+
+          foreach ($name in $modules) {
+            try {
+              $uri  = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='$name'&`$orderby=Version desc&`$top=1&`$select=Id,Version,DownloadCount"
+              $resp = Invoke-RestMethod -Uri $uri -ErrorAction Stop
+              # NuGet OData — entry may be array or single object
+              $entry     = if ($resp.entry) { $resp.entry } else { $resp }
+              $entry     = if ($entry -is [array]) { $entry[0] } else { $entry }
+              $version   = $entry.properties.Version
+              $downloads = [int]$entry.properties.DownloadCount.'#text'
+            } catch {
+              Write-Warning "Failed to fetch $name — $_"
+              $version   = ""
+              $downloads = 0
+            }
+
+            $totalDownloads += $downloads
+            $desc = $descriptions[$name]
+            $url  = "https://www.powershellgallery.com/packages/$name"
+
+            $moduleLines += "- name: $name"
+            $moduleLines += "  url: $url"
+            $moduleLines += "  description: `"$desc`""
+            $moduleLines += "  downloads: $downloads"
+            $moduleLines += "  version: `"$version`""
+            $moduleLines += ""
+          }
+
+          $yaml = @"
+# PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
+# Do not edit manually — changes will be overwritten on next scheduled run.
+# Last updated: $today
+
+modules:
+$($moduleLines -join "`n")
+total_downloads: $totalDownloads
+total_modules: $($modules.Count)
+last_updated: "$today"
+"@
+
+          $yaml | Set-Content -Path "data/psgallery.yaml" -Encoding UTF8
+          Write-Output "PSGallery stats updated — total downloads: $totalDownloads"
+
+      - name: Commit updated stats
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/psgallery.yaml
+          # Only commit if the file actually changed
+          git diff --staged --quiet || git commit -m "chore: update PSGallery stats [$(date -u +%Y-%m-%d)]"
+          git push

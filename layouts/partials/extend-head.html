@@ -88,13 +88,25 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "{{ .Site.Title }}",
+  "@type": "Person",
+  "name": "Vibhu Bhatnagar",
   "url": "{{ .Site.BaseURL }}",
+  "image": "{{ .Site.BaseURL }}images/author/vibhu.png",
+  "jobTitle": "Senior Infrastructure Engineer",
   "description": "{{ $desc }}",
-  "author": {
-    "@type": "Person",
-    "name": "Vibhu Bhatnagar",
+  "email": "vibhu@pwsh.in",
+  "sameAs": [
+    "https://www.linkedin.com/in/vibhu-bhatnagar-02622798",
+    "https://github.com/Vibhu2",
+    "https://www.powershellgallery.com/profiles/Vibhu2"
+  ],
+  "knowsAbout": [
+    "PowerShell", "Active Directory", "Windows Server", "Exchange Server",
+    "Azure", "DNS", "DHCP", "VMware vSphere", "Hyper-V", "Infrastructure Automation"
+  ],
+  "mainEntityOfPage": {
+    "@type": "WebSite",
+    "name": "{{ .Site.Title }}",
     "url": "{{ .Site.BaseURL }}"
   }
 }

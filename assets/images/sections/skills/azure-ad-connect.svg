@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Azure AD Connect: two circles (on-prem AD + Azure cloud) with sync arrows -->
+  <!-- On-prem AD circle -->
+  <circle cx="5.5" cy="12" r="4.5" fill="#0078D4"/>
+  <text x="5.5" y="15" text-anchor="middle" font-size="6" font-weight="bold" fill="#fff" font-family="sans-serif">AD</text>
+  <!-- Azure cloud circle -->
+  <circle cx="18.5" cy="12" r="4.5" fill="#50E6FF"/>
+  <text x="18.5" y="15" text-anchor="middle" font-size="5" font-weight="bold" fill="#0078D4" font-family="sans-serif">AZ</text>
+  <!-- Sync arrows between them -->
+  <path d="M10.5 10 L13.5 10" stroke="#0078D4" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M12.5 9 L14 10 L12.5 11" stroke="#0078D4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M13.5 14 L10.5 14" stroke="#0078D4" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M11.5 13 L10 14 L11.5 15" stroke="#0078D4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

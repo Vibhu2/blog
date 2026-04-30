@@ -11,14 +11,18 @@ degrees:
   icon: fa-graduation-cap
   timeframe: 2011-2014
   institution:
-    name: Punjab Technical University, Moradabad
+    name: Punjab Technical University (PTU)
     url: "https://www.ptu.ac.in"
   customSections:
-    - name: Specialisation
-      content: Computer Science
+    - name: "Specialisation: Computer Science"
+      content: ""
 
 - name: Bachelor of Computer Applications (BCA)
   icon: fa-university
-  timeframe: Completed before 2011
+  timeframe: 2008-2011
   institution:
-    name: India
+    name: Punjab Technical University (PTU)
+    url: "https://www.ptu.ac.in"
+  customSections:
+    - name: "Specialisation: Computer Science"
+      content: ""

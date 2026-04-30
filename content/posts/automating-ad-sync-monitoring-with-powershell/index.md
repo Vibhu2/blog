@@ -184,3 +184,5 @@ The full module including `Get-VBGraphToken` and `Send-VBAlert` is in the
 
 *Have a similar MSP automation challenge? Drop a comment below or reach out on
 [LinkedIn](https://www.linkedin.com/in/vibhu-bhatnagar-02622798).*
+
+{{< post-cta >}}

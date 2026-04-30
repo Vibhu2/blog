@@ -2,17 +2,22 @@ copyright: © 2026 Vibhu Bhatnagar. All rights reserved.
 
 disclaimer: "The views and opinions expressed on this blog are my own and do not represent those of my employer. All content is provided for informational purposes only."
 
-description: "Personal blog and portfolio of Vibhu Bhatnagar — Senior Wintel Administrator specialising in Active Directory, Exchange Server, PowerShell automation, and enterprise IT infrastructure."
+description: "Personal blog and portfolio of Vibhu Bhatnagar — Senior Infrastructure Engineer with 15+ years in Windows Server, Active Directory, Exchange, PowerShell module authoring, and Azure. 3 modules published on PowerShell Gallery."
 
 customMenus:
+- name: Hire Me
+  url: /hire
+  hideFromNavbar: false
+  showOnFooter: false
+
 - name: GitHub
   url: https://github.com/Vibhu2
   hideFromNavbar: false
   showOnFooter: true
 
 openGraph:
-  title: "Vibhu Bhatnagar — Senior Wintel Administrator"
+  title: "Vibhu Bhatnagar — Senior Infrastructure Engineer"
   type: website
-  description: "Personal blog and portfolio of Vibhu Bhatnagar — Active Directory, Exchange, PowerShell automation and enterprise infrastructure."
+  description: "Senior Infrastructure Engineer with 15+ years in Windows Server, AD, Exchange, PowerShell automation and Azure. PowerShell module author — 3 modules on PSGallery."
   image: images/author/vibhu.png
   url: https://pwsh.in/

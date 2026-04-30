@@ -11,24 +11,45 @@ buttons:
   filter: "all"
 - name: Microsoft
   filter: "microsoft"
+- name: Cloud & Azure
+  filter: "azure"
 - name: Scripting
   filter: "scripting"
 - name: Virtualisation
   filter: "virtualisation"
 - name: Security & Backup
   filter: "security"
-- name: Monitoring
+- name: Monitoring & ITSM
   filter: "monitoring"
 - name: Database
   filter: "database"
 
 skills:
+# ── Scripting ────────────────────────────────────────────────────────────────
 - name: PowerShell
   logo: /images/sections/skills/powershell.svg
-  summary: "Expert-level PowerShell automation for AD management, Exchange operations, ESXi reporting, Azure AD sync monitoring, and bulk infrastructure tasks. Author of custom modules reducing multi-day processes to minutes."
+  summary: "Expert-level PowerShell automation for AD management, Exchange operations, ESXi reporting, Azure AD sync monitoring, and bulk infrastructure tasks. Author of 3 PSGallery modules."
   categories: ["scripting", "microsoft"]
   url: "https://docs.microsoft.com/en-us/powershell/"
 
+- name: PowerCLI
+  logo: /images/sections/skills/powercli.svg
+  summary: "VMware PowerCLI for bulk ESXi host inventory, reporting, snapshot management, and automated documentation generation across client environments."
+  categories: ["scripting", "virtualisation"]
+  url: "https://developer.vmware.com/powercli"
+
+- name: Git
+  logo: /images/sections/skills/git.png
+  summary: "Version control for PowerShell modules, scripts, and documentation. GitHub for code management and CI/CD workflows."
+  categories: ["scripting"]
+  url: "https://git-scm.com/"
+
+- name: Python
+  logo: /images/sections/skills/python.svg
+  summary: "Python scripting for IT automation tasks, API integrations, and tooling to complement PowerShell workflows."
+  categories: ["scripting"]
+
+# ── Microsoft & Windows ───────────────────────────────────────────────────────
 - name: Active Directory
   logo: /images/sections/skills/ad.svg
   summary: "Deep expertise across AD DS, Sites & Services, GPO design, FSMO roles, replication troubleshooting, AD migrations, Azure AD Connect, and hybrid identity across 150+ MSP client environments."
@@ -36,7 +57,17 @@ skills:
 
 - name: Windows Server
   logo: /images/sections/skills/windows.svg
-  summary: "Full lifecycle administration of Windows Server 2008 R2 through 2022. In-place and cross-version upgrades, Server Core, WSUS patch management, and server availability automation."
+  summary: "Full lifecycle administration of Windows Server 2008 R2 through 2022. In-place upgrades, Server Core, WSUS patch management, and server availability automation."
+  categories: ["microsoft"]
+
+- name: Group Policy
+  logo: /images/sections/skills/group-policy.svg
+  summary: "GPO design, deployment, and troubleshooting across enterprise and MSP environments — security baselines, software deployment, logon scripts, and policy conflict resolution."
+  categories: ["microsoft"]
+
+- name: WSUS
+  logo: /images/sections/skills/wsus.svg
+  summary: "Windows Server Update Services administration — patch approval workflows, computer group management, synchronisation scheduling, and reporting across multi-site environments."
   categories: ["microsoft"]
 
 - name: DNS & DHCP
@@ -46,59 +77,107 @@ skills:
 
 - name: Exchange Server
   logo: /images/sections/skills/exchange.svg
-  summary: "Design, deployment and administration of Exchange 2010, 2013, 2016, 2019. DAG setup, mailbox management, and 25+ on-prem to M365 migrations."
+  summary: "Design, deployment, and administration of Exchange 2010–2019. DAG setup, mailbox management, and 25+ on-prem to M365 migrations."
   categories: ["microsoft"]
 
-- name: Microsoft 365 & Azure
+# ── Cloud & Azure ─────────────────────────────────────────────────────────────
+- name: Microsoft Azure
   logo: /images/sections/skills/azure.svg
-  summary: "Azure Admin (AZ-104), Azure AD, Azure Virtual Desktop, Intune, Exchange Online, Teams, SharePoint Online. Tenant-to-Tenant migrations and hybrid identity management."
-  categories: ["microsoft"]
+  summary: "Azure Administrator (AZ-104). Core IaaS/PaaS services, Azure Virtual Desktop, resource group management, RBAC, policy, and cost management."
+  categories: ["azure", "microsoft"]
   url: "https://azure.microsoft.com"
 
-- name: VMware vSphere / vCenter
+- name: Azure AD Connect
+  logo: /images/sections/skills/azure-ad-connect.svg
+  summary: "Hybrid identity design, installation, and troubleshooting of Azure AD Connect. Sync rule customisation, password hash sync, pass-through authentication, and seamless SSO."
+  categories: ["azure", "microsoft"]
+
+- name: Hybrid Identity
+  logo: /images/sections/skills/azure-ad-connect.svg
+  summary: "End-to-end hybrid identity architecture — on-prem AD to Azure AD integration, device join strategies (HAADJ/AADJ), conditional access, and MFA rollouts."
+  categories: ["azure", "microsoft"]
+
+- name: Microsoft Intune
+  logo: /images/sections/skills/intune.svg
+  summary: "Intune MDM/MAM for Windows and mobile device management — compliance policies, configuration profiles, app deployment, and Autopilot enrolment."
+  categories: ["azure", "microsoft"]
+
+- name: Exchange Online
+  logo: /images/sections/skills/exchange-online.svg
+  summary: "Exchange Online administration, mail flow rules, anti-spam/anti-phishing policies, shared mailboxes, distribution groups, and tenant-to-tenant migrations."
+  categories: ["azure", "microsoft"]
+
+- name: Microsoft 365
+  logo: /images/sections/skills/m365.svg
+  summary: "M365 tenant administration — licensing, Teams, SharePoint Online, OneDrive, security & compliance centre, and tenant-to-tenant migrations."
+  categories: ["azure", "microsoft"]
+  url: "https://www.microsoft.com/en-us/microsoft-365"
+
+# ── Virtualisation ────────────────────────────────────────────────────────────
+- name: VMware vSphere
   logo: /images/sections/skills/vmware.svg
   summary: "VMware ESXi, vSphere, and vCenter Server — provisioning, snapshots, vMotion, HA/DRS, resource pools, and bulk ESXi host upgrades across client environments."
   categories: ["virtualisation"]
+  url: "https://www.vmware.com/products/vsphere.html"
 
 - name: Hyper-V
-  logo: /images/sections/skills/automation.svg
-  summary: "Hyper-V server management, VM provisioning, P2V/V2V migrations from ESXi to Hyper-V, and disaster recovery planning."
+  logo: /images/sections/skills/hyper-v.svg
+  summary: "Hyper-V server management, VM provisioning, P2V/V2V migrations from ESXi to Hyper-V, live migration, and disaster recovery planning."
   categories: ["virtualisation"]
 
-- name: Datto & Veeam Backup
-  logo: /images/sections/skills/backup.svg
-  summary: "Backup policy design, monitoring, restore testing, and quarterly BCDR exercises across 150+ clients using Datto, Veeam, Acronis, AppAssure, and Backup Exec."
-  categories: ["security"]
-
-- name: Microsoft Defender & Sophos
+# ── Security & Backup ─────────────────────────────────────────────────────────
+- name: Microsoft Defender XDR
   logo: /images/sections/skills/defender.svg
-  summary: "Deployment and management of Microsoft Defender XDR, Sophos Intercept X with EDR, Central Device Encryption, Phish Threat, and SentinelOne."
+  summary: "Deployment and management of Microsoft Defender XDR across endpoints, identities, and cloud workloads — incident investigation, alert triage, and policy hardening."
+  categories: ["security", "microsoft"]
+
+- name: Sophos
+  logo: /images/sections/skills/sophos.svg
+  summary: "Sophos Intercept X with EDR, Central Device Encryption, Phish Threat simulation, and Sophos XG/ZTNA — deployment and ongoing management across MSP client base."
   categories: ["security"]
 
-- name: ConnectWise & PRTG
-  logo: /images/sections/skills/monitor.svg
-  summary: "Advanced ConnectWise Automate scripting, Manage for ticketing and SLA management, and PRTG/SolarWinds for full infrastructure monitoring across MSP environments."
+- name: Veeam
+  logo: /images/sections/skills/veeam.svg
+  summary: "Veeam Backup & Replication — backup job design, repository management, restore testing, and BCDR exercises across on-prem and cloud-hosted workloads."
+  categories: ["security"]
+  url: "https://www.veeam.com/"
+
+- name: Datto
+  logo: /images/sections/skills/datto.svg
+  summary: "Datto BCDR — policy design, backup monitoring, restore and virtual machine spin-up testing, and quarterly DR exercises across 150+ MSP clients."
+  categories: ["security"]
+  url: "https://www.datto.com/"
+
+- name: SonicWALL
+  logo: /images/sections/skills/sonicwall.svg
+  summary: "SonicWALL firewall administration — rule management, VPN configuration (site-to-site and SSL), content filtering, and firmware upgrades across client environments."
+  categories: ["security"]
+
+# ── Monitoring & ITSM ─────────────────────────────────────────────────────────
+- name: ConnectWise Automate
+  logo: /images/sections/skills/connectwise.svg
+  summary: "Advanced Automate scripting, alert management, patch policy creation, and agent health monitoring. Automated remediations reducing ticket volume across the MSP client base."
   categories: ["monitoring"]
 
-- name: Python
-  logo: /images/sections/skills/python.svg
-  summary: "Python scripting for IT automation tasks, API integrations, and tooling to complement PowerShell workflows."
-  categories: ["scripting"]
+- name: ConnectWise Manage
+  logo: /images/sections/skills/connectwise.svg
+  summary: "CW Manage for ticketing, SLA management, time entry, and client reporting. Board configuration, workflow automation, and integration with Automate and BrightGauge."
+  categories: ["monitoring"]
 
-- name: Git & GitHub
-  logo: /images/sections/skills/git.png
-  summary: "Version control for PowerShell modules, scripts, and documentation. GitHub for code management and CI/CD workflows."
-  categories: ["scripting"]
-  url: "https://git-scm.com/"
+- name: PRTG
+  logo: /images/sections/skills/monitor.svg
+  summary: "PRTG Network Monitor — sensor design, alert thresholds, maps, and dashboards for infrastructure visibility across network, server, and application layers."
+  categories: ["monitoring"]
 
+# ── Database ──────────────────────────────────────────────────────────────────
 - name: SQL
   logo: /images/sections/skills/sql.svg
-  summary: "SQL querying and database administration across SQL Server environments — stored procedures, views, reporting queries, and database maintenance tasks in MSP and enterprise contexts."
+  summary: "SQL querying and database administration across SQL Server environments — stored procedures, views, reporting queries, and database maintenance tasks."
   categories: ["database"]
   url: "https://www.microsoft.com/en-us/sql-server"
 
 - name: Linux
   logo: /images/sections/skills/linux.svg
-  summary: "Linux server administration covering RHEL, Ubuntu, and CentOS — bash scripting, service management, cron jobs, user/permission management, and log analysis in hybrid MSP environments."
+  summary: "Linux server administration covering RHEL, Ubuntu, and CentOS — bash scripting, service management, cron jobs, user/permission management, and log analysis."
   categories: ["scripting"]
   url: "https://www.linux.org/"

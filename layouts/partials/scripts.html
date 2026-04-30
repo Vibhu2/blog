@@ -3,7 +3,8 @@
 <script>
 window.VBBlogConfig = {
   isHome: {{ .IsHome }},
-  isPost: {{ eq .Type "posts" | safeJS }}
+  isPost: {{ eq .Type "posts" | safeJS }},
+  isHire: {{ eq .RelPermalink "/hire/" | safeJS }}
 };
 </script>
 <script src="/js/dynamic-bg.js" defer></script>

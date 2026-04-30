@@ -32,7 +32,7 @@ Senior Infrastructure Engineer with 15+ years of hands-on experience designing, 
 | **Virtualisation** | VMware vSphere/vCenter, Hyper-V, ESXi |
 | **Networking** | DNS, DHCP, TCP/IP, VPN, Firewall |
 | **Monitoring & ITSM** | ConnectWise Automate, ScreenConnect, Datto, Nextcloud |
-| **Operating Systems** | Windows Server 2008–2022, Windows 10/11 |
+| **Operating Systems** | Windows Server 2008–2025 |
 
 ---
 
@@ -80,8 +80,18 @@ Delivered AD migrations, DNS redesigns, DHCP failover implementations, Exchange 
 </a>
 </div>
 <div class="col-auto">
-<a href="/files/vibhu-bhatnagar-resume.pdf" target="_blank" class="btn btn-outline-secondary">
+<a href="/files/vibhu-bhatnagar-resume.pdf" target="_blank" class="btn btn-dark">
   <i class="fas fa-file-pdf me-2"></i>Download Resume (PDF)
+</a>
+</div>
+<div class="col-auto">
+<a href="tel:+918979989222" class="btn btn-dark">
+  <i class="fas fa-phone me-2"></i>+91 89799 89222
+</a>
+</div>
+<div class="col-auto">
+<a href="tel:+919456001003" class="btn btn-dark">
+  <i class="fas fa-phone me-2"></i>+91 94560 01003
 </a>
 </div>
 </div>

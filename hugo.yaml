@@ -96,7 +96,10 @@ params:
       enable: false
 
     analytics:
-      enable: false
+      enable: true
+      services:
+        google:
+          id: G-41QNZ86FCD
 
     support:
       enable: false

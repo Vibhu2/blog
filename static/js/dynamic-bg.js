@@ -78,6 +78,14 @@
     }
   }
 
+  /* ── Hire page — fixed seed so it always gets the same background ───── */
+  if (cfg.isHire) {
+    var hireEl = document.getElementById('hero-area');
+    if (hireEl) {
+      applyBg(hireEl, PICSUM + '/seed/hire-vibhu/1920/1080');
+    }
+  }
+
   /* ── Blog post — consistent photo per post, unique across all posts ──── */
   if (cfg.isPost) {
     var postEl = document.getElementById('hero-area');

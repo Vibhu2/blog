@@ -65,7 +65,7 @@ params:
   gitBranch: main
 
   topNavbar:
-    maxVisibleSections: 5
+    maxVisibleSections: 4
 
   features:
     theme:

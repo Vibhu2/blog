@@ -3,7 +3,7 @@ title: "Hire Me — Vibhu Bhatnagar"
 date: 2026-04-30T00:00:00+05:30
 draft: false
 description: "Senior Infrastructure Engineer with 15+ years in Windows Server, Active Directory, Exchange, PowerShell automation and Azure. Available for senior infrastructure and automation roles."
-layout: "hire"
+layout: hire
 ---
 
 <div class="container py-5">
@@ -65,7 +65,7 @@ Delivered AD migrations, DNS redesigns, DHCP failover implementations, Exchange 
 
 <div class="row mt-4 g-3">
 <div class="col-auto">
-<a href="https://www.linkedin.com/in/vibhu-bhatnagar-02622798" target="_blank" rel="noopener" class="btn btn-primary">
+<a href="https://www.linkedin.com/in/vibhu-bhatnagar-02622798" target="_blank" rel="noopener" class="btn" style="background-color:#0A66C2;color:#fff;border-color:#0A66C2;">
   <i class="fab fa-linkedin me-2"></i>View LinkedIn Profile
 </a>
 </div>

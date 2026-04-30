@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Hyper-V: stacked VMs with Microsoft blue -->
+  <rect x="2" y="2" width="20" height="6" rx="1.5" fill="#0078D4"/>
+  <rect x="3.5" y="3.5" width="17" height="3" rx="0.8" fill="#50E6FF" opacity="0.4"/>
+  <circle cx="18.5" cy="5" r="0.8" fill="#fff"/>
+  <rect x="2" y="10" width="20" height="6" rx="1.5" fill="#005BA1"/>
+  <rect x="3.5" y="11.5" width="17" height="3" rx="0.8" fill="#50E6FF" opacity="0.4"/>
+  <circle cx="18.5" cy="13" r="0.8" fill="#fff"/>
+  <rect x="2" y="18" width="20" height="4" rx="1.5" fill="#003366" opacity="0.7"/>
+</svg>

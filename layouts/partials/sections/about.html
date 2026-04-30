@@ -50,6 +50,20 @@
         {{ .summary | markdownify }}
       </p>
 
+      {{/* PSGallery stats — read from data/psgallery.yaml, updated daily by GitHub Actions */}}
+      {{ with site.Data.psgallery }}
+      <p class="p-1">
+        <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
+          <span class="badge me-2" style="background:#012456;color:#fff;font-size:0.85rem;padding:6px 12px;">
+            📦 {{ .total_modules }} Modules on PSGallery
+          </span>
+          <span class="badge" style="background:#0078D4;color:#fff;font-size:0.85rem;padding:6px 12px;">
+            ⬇️ {{ .total_downloads }}+ Downloads
+          </span>
+        </a>
+      </p>
+      {{ end }}
+
       {{/* Social links */}}
       <div class="text-container ms-auto">
         <ul class="social-link d-flex">

@@ -1,0 +1,60 @@
+{{ define "header" }}
+<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Title }}{{ end }}" />
+{{ end }}
+
+{{ define "navbar" }}
+    {{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "sidebar" }}
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="{{ "search" | relLangURL }}">
+          <input type="text" name="keyword" value="" placeholder="{{ i18n "search" }}" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="{{ "/posts/" | relLangURL }}" data-filter="all">{{ i18n "posts" }}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "content" }}
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+
+      {{/* Hero — seed-based Picsum image set inline so it shows immediately without JS */}}
+      <div class="hero-area col-sm-12" id="hero-area"
+           style="background-image: url('https://picsum.photos/seed/hire-vibhu/1920/1080'); background-size: cover; background-position: center;">
+      </div>
+
+      <div class="page-content">
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='{{ partial "helpers/get-author-image.html" . }}' alt="Author Image">
+          <h5 class="author-name">{{ partial "helpers/get-author-name.html" . }}</h5>
+        </div>
+
+        <div class="title">
+          <h1>{{ .Page.Title }}</h1>
+        </div>
+
+        <div class="post-content" id="post-content">
+          {{ .Page.Content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+{{ end }}
+
+{{ define "toc" }}
+  <section class="toc-section" id="toc-section"></section>
+{{ end }}

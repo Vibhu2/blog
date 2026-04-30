@@ -5,6 +5,11 @@ disclaimer: "The views and opinions expressed on this blog are my own and do not
 description: "Personal blog and portfolio of Vibhu Bhatnagar — Senior Infrastructure Engineer with 15+ years in Windows Server, Active Directory, Exchange, PowerShell module authoring, and Azure. 3 modules published on PowerShell Gallery."
 
 customMenus:
+- name: Hire Me
+  url: /hire
+  hideFromNavbar: false
+  showOnFooter: false
+
 - name: GitHub
   url: https://github.com/Vibhu2
   hideFromNavbar: false

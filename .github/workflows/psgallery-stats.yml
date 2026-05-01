@@ -1,7 +1,8 @@
 name: Update PSGallery Stats
 
-# Runs daily at 06:00 IST (00:30 UTC) — away from midnight to keep site stable.
+# Runs daily at 06:00 IST (00:30 UTC) — away from the midnight deploy window.
 # Also triggerable manually from the Actions tab.
+# On commit, deploy.yml auto-triggers (push to main) → site rebuilds with fresh stats.
 on:
   schedule:
     - cron: "30 0 * * *"
@@ -19,72 +20,72 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch PSGallery stats
-        shell: pwsh
+      - name: Fetch PSGallery stats and update data/psgallery.yaml
         run: |
-          $modules = @(
-            "VB.WorkstationReport",
-            "VB.NextCloud",
-            "VB.ServerInventory"
-          )
+          python3 << 'PYEOF'
+          import urllib.request
+          import xml.etree.ElementTree as ET
+          import datetime
+          import textwrap
 
-          $descriptions = @{
-            "VB.WorkstationReport" = "End-to-end workstation auditing — user profiles, printer mappings, folder redirections, OneDrive backup status, and network interfaces."
-            "VB.NextCloud"         = "WebDAV utilities for Nextcloud from PowerShell — single-file upload, batch orchestration with auto folder creation, and directory listing."
-            "VB.ServerInventory"   = "34 cmdlets across 10 categories for comprehensive Windows Server auditing — AD health, GPO, security, DHCP/DNS, RDS, and more."
+          MODULES = [
+              {
+                  "name": "VB.WorkstationReport",
+                  "description": "End-to-end workstation auditing — user profiles, printer mappings, folder redirections, OneDrive backup status, and network interfaces.",
+              },
+              {
+                  "name": "VB.NextCloud",
+                  "description": "WebDAV utilities for Nextcloud from PowerShell — single-file upload, batch orchestration with auto folder creation, and directory listing.",
+              },
+              {
+                  "name": "VB.ServerInventory",
+                  "description": "34 cmdlets across 10 categories for comprehensive Windows Server auditing — AD health, GPO, security, DHCP/DNS, RDS, and more.",
+              },
+              {
+                  "name": "VB.AdminTools",
+                  "description": "See PSGallery for details.",
+              },
+          ]
+
+          ns = {
+              "atom": "http://www.w3.org/2005/Atom",
+              "d":    "http://schemas.microsoft.com/ado/2007/08/dataservices",
+              "m":    "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
           }
 
-          $totalDownloads = 0
-          $moduleLines = @()
-          $today = (Get-Date -Format "yyyy-MM-dd")
+          total_downloads = 0
+          module_lines = []
 
-          foreach ($name in $modules) {
-            try {
-              $uri  = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='$name'&`$orderby=Version desc&`$top=1&`$select=Id,Version,DownloadCount"
-              $resp = Invoke-RestMethod -Uri $uri -ErrorAction Stop
-              # NuGet OData — entry may be array or single object
-              $entry     = if ($resp.entry) { $resp.entry } else { $resp }
-              $entry     = if ($entry -is [array]) { $entry[0] } else { $entry }
-              $version   = $entry.properties.Version
-              $downloads = [int]$entry.properties.DownloadCount.'#text'
-            } catch {
-              Write-Warning "Failed to fetch $name — $_"
-              $version   = ""
-              $downloads = 0
-            }
+          for mod in MODULES:
+              name = mod["name"]
+              desc = mod["description"]
+              url  = f"https://www.powershellgallery.com/packages/{name}"
 
-            $totalDownloads += $downloads
-            $desc = $descriptions[$name]
-            $url  = "https://www.powershellgallery.com/packages/$name"
+              api_url = (
+                  f"https://www.powershellgallery.com/api/v2/FindPackagesById()"
+                  f"?id='{name}'&$orderby=Version%20desc&$top=1&$select=Id,Version,DownloadCount"
+              )
 
-            $moduleLines += "- name: $name"
-            $moduleLines += "  url: $url"
-            $moduleLines += "  description: `"$desc`""
-            $moduleLines += "  downloads: $downloads"
-            $moduleLines += "  version: `"$version`""
-            $moduleLines += ""
-          }
+              version   = ""
+              downloads = 0
+              try:
+                  req = urllib.request.Request(api_url, headers={"Accept": "application/atom+xml"})
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      xml_data = resp.read().decode("utf-8")
 
-          $yaml = @"
-# PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
-# Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: $today
+                  root  = ET.fromstring(xml_data)
+                  entry = root.find("atom:entry", ns)
+                  if entry is not None:
+                      props     = entry.find("m:properties", ns)
+                      version   = props.findtext("d:Version",       default="", namespaces=ns).strip()
+                      dl_raw    = props.findtext("d:DownloadCount", default="0", namespaces=ns).strip()
+                      downloads = int(dl_raw) if dl_raw.isdigit() else 0
+                  print(f"  {name}: v{version}, {downloads} downloads")
+              except Exception as e:
+                  print(f"  WARNING: Failed to fetch {name} — {e}")
 
-modules:
-$($moduleLines -join "`n")
-total_downloads: $totalDownloads
-total_modules: $($modules.Count)
-last_updated: "$today"
-"@
+              total_downloads += downloads
 
-          $yaml | Set-Content -Path "data/psgallery.yaml" -Encoding UTF8
-          Write-Output "PSGallery stats updated — total downloads: $totalDownloads"
-
-      - name: Commit updated stats
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/psgallery.yaml
-          # Only commit if the file actually changed
-          git diff --staged --quiet || git commit -m "chore: update PSGallery stats [$(date -u +%Y-%m-%d)]"
-          git push
+              module_lines.append(f"- name: {name}")
+              module_lines.append(f"  url: {url}")
+              module_lines.append(f' 

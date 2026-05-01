@@ -1,0 +1,94 @@
+{{/*
+  layouts/partials/sections/psgallery.html — v1.1 — 2026-05-02
+  PowerShell Modules section — reads from data/psgallery.yaml.
+  Auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml).
+  v1.1: replaced small pill badges with prominent stat cards (matching about section style).
+*/}}
+
+{{ $sectionID := replace (lower .section.name) " " "-" }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+{{ $ps := site.Data.psgallery }}
+
+<div class="container anchor p-lg-5 psgallery-section" id="{{ $sectionID }}">
+
+  {{/* ── Section header ──────────────────────────────────────────────── */}}
+  <div class="section-heading text-center mb-4">
+    <h2 class="section-title">📦 {{ .section.name }}</h2>
+    {{ with $ps }}
+    <div class="d-flex justify-content-center gap-3 mt-3 mb-2 flex-wrap">
+      <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="psgallery-stat-card" style="background:#012456;">
+          <div class="psgallery-stat-number">{{ .total_modules }}</div>
+          <div class="psgallery-stat-label">📦 Modules on PSGallery</div>
+        </div>
+      </a>
+      <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="psgallery-stat-card" style="background:#0078D4;">
+          <div class="psgallery-stat-number">{{ .total_downloads }}+</div>
+          <div class="psgallery-stat-label">⬇️ Total Downloads</div>
+        </div>
+      </a>
+    </div>
+    <p class="text-muted mt-1" style="font-size:0.75rem;">Auto-updated daily via GitHub Actions</p>
+    {{ end }}
+  </div>
+
+  {{/* ── Module table ─────────────────────────────────────────────────── */}}
+  {{ with $ps }}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle psgallery-table">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th class="text-center">Latest Version</th>
+          <th class="text-center">Downloads</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .modules }}
+        <tr>
+          <td>
+            <a href="{{ .url }}" target="_blank" rel="noopener"
+               style="font-weight:600;color:#012456;text-decoration:none;">
+              {{ .name }}
+            </a>
+          </td>
+          <td class="text-center">
+            {{ if .version }}
+            <span class="badge"
+                  style="background:#5391FE;color:#fff;font-size:0.8rem;padding:4px 10px;">
+              v{{ .version }}
+            </span>
+            {{ else }}
+            <span class="text-muted">—</span>
+            {{ end }}
+          </td>
+          <td class="text-center">
+            <span class="badge"
+                  style="background:#5391FE;color:#fff;font-size:0.8rem;padding:4px 10px;">
+              {{ .downloads }}
+            </span>
+          </td>
+          <td style="font-size:0.9rem;">{{ .description }}</td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+
+  {{/* ── Footer note ─────────────────────────────────────────────────── */}}
+  <p class="text-center mt-3" style="font-size:0.8rem;color:#888;">
+    Last updated: {{ .last_updated }} &nbsp;·&nbsp;
+    <a href="https://www.powershellgallery.com/profiles/Vibhu2"
+       target="_blank" rel="noopener">View all on PSGallery →</a>
+  </p>
+  {{ end }}
+
+</div>
+
+<style>
+.psga

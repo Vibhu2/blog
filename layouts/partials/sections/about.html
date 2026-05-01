@@ -1,9 +1,11 @@
 {{/*
-  layouts/partials/sections/about.html — v1.0 — 2026-04-24
+  layouts/partials/sections/about.html — v1.2 — 2026-05-02
   Override of Toha's about section partial.
-  Change: renders .tagline field (from about.yaml) as a styled callout
-          between the author name and designation. Everything else is
-          identical to Toha's original template at commit 84093514293e.
+  v1.0: renders .tagline field (from about.yaml) as a styled callout
+        between the author name and designation.
+  v1.1: removed social icons; enlarged PSGallery stat badges.
+  v1.2: PSGallery stats as prominent stat cards; LinkedIn button branded;
+        removed Hire Me button.
 */}}
 
 {{ $sectionID := replace (lower .section.name) " " "-" }}
@@ -50,36 +52,23 @@
         {{ .summary | markdownify }}
       </p>
 
-      {{/* PSGallery stats — read from data/psgallery.yaml, updated daily by GitHub Actions */}}
+      {{/* PSGallery stat cards — read from data/psgallery.yaml, updated daily by GitHub Actions */}}
       {{ with site.Data.psgallery }}
-      <p class="p-1">
+      <div class="psgallery-stats d-flex gap-3 p-1 mt-3 mb-3 flex-wrap">
         <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
-          <span class="badge me-2" style="background:#012456;color:#fff;font-size:0.85rem;padding:6px 12px;">
-            📦 {{ .total_modules }} Modules on PSGallery
-          </span>
-          <span class="badge" style="background:#0078D4;color:#fff;font-size:0.85rem;padding:6px 12px;">
-            ⬇️ {{ .total_downloads }}+ Downloads
-          </span>
+          <div class="psgallery-stat-card" style="background:#012456;">
+            <div class="psgallery-stat-number">{{ .total_modules }}</div>
+            <div class="psgallery-stat-label">📦 Modules on PSGallery</div>
+          </div>
         </a>
-      </p>
-      {{ end }}
-
-      {{/* Social links */}}
-      <div class="text-container ms-auto">
-        <ul class="social-link d-flex">
-          {{ range .socialLinks }}
-          <li>
-            {{ if eq .name "Email" }}
-              <a href="mailto:{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
-            {{ else if eq .name (i18n "phone") }}
-              <a href="tel:{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
-            {{ else }}
-              <a href="{{ .url }}" title="{{ .name }}" target="_blank" rel="{{ .rel | default "noopener" }}"><i class="{{ .icon }}"></i></a>
-            {{ end }}
-          </li>
-          {{ end }}
-        </ul>
+        <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
+          <div class="psgallery-stat-card" style="background:#0078D4;">
+            <div class="psgallery-stat-number">{{ .total_downloads }}+</div>
+            <div class="psgallery-stat-label">⬇️ Total Downloads</div>
+          </div>
+        </a>
       </div>
+      {{ end }}
 
       {{/* Resume button */}}
       {{ if .resume }}
@@ -88,27 +77,36 @@
       </a>
       {{ end }}
 
-      {{/* Resource links */}}
+      {{/* Resource links — LinkedIn gets brand styling; others get default dark */}}
       {{ range .resourceLinks }}
       {{ $isExternal := or (strings.HasPrefix .url "http://") (strings.HasPrefix .url "https://") }}
-      <a href="{{ if $isExternal }}{{ .url }}{{ else }}{{ .url | relURL }}{{ end }}" title="{{ .title }}" {{ if $isExternal }}target="_blank" rel="noopener"{{ else }}target="#"{{ end }}>
+      {{ $href := cond $isExternal .url (.url | relURL) }}
+      {{ $target := cond $isExternal `target="_blank" rel="noopener"` `target="#"` }}
+      {{ if eq (.icon | default "") "fab fa-linkedin" }}
+      <a href="{{ $href }}" title="{{ .title }}" {{ $target | safeHTMLAttr }}>
+        <button class="btn psgallery-linkedin-btn">
+          <i class="fab fa-linkedin me-2"></i>{{ .title }}
+        </button>
+      </a>
+      {{ else }}
+      <a href="{{ $href }}" title="{{ .title }}" {{ $target | safeHTMLAttr }}>
         <button class="btn btn-dark">{{ .title }}</button>
       </a>
       {{ end }}
+      {{ end }}
 
-    </div>
-
-    {{/* Badges + soft skills */}}
-    <div class="col-sm-6 pt-5 ps-md-4 ps-sm-3 pt-sm-0">
-      <div class="row">
-        {{ range .badges }}
-          {{ partial "misc/badge.html" . }}
-        {{ end }}
-        {{ range .softSkills }}
-          {{ partial "misc/soft-skills.html" . }}
-        {{ end }}
-      </div>
-    </div>
-
-  </div>
-</div>
+<style>
+.psgallery-stat-card {
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 24px;
+  min-width: 140px;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.psgallery-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+}
+.psgallery-stat-n

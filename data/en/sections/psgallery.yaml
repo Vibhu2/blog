@@ -1,0 +1,7 @@
+section:
+  name: PowerShell Modules
+  id: modules
+  enable: true
+  weight: 6
+  showOnNavbar: true
+  template: sections/psgallery.html

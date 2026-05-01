@@ -3,7 +3,7 @@ section:
   name: Articles
   id: publications
   enable: true
-  weight: 6
+  weight: 7
   showOnNavbar: true
 
 # Master category list — priority ordered, max 8 buttons shown at once.

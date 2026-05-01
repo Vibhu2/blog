@@ -22,4 +22,11 @@ modules:
   version: "1.0.2"
 
 - name: VB.AdminTools
-  url: https://www.powershellgallery.com/packag
+  url: https://www.powershellgallery.com/packages/VB.AdminTools
+  description: See PSGallery for details.
+  downloads: 0
+  version: "1.0.1"
+
+total_downloads: 230
+total_modules: 4
+last_updated: "2026-05-02"

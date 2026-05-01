@@ -109,4 +109,47 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.22);
 }
-.psgallery-stat-n
+.psgallery-stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.psgallery-stat-label {
+  font-size: 0.78rem;
+  opacity: 0.88;
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.psgallery-linkedin-btn {
+  background: #0A66C2;
+  color: #fff;
+  border: none;
+  font-size: 0.9rem;
+  padding: 8px 18px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+.psgallery-linkedin-btn:hover {
+  background: #004182;
+  color: #fff;
+}
+</style>
+
+    </div>
+
+    {{/* Badges + soft skills */}}
+    <div class="col-sm-6 pt-5 ps-md-4 ps-sm-3 pt-sm-0">
+      <div class="row">
+        {{ range .badges }}
+          {{ partial "misc/badge.html" . }}
+        {{ end }}
+        {{ range .softSkills }}
+          {{ partial "misc/soft-skills.html" . }}
+        {{ end }}
+      </div>
+    </div>
+
+  </div>
+</div>

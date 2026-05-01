@@ -88,4 +88,38 @@ jobs:
 
               module_lines.append(f"- name: {name}")
               module_lines.append(f"  url: {url}")
-              module_lines.append(f' 
+              module_lines.append(f'  description: "{desc}"')
+              module_lines.append(f"  downloads: {downloads}")
+              module_lines.append(f'  version: "{version}"')
+              module_lines.append("")
+
+          today = datetime.date.today().isoformat()
+          modules_block = "\n".join(module_lines)
+
+          yaml_content = (
+              "# PSGallery module stats — auto-updated daily by GitHub Actions"
+              " (.github/workflows/psgallery-stats.yml)\n"
+              "# Do not edit manually — changes will be overwritten on next scheduled run.\n"
+              f"# Last updated: {today}\n"
+              "\n"
+              "modules:\n"
+              f"{modules_block}\n"
+              f"total_downloads: {total_downloads}\n"
+              f"total_modules: {len(MODULES)}\n"
+              f'last_updated: "{today}"\n'
+          )
+
+          with open("data/psgallery.yaml", "w", encoding="utf-8") as f:
+              f.write(yaml_content)
+
+          print(f"Done — {len(MODULES)} modules, {total_downloads} total downloads.")
+          PYEOF
+
+      - name: Commit updated stats (triggers site rebuild via deploy.yml)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/psgallery.yaml
+          git diff --staged --quiet \
+            && echo "No changes — stats unchanged." \
+            || (git commit -m "chore: update PSGallery stats [$(date -u +%Y-%m-%d)]" && git push)

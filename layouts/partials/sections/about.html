@@ -55,18 +55,14 @@
       {{/* PSGallery stat cards — read from data/psgallery.yaml, updated daily by GitHub Actions */}}
       {{ with site.Data.psgallery }}
       <div class="psgallery-stats d-flex gap-3 p-1 mt-3 mb-3 flex-wrap">
-        <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
-          <div class="psgallery-stat-card" style="background:#012456;">
-            <div class="psgallery-stat-number">{{ .total_modules }}</div>
-            <div class="psgallery-stat-label">📦 Modules on PSGallery</div>
-          </div>
-        </a>
-        <a href="https://www.powershellgallery.com/profiles/Vibhu2" target="_blank" rel="noopener" style="text-decoration:none;">
-          <div class="psgallery-stat-card" style="background:#0078D4;">
-            <div class="psgallery-stat-number">{{ .total_downloads }}+</div>
-            <div class="psgallery-stat-label">⬇️ Total Downloads</div>
-          </div>
-        </a>
+        <div class="psgallery-stat-card" style="background:#012456;">
+          <div class="psgallery-stat-number">{{ .total_modules }}</div>
+          <div class="psgallery-stat-label">📦 Modules on PSGallery</div>
+        </div>
+        <div class="psgallery-stat-card" style="background:#0078D4;">
+          <div class="psgallery-stat-number">{{ .total_downloads }}+</div>
+          <div class="psgallery-stat-label">⬇️ Total Downloads</div>
+        </div>
       </div>
       {{ end }}
 

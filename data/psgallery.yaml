@@ -1,32 +1,32 @@
 # PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
 # Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: 2026-05-04
+# Last updated: 2026-05-05
 
 modules:
 - name: VB.WorkstationReport
   url: https://www.powershellgallery.com/packages/VB.WorkstationReport
   description: "End-to-end workstation auditing — user profiles, printer mappings, folder redirections, OneDrive backup status, and network interfaces."
-  downloads: 116
+  downloads: 141
   version: "1.9.0"
 
 - name: VB.NextCloud
   url: https://www.powershellgallery.com/packages/VB.NextCloud
   description: "WebDAV utilities for Nextcloud from PowerShell — single-file upload, batch orchestration with auto folder creation, and directory listing."
-  downloads: 104
+  downloads: 113
   version: "1.4.0"
 
 - name: VB.ServerInventory
   url: https://www.powershellgallery.com/packages/VB.ServerInventory
   description: "34 cmdlets across 10 categories for comprehensive Windows Server auditing — AD health, GPO, security, DHCP/DNS, RDS, and more."
-  downloads: 13
+  downloads: 16
   version: "1.0.2"
 
 - name: VB.AdminTools
   url: https://www.powershellgallery.com/packages/VB.AdminTools
   description: "See PSGallery for details."
-  downloads: 4
+  downloads: 6
   version: "1.0.1"
 
-total_downloads: 237
+total_downloads: 276
 total_modules: 4
-last_updated: "2026-05-04"
+last_updated: "2026-05-05"

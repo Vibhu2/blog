@@ -2,6 +2,22 @@
 
 {{/* ── PWSH tagline styling ───────────────────────────────────────────── */}}
 <style>
+  /* ── SF Pro font stack — resolves to real SF Pro on Apple platforms;
+        system-ui on Windows (Segoe UI); Inter fallback elsewhere        */
+  body,
+  p, span, li, td, th, label, input, textarea, select, button {
+    font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .navbar-brand,
+  .section-title,
+  .card-title {
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+  }
   .pwsh-tagline {
     display: inline-block;
     background: linear-gradient(135deg, rgba(100, 149, 237, 0.15), rgba(100, 149, 237, 0.05));

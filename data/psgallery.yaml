@@ -1,6 +1,6 @@
 # PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
 # Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: 2026-05-07
+# Last updated: 2026-05-08
 
 modules:
 - name: VB.WorkstationReport
@@ -24,9 +24,9 @@ modules:
 - name: VB.AdminTools
   url: https://www.powershellgallery.com/packages/VB.AdminTools
   description: "See PSGallery for details."
-  downloads: 209
-  version: "1.0.1"
+  downloads: 212
+  version: "1.1.0"
 
-total_downloads: 1094
+total_downloads: 1097
 total_modules: 4
-last_updated: "2026-05-07"
+last_updated: "2026-05-08"

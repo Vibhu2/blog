@@ -17,7 +17,7 @@ This post covers the three functions I built into the `VB.WorkstationReport` mod
 
 ---
 
-## The Problem With Printer Mappings at Scale
+## What Problem Do Printer Mappings at Scale Create?
 
 Windows stores printer mappings inside each user's registry hive (`NTUSER.DAT`). Every user on a machine has their own copy. This means:
 
@@ -368,6 +368,8 @@ Get-VBUserPrinterMappings -TableOutput | Export-Csv 'After.csv' -NoTypeInformati
 
 ---
 
+**Reference:** [Microsoft Docs — Add-Printer](https://learn.microsoft.com/en-us/powershell/module/printmanagement/add-printer)
+
 ## Module Version
 
 All functions are part of `VB.WorkstationReport` v1.8.0.
@@ -379,5 +381,46 @@ Get-Module VB.WorkstationReport | Select-Object Name, Version
 # List all printer management functions
 Get-Command -Module VB.WorkstationReport | Where-Object { $_.Name -like '*Printer*' -or $_.Name -like '*Hive*' }
 ```
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do the printer mapping functions install printer drivers automatically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Drivers must already be installed on the target machine before adding an IP printer. Run Get-PrinterDriver | Select-Object Name to confirm the driver is present."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Add-VBUserPrinter target remote machines via WinRM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Machine-level port and printer creation does not work reliably over WinRM on PowerShell 5.1. The intended deployment model is using an RMM agent to push the script and run it locally on each workstation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do printer registry changes take effect immediately?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The registry writes happen immediately, but a user logoff and logon may be required for changes to take full effect. Active Windows sessions cache some printer state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I test the printer mapping functions with -WhatIf before running?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Both Set-VBUserPrinterMigration and Add-VBUserPrinter support -WhatIf via SupportsShouldProcess. Always run a dry run first to confirm exactly which users and printers will be affected."
+      }
+    }
+  ]
+}
+</script>
 
 {{< post-cta module="VB.WorkstationReport" module_url="https://www.powershellgallery.com/packages/VB.WorkstationReport" >}}

@@ -44,7 +44,7 @@ For those cases you actually need to run code inside the user's session, imperso
 
 ---
 
-## How It Works
+## How Does It Work?
 
 The function embeds a C# extension (`RunAsUser.ProcessExtensions`) that is compiled inline on first use and cached for the session — no external module or install step required. It uses Windows impersonation APIs to:
 
@@ -199,8 +199,79 @@ Import-Module C:\Path\To\VB.WorkstationReport\VB.WorkstationReport.psd1
 
 ---
 
+**Reference:** [Microsoft Docs — Windows Terminal Services API (WTSQueryUserToken)](https://learn.microsoft.com/en-us/windows/win32/api/wtsapi32/nf-wtsapi32-wtsqueryusertoken)
+
 ## Source
 
 The function is part of the `VB.WorkstationReport` module. The embedded C# impersonation logic is adapted from the open-source [RunAsUser module by KelvinTegelaar](https://github.com/KelvinTegelaar/RunAsUser), published under the MIT licence.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Run PowerShell as the Logged-On User from SYSTEM Context",
+  "description": "Use Invoke-VBasCurrentUser to execute a scriptblock in the interactive user session from a script running as SYSTEM via Intune, an RMM agent, or Task Scheduler.",
+  "totalTime": "PT10M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Install the VB.WorkstationReport module",
+      "text": "Run Install-Module VB.WorkstationReport -Scope AllUsers from an elevated PowerShell session. The module is available on PowerShell Gallery and requires no additional dependencies."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Import the module in your SYSTEM-context script",
+      "text": "Add Import-Module VB.WorkstationReport to the top of your script. Invoke-VBasCurrentUser is exported automatically and the embedded C# type compiles on first call."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Call Invoke-VBasCurrentUser with a scriptblock",
+      "text": "Pass the code you want to run in the user session as a -ScriptBlock argument. The function obtains the interactive user WTS token and impersonates that session to execute your code."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Retrieve output via a file if structured data is needed",
+      "text": "Invoke-VBasCurrentUser does not return pipeline objects. Write results to a file inside the scriptblock (e.g. Export-Csv or Out-File), then read the file from your SYSTEM script after execution."
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Invoke-VBasCurrentUser work when no user is logged on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. If no user is logged on, the WTS token query fails and the function writes an error. An active interactive session is required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Invoke-VBasCurrentUser target multiple users on a terminal server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. On a terminal server or multi-session host with several active users, the function targets the first active session found. It is not designed for multi-session enumeration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Invoke-VBasCurrentUser return structured objects via the pipeline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The function executes a scriptblock but does not return structured objects. To get data back, write the output to a file inside the scriptblock and read the file from your SYSTEM script after execution."
+      }
+    }
+  ]
+}
+</script>
 
 {{< post-cta module="VB.WorkstationReport" module_url="https://www.powershellgallery.com/packages/VB.WorkstationReport" >}}

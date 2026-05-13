@@ -1,5 +1,6 @@
 ---
-title: Utilities & Scripting
+title: "PowerShell Utilities & Scripting — Quick Reference"
+description: "PowerShell utilities and scripting quick reference — file operations, string manipulation, regular expressions, error handling, and reusable scripting patterns."
 weight: 40
 menu:
   notes:

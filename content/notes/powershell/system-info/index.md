@@ -1,5 +1,6 @@
 ---
-title: System Information
+title: "PowerShell System Information Commands — Quick Reference"
+description: "PowerShell system information quick reference — query hardware, OS version, installed software, uptime, disk space, memory, and CPU details on Windows machines."
 weight: 10
 menu:
   notes:

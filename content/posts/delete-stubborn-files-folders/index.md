@@ -158,5 +158,46 @@ Returns `False` — you're done.
 > **[!] WARNING:** All three methods are irreversible. No recycle bin, no undo.
 
 ---
+
+**Reference:** [Microsoft Docs — Remove-Item](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/remove-item)
+
+---
 *Questions or feedback? Reach out on [LinkedIn](https://www.linkedin.com/in/vibhu-bhatnagar-02622798) or leave a comment below.*
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Delete Stubborn Files and Folders on Windows",
+  "description": "Three methods to force-delete locked files and folders on Windows using CMD, PowerShell, and Task Scheduler with SYSTEM rights.",
+  "totalTime": "PT10M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Take ownership of the locked file or folder",
+      "text": "Run takeown /F <path> /R /A from an elevated prompt to reclaim ownership from SYSTEM or TrustedInstaller."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Grant your account full control",
+      "text": "Run icacls <path> /grant Administrators:F /T to give your account the permissions needed to delete the item."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Delete with CMD, PowerShell, or Task Scheduler at boot",
+      "text": "Use rd /S /Q (CMD), Remove-Item -Recurse -Force (PowerShell), or a SYSTEM-level scheduled task for files locked by running processes."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Verify the deletion",
+      "text": "Run Test-Path <path> in PowerShell. A result of False confirms the file or folder has been successfully removed."
+    }
+  ]
+}
+</script>
+
 {{< post-cta >}}

@@ -1,5 +1,6 @@
 ---
-title: Active Directory
+title: "PowerShell Active Directory Commands — Quick Reference"
+description: "PowerShell Active Directory quick-reference commands — find inactive users, query group members, verify DNS SRV records, manage OUs, and back up GPOs."
 weight: 45
 menu:
   notes:

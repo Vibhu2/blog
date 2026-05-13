@@ -9,7 +9,7 @@ author:
   name: Vibhu Bhatnagar
 ---
 
-## Overview
+## What Does Enable-VBPsremoting Do?
 
 Managing systems across a network can be time-consuming, especially when dealing with multiple servers or workstations. **PowerShell Remoting** is a game-changer for system administrators — it allows you to execute commands and scripts on remote machines directly from your admin workstation.
 
@@ -236,7 +236,7 @@ After enabling PowerShell remoting on your infrastructure:
 5. **Plan RDP Strategy** — Decide which systems need RDP enabled alongside PS Remoting
 6. **Train Your Team** — Share PowerShell remoting and RDP best practices with your team
 
-## Conclusion
+## Why Use Enable-VBPsremoting Instead of Manual Setup?
 
 The `Enable-VBPsremoting` v2.0 function transforms PowerShell remoting from a manual, error-prone setup process into a quick, automated deployment. With optional RDP support, it handles both primary management channels (PowerShell Remoting) and fallback access (Remote Desktop) in a single operation.
 
@@ -246,7 +246,46 @@ Whether managing a small network of servers or a large-scale infrastructure, thi
 
 ---
 
+**Reference:** [Microsoft Docs — Enable-PSRemoting](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting)
+
 **Find the script here:** [GitHub Repository](https://github.com/Vibhu2/ITAdmin_Public_Scripts/blob/main/SCRIPTS/Enable-VBPsremoting.ps1)
 
 **Questions or Issues?** Reach out or file an issue on GitHub!
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Automate PowerShell Remoting Setup with Enable-VBPsremoting",
+  "description": "Automate WinRM, firewall rules, trusted hosts, and optional RDP configuration across your infrastructure using the Enable-VBPsremoting PowerShell function.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Download the script from GitHub",
+      "text": "Clone the ITAdmin_Public_Scripts repository or use Invoke-WebRequest to download Enable-VBPsremoting.ps1 directly to your machine."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Run the script with Administrator privileges",
+      "text": "Open PowerShell as Administrator and run .\\Enable-VBPsremoting.ps1. Add -EnableRDP if you also need Remote Desktop enabled on the same machine."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Review the configuration output report",
+      "text": "The function returns a PSCustomObject showing WinRM status, firewall rule state, trusted hosts, and RDP status. Confirm all values are as expected."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Test the remote connection",
+      "text": "Run Enter-PSSession -ComputerName <hostname> to verify PowerShell remoting is operational from your admin workstation to the target machine."
+    }
+  ]
+}
+</script>
+
 {{< post-cta >}}

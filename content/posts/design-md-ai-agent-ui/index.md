@@ -60,4 +60,6 @@ If you're building anything with AI coding agents and care about what the output
 Repo: [github.com/voltagent/awesome-design-md](https://github.com/voltagent/awesome-design-md)
 Requests for custom DESIGN.md files: [getdesign.md/request](https://getdesign.md/request)
 
+**Reference:** [Anthropic Docs — Claude Code: CLAUDE.md best practices](https://docs.anthropic.com/en/docs/claude-code/memory)
+
 {{< post-cta >}}

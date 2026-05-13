@@ -29,6 +29,14 @@ socialLinks:
   icon: "fab fa-linkedin"
   url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"
 
+- name: X
+  icon: "fab fa-x-twitter"
+  url: "https://x.com/VibhuBhatn54299"
+
+- name: Reddit
+  icon: "fab fa-reddit"
+  url: "https://www.reddit.com/user/VibhuPwsh/"
+
 resourceLinks:
 - title: "View LinkedIn Profile"
   url: "https://www.linkedin.com/in/vibhu-bhatnagar-02622798"

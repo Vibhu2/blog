@@ -15,13 +15,13 @@ If you run Claude Desktop, Claude Code, or any MCP-enabled client through the da
 
 [jmunch-mcp](https://github.com/jgravelle/jmunch-mcp) is a transparent MCP proxy that sits in front of your existing MCP servers and fixes this without changing anything about how you work.
 
-## The Problem
+## What Problem Does This Solve?
 
 Most MCP servers return everything and let the agent sort it out. Call the GitHub MCP server for a list of issues and you get a 379,000-token response in context. Call Firecrawl to scrape a page and 259,000 tokens land whether you needed a summary or the full content. The agent reads the whole pile. You pay for the whole pile. And because this happens on every call, the waste compounds fast across a working session.
 
 This is not a bug in any specific MCP server — it is just how the protocol works by default. The upstream returns what it has. There was no layer in between to intercept and compress.
 
-## The Solution
+## What Is the Solution?
 
 jmunch-mcp is that layer. It wraps any existing MCP server, forwards every tool call to the upstream, and intercepts large responses before they hit your agent's context. Instead of the full payload, the agent receives a **handle** — a lightweight reference it can query using a small set of universal verbs:
 
@@ -36,7 +36,7 @@ jmunch-mcp is that layer. It wraps any existing MCP server, forwards every tool 
 
 The agent drills into exactly what it needs. Everything else stays out of context.
 
-## How It Works
+## How Does It Work?
 
 ### Install
 
@@ -116,7 +116,7 @@ Available flags:
 
 The dashboard shows three views — cumulative totals, per-upstream breakdowns, and a time series of every forwarded call. No cloud, no telemetry, everything local. Rows with zero savings are hidden. Metrics populate once you have made at least one proxied call — run a wrapped upstream first, then open the dashboard.
 
-## Results
+## What Were the Results?
 
 Benchmarks from the repo, measured end-to-end with a fixed script of tool calls run direct vs proxied:
 
@@ -132,6 +132,8 @@ For anyone running MCP-heavy workflows all day, the savings compound across ever
 **Repo:** [https://github.com/jgravelle/jmunch-mcp](https://github.com/jgravelle/jmunch-mcp) — MIT licensed.
 
 > **[i] Tested on:** Windows 11, Claude Desktop (MSIX), Python 3.12, jmunch-mcp v0.0.3
+
+**Reference:** [Anthropic Docs — Model Context Protocol Overview](https://docs.anthropic.com/en/docs/agents-and-tools/mcp)
 
 ---
 

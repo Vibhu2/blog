@@ -27,8 +27,8 @@
     <div class="col-sm-12">
     {{ end }}
 
-      {{/* Author name */}}
-      <h3 class="p-1">{{ $author.name }}</h3>
+      {{/* Author name — h1 for SEO keyword signal on homepage */}}
+      <h1 class="p-1">{{ $author.name }} — PowerShell &amp; Infrastructure Engineer</h1>
 
       {{/* ── PWSH tagline — rendered directly below the name ─────────── */}}
       {{ with .tagline }}

@@ -3,11 +3,15 @@ nickname: "Vibhu"
 greeting: "Hi, I am"
 subtitle: "Senior Infrastructure Engineer · PowerShell Module Author · 15+ Years Windows & Azure"
 image: "images/author/vibhu.png"  # must exist in assets/images/author/
+imageAlt: "Vibhu Bhatnagar — Senior Infrastructure Engineer"
 contactInfo:
   email: "vibhu@pwsh.in"
   phone: "+91 8979989222"
   github: Vibhu2
   linkedin: vibhu-bhatnagar-02622798
+  twitter: VibhuBhatn54299
+  reddit: VibhuPwsh
+  facebook: vibhu@pwsh.in
 
 summary:
   - Senior Wintel Administrator

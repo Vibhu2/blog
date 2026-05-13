@@ -1,0 +1,81 @@
+{{/*
+  layouts/partials/post/share.html — v1.0 — 2026-05-13
+  Override of Toha's share buttons partial.
+  Change: replaces Twitter bird (fa-twitter / bg-twitter) with X logo
+          (fa-x-twitter / bg-x-twitter), updates share URL to x.com,
+          and sets via= to the real X handle instead of the site title.
+*/}}
+
+{{ $url   := .Permalink | urlquery }}
+{{ $title := .Title     | urlquery }}
+
+<div class="col-md-6 share-buttons">
+
+  <strong>Share on:</strong>
+
+  {{/* Facebook — always shown */}}
+  <a class="btn icon-button bg-facebook"
+     href="https://www.facebook.com/sharer.php?u={{ $url }}"
+     target="_blank" rel="noopener">
+    <i class="fab fa-facebook"></i>
+  </a>
+
+  {{/* X (formerly Twitter) */}}
+  {{ if site.Params.features.blog.shareButtons.twitter }}
+  <a class="btn icon-button bg-x-twitter"
+     href="https://x.com/intent/tweet?url={{ $url }}&text={{ $title }}&via=VibhuBhatn54299"
+     target="_blank" rel="noopener">
+    <i class="fab fa-x-twitter"></i>
+  </a>
+  {{ end }}
+
+  {{/* Reddit */}}
+  {{ if site.Params.features.blog.shareButtons.reddit }}
+  <a class="btn icon-button bg-reddit"
+     href="https://reddit.com/submit?url={{ $url }}&title={{ $title }}"
+     target="_blank" rel="noopener">
+    <i class="fab fa-reddit"></i>
+  </a>
+  {{ end }}
+
+  {{/* LinkedIn */}}
+  {{ if site.Params.features.blog.shareButtons.linkedin }}
+  <a class="btn icon-button bg-linkedin"
+     href="https://www.linkedin.com/shareArticle?url={{ $url }}&title={{ $title }}"
+     target="_blank" rel="noopener">
+    <i class="fab fa-linkedin"></i>
+  </a>
+  {{ end }}
+
+  {{/* WhatsApp */}}
+  {{ if site.Params.features.blog.shareButtons.whatsapp }}
+  <a class="btn icon-button bg-whatsapp"
+     href="https://api.whatsapp.com/send?text={{ $title }}%20{{ $url }}"
+     target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  {{ end }}
+
+  {{/* Email */}}
+  {{ if site.Params.features.blog.shareButtons.email }}
+  <a class="btn icon-button"
+     href="mailto:?subject={{ $title }}&body={{ $url }}"
+     target="_blank">
+    <i class="fas fa-envelope-open-text"></i>
+  </a>
+  {{ end }}
+
+</div>
+
+<style>
+/* X (formerly Twitter) share button — black brand colours */
+.bg-x-twitter {
+  background-color: #000000;
+  color: #ffffff !important;
+}
+.bg-x-twitter:hover,
+.bg-x-twitter:focus {
+  background-color: #1a1a1a;
+  color: #ffffff !important;
+}
+</style>

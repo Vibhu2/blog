@@ -65,6 +65,12 @@
 </style>
 
 
+{{/* ── X / Twitter share button colour ───────────────────────────────── */}}
+<style>
+.bg-x-twitter{background-color:#000!important;color:#fff!important;}
+.bg-x-twitter:hover,.bg-x-twitter:focus{background-color:#1a1a1a!important;color:#fff!important;}
+</style>
+
 {{/* ── Canonical URL ──────────────────────────────────────────────────── */}}
 <link rel="canonical" href="{{ .Permalink }}" />
 
@@ -91,8 +97,10 @@
 {{ end }}
 {{ end }}
 
-{{/* ── Twitter Card ────────────────────────────────────────────────────── */}}
+{{/* ── Twitter / X Card ────────────────────────────────────────────────── */}}
 <meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:site"        content="@VibhuBhatn54299" />
+<meta name="twitter:creator"     content="@VibhuBhatn54299" />
 <meta name="twitter:title"       content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}" />
 <meta name="twitter:description" content="{{ $desc | htmlEscape }}" />
 {{ with .Site.Params.logo.main }}
@@ -114,7 +122,8 @@
   "sameAs": [
     "https://www.linkedin.com/in/vibhu-bhatnagar-02622798",
     "https://github.com/Vibhu2",
-    "https://www.powershellgallery.com/profiles/Vibhu2"
+    "https://www.powershellgallery.com/profiles/Vibhu2",
+    "https://x.com/VibhuBhatn54299"
   ],
   "knowsAbout": [
     "PowerShell", "Active Directory", "Windows Server", "Exchange Server",
@@ -148,6 +157,28 @@
     "url": "{{ .Site.BaseURL }}"
   }{{ with .Params.tags }},
   "keywords": "{{ delimit . ", " }}"{{ end }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home",  "item": "{{ .Site.BaseURL | strings.TrimRight "/" }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Posts", "item": "{{ .Site.BaseURL | strings.TrimRight "/" }}/posts/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ .Title }}", "item": "{{ .Permalink }}"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": ["article p:first-of-type", "h1", ".post-description"]
+  },
+  "@type": "WebPage",
+  "url": "{{ .Permalink }}"
 }
 </script>
 {{ end }}

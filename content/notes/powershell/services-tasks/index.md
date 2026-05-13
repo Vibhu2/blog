@@ -1,5 +1,6 @@
 ---
-title: Services & Scheduled Tasks
+title: "PowerShell Services & Scheduled Tasks — Quick Reference"
+description: "PowerShell quick reference for managing Windows services and scheduled tasks — start, stop, query, create, and troubleshoot services and task scheduler jobs."
 weight: 20
 menu:
   notes:

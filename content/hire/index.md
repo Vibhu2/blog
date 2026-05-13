@@ -80,6 +80,16 @@ Delivered AD migrations, DNS redesigns, DHCP failover implementations, Exchange 
 </a>
 </div>
 <div class="col-auto">
+<a href="https://x.com/VibhuBhatn54299" target="_blank" rel="noopener" class="btn" style="background-color:#000;color:#fff;">
+  <i class="fab fa-x-twitter me-2"></i>@VibhuBhatn54299
+</a>
+</div>
+<div class="col-auto">
+<a href="https://www.reddit.com/user/VibhuPwsh/" target="_blank" rel="noopener" class="btn" style="background-color:#FF4500;color:#fff;">
+  <i class="fab fa-reddit me-2"></i>u/VibhuPwsh
+</a>
+</div>
+<div class="col-auto">
 <a href="/files/vibhu-bhatnagar-resume.pdf" target="_blank" class="btn btn-dark">
   <i class="fas fa-file-pdf me-2"></i>Download Resume (PDF)
 </a>

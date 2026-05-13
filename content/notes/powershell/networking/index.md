@@ -1,5 +1,6 @@
 ---
-title: Networking
+title: "PowerShell Networking Commands — Quick Reference"
+description: "PowerShell networking quick reference — DNS resolution, TCP port testing, IP configuration, firewall rules, and network adapter management for Windows administrators."
 weight: 30
 menu:
   notes:

@@ -8,3 +8,61 @@ window.VBBlogConfig = {
 };
 </script>
 <script src="/js/dynamic-bg.js" defer></script>
+
+<script>
+/* Replace Twitter bird with X logo on share buttons — runs after DOM ready */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a.bg-twitter').forEach(function (btn) {
+    /* Update icon */
+    var icon = btn.querySelector('i');
+    if (icon) {
+      icon.classList.remove('fa-twitter');
+      icon.classList.add('fa-x-twitter');
+    }
+    /* Update share URL: twitter.com/share → x.com/intent/tweet, fix via= */
+    var href = btn.getAttribute('href') || '';
+    href = href.replace('twitter.com/share', 'x.com/intent/tweet');
+    href = href.replace(/via=[^&]*/i, 'via=VibhuBhatn54299');
+    btn.setAttribute('href', href);
+    /* Swap colour class */
+    btn.classList.remove('bg-twitter');
+    btn.classList.add('bg-x-twitter');
+  });
+});
+</script>
+
+<script>
+/* Fix footer contact-me social links — replace plain-text entries with icon + link */
+document.addEventListener('DOMContentLoaded', function () {
+  var socialMap = {
+    'facebook': {
+      icon: 'fab fa-facebook',
+      url:  'https://www.facebook.com/vibhu@pwsh.in',
+      label: 'vibhu@pwsh.in'
+    },
+    'twitter': {
+      icon: 'fab fa-x-twitter',
+      url:  'https://x.com/VibhuBhatn54299',
+      label: '@VibhuBhatn54299'
+    },
+    'reddit': {
+      icon: 'fab fa-reddit',
+      url:  'https://www.reddit.com/user/VibhuPwsh/',
+      label: 'u/VibhuPwsh'
+    }
+  };
+
+  document.querySelectorAll('li').forEach(function (li) {
+    var text = li.textContent.trim();
+    Object.keys(socialMap).forEach(function (key) {
+      var prefix = key.charAt(0).toUpperCase() + key.slice(1) + ':';
+      if (text.startsWith(prefix)) {
+        var info = socialMap[key];
+        li.innerHTML =
+          '<a href="' + info.url + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">' +
+          '<i class="' + info.icon + ' me-2"></i>' + info.label + '</a>';
+      }
+    });
+  });
+});
+</script>

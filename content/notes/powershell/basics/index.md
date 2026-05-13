@@ -1,5 +1,6 @@
 ---
-title: Basics
+title: "PowerShell Basics — Quick Reference"
+description: "Core PowerShell commands and syntax quick reference — variables, loops, conditionals, pipeline usage, and essential cmdlets for Windows administration."
 weight: 5
 menu:
   notes:

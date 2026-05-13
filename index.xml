@@ -27,14 +27,14 @@
 &lt;hr>
 &lt;h2 id="the-problem-system-and-the-user-are-not-the-same-session">The Problem: SYSTEM and the User Are Not the Same Session&lt;/h2>
 &lt;p>When Intune or your RMM agent executes a PowerShell script, it runs in the SYSTEM context. SYSTEM is a highly privileged account, but it is completely isolated from the interactive user session happening on the same machine at the same time.&lt;/p></description></item><item><title>Managing Printer Mappings Across User Profiles with PowerShell</title><link>https://pwsh.in/posts/printer-mapping-powershell-vb-workstationreport/</link><pubDate>Thu, 23 Apr 2026 10:00:00 +0530</pubDate><guid>https://pwsh.in/posts/printer-mapping-powershell-vb-workstationreport/</guid><description>&lt;p>Printer management at scale is one of those problems that looks trivial until you are staring at 200 workstations, each with multiple user profiles, each with their own mapped printers, and a print server migration starting in two days.&lt;/p>
-&lt;p>Doing it manually is not an option. Doing it via Group Policy works for connected machines but breaks for laptops on VPN, offline profiles, and anyone who mapped printers manually outside GPO. What you actually need is something that understands how Windows stores printer mappings per user, can work on both online and offline profiles, and can be deployed from your RMM in a single script run.&lt;/p></description></item><item><title>Automating PowerShell Remoting Setup with Enable-VBPsremoting</title><link>https://pwsh.in/posts/enable-vbpsremoting/</link><pubDate>Wed, 22 Apr 2026 14:30:00 +0530</pubDate><guid>https://pwsh.in/posts/enable-vbpsremoting/</guid><description>&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>Doing it manually is not an option. Doing it via Group Policy works for connected machines but breaks for laptops on VPN, offline profiles, and anyone who mapped printers manually outside GPO. What you actually need is something that understands how Windows stores printer mappings per user, can work on both online and offline profiles, and can be deployed from your RMM in a single script run.&lt;/p></description></item><item><title>Automating PowerShell Remoting Setup with Enable-VBPsremoting</title><link>https://pwsh.in/posts/enable-vbpsremoting/</link><pubDate>Wed, 22 Apr 2026 14:30:00 +0530</pubDate><guid>https://pwsh.in/posts/enable-vbpsremoting/</guid><description>&lt;h2 id="what-does-enable-vbpsremoting-do">What Does Enable-VBPsremoting Do?&lt;/h2>
 &lt;p>Managing systems across a network can be time-consuming, especially when dealing with multiple servers or workstations. &lt;strong>PowerShell Remoting&lt;/strong> is a game-changer for system administrators — it allows you to execute commands and scripts on remote machines directly from your admin workstation.&lt;/p>
 &lt;p>However, setting up remoting manually involves several steps: enabling the WinRM service, configuring Windows Firewall rules, and managing trusted hosts. And if you also want to enable Remote Desktop, that&amp;rsquo;s even more configuration.&lt;/p></description></item><item><title>Automating Azure AD Sync Monitoring Across 155 MSP Clients with PowerShell</title><link>https://pwsh.in/posts/automating-ad-sync-monitoring-with-powershell/</link><pubDate>Sun, 22 Mar 2026 10:00:00 +0530</pubDate><guid>https://pwsh.in/posts/automating-ad-sync-monitoring-with-powershell/</guid><description>&lt;p>Managing Azure AD Connect sync health across a single tenant is straightforward. Doing it across
 155+ MSP clients simultaneously — where each has its own Azure AD tenant, its own sync schedule,
 and its own failure modes — is a different problem entirely.&lt;/p>
 &lt;p>This post covers how I built a monitoring tool that solved this for our team, cutting what used
 to be a daily manual check into something that runs automatically and only pages us when something
-actually needs attention.&lt;/p></description></item><item><title>Basics</title><link>https://pwsh.in/notes/powershell/basics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/basics/</guid><description>&lt;div class="note-card ">
+actually needs attention.&lt;/p></description></item><item><title>PowerShell Basics — Quick Reference</title><link>https://pwsh.in/notes/powershell/basics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/basics/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>PowerShell Version&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -100,7 +100,7 @@ actually needs attention.&lt;/p></description></item><item><title>Basics</title>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>System Information</title><link>https://pwsh.in/notes/powershell/system-info/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/system-info/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell System Information Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/system-info/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/system-info/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Last Boot Time&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -177,7 +177,7 @@ actually needs attention.&lt;/p></description></item><item><title>Basics</title>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Services &amp; Scheduled Tasks</title><link>https://pwsh.in/notes/powershell/services-tasks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/services-tasks/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Services &amp; Scheduled Tasks — Quick Reference</title><link>https://pwsh.in/notes/powershell/services-tasks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/services-tasks/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Get Stopped Automatic Services&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -228,7 +228,7 @@ actually needs attention.&lt;/p></description></item><item><title>Basics</title>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} | Where-Object { $_.LastRunTime &lt;span style="color:#f92672">-ge&lt;/span> $cutoff } |
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Sort-Object LastRunTime |
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Format-Table -AutoSize
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Common &lt;code>LastTaskResult&lt;/code> codes:&lt;/strong>&lt;/p></description></item><item><title>Networking</title><link>https://pwsh.in/notes/powershell/networking/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/networking/</guid><description>&lt;div class="note-card ">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Common &lt;code>LastTaskResult&lt;/code> codes:&lt;/strong>&lt;/p></description></item><item><title>PowerShell Networking Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/networking/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/networking/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Quick LAN Speed Test&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -251,7 +251,7 @@ actually needs attention.&lt;/p></description></item><item><title>Basics</title>
 &lt;code>C:\ProgramData\Microsoft\Windows\WlanReport\wlan-report-latest.html&lt;/code>&lt;/p>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Utilities &amp; Scripting</title><link>https://pwsh.in/notes/powershell/utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/utilities/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Utilities &amp; Scripting — Quick Reference</title><link>https://pwsh.in/notes/powershell/utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/utilities/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Keep System Awake (VBS)&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -292,7 +292,7 @@ Loop
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Active Directory</title><link>https://pwsh.in/notes/powershell/active-directory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/active-directory/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Active Directory Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/active-directory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/active-directory/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Get AD Group Members Recursively&lt;/span>&lt;/h5>
 &lt;div class="card">

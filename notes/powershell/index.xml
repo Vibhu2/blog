@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PowerShell on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</title><link>https://pwsh.in/notes/powershell/</link><description>Recent content in PowerShell on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://pwsh.in/notes/powershell/index.xml" rel="self" type="application/rss+xml"/><item><title>Basics</title><link>https://pwsh.in/notes/powershell/basics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/basics/</guid><description>&lt;div class="note-card ">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PowerShell Reference Notes — Vibhu Bhatnagar on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</title><link>https://pwsh.in/notes/powershell/</link><description>Recent content in PowerShell Reference Notes — Vibhu Bhatnagar on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</description><generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="https://pwsh.in/notes/powershell/index.xml" rel="self" type="application/rss+xml"/><item><title>PowerShell Basics — Quick Reference</title><link>https://pwsh.in/notes/powershell/basics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/basics/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>PowerShell Version&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -64,7 +64,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>System Information</title><link>https://pwsh.in/notes/powershell/system-info/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/system-info/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell System Information Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/system-info/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/system-info/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Last Boot Time&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -141,7 +141,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Services &amp; Scheduled Tasks</title><link>https://pwsh.in/notes/powershell/services-tasks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/services-tasks/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Services &amp; Scheduled Tasks — Quick Reference</title><link>https://pwsh.in/notes/powershell/services-tasks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/services-tasks/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Get Stopped Automatic Services&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -192,7 +192,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} | Where-Object { $_.LastRunTime &lt;span style="color:#f92672">-ge&lt;/span> $cutoff } |
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Sort-Object LastRunTime |
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Format-Table -AutoSize
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Common &lt;code>LastTaskResult&lt;/code> codes:&lt;/strong>&lt;/p></description></item><item><title>Networking</title><link>https://pwsh.in/notes/powershell/networking/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/networking/</guid><description>&lt;div class="note-card ">
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Common &lt;code>LastTaskResult&lt;/code> codes:&lt;/strong>&lt;/p></description></item><item><title>PowerShell Networking Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/networking/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/networking/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Quick LAN Speed Test&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -215,7 +215,7 @@
 &lt;code>C:\ProgramData\Microsoft\Windows\WlanReport\wlan-report-latest.html&lt;/code>&lt;/p>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Utilities &amp; Scripting</title><link>https://pwsh.in/notes/powershell/utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/utilities/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Utilities &amp; Scripting — Quick Reference</title><link>https://pwsh.in/notes/powershell/utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/utilities/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Keep System Awake (VBS)&lt;/span>&lt;/h5>
 &lt;div class="card">
@@ -256,7 +256,7 @@ Loop
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;/div></description></item><item><title>Active Directory</title><link>https://pwsh.in/notes/powershell/active-directory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/active-directory/</guid><description>&lt;div class="note-card ">
+&lt;/div></description></item><item><title>PowerShell Active Directory Commands — Quick Reference</title><link>https://pwsh.in/notes/powershell/active-directory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pwsh.in/notes/powershell/active-directory/</guid><description>&lt;div class="note-card ">
 &lt;div class="item">
 &lt;h5 class="note-title">&lt;span>Get AD Group Members Recursively&lt;/span>&lt;/h5>
 &lt;div class="card">

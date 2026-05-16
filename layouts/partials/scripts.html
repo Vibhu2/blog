@@ -32,6 +32,43 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
+/* LinkedIn badge — sync data-theme with Toha's dark/light toggle */
+(function () {
+  if (!document.getElementById('li-badge-container')) return;
+
+  function currentTheme() {
+    var html = document.documentElement;
+    if (
+      html.getAttribute('data-bs-theme') === 'dark' ||
+      html.classList.contains('dark') ||
+      document.body.classList.contains('dark')
+    ) return 'dark';
+    return 'light';
+  }
+
+  function applyTheme() {
+    var badge = document.querySelector('.LI-profile-badge');
+    if (!badge) return;
+    var t = currentTheme();
+    if (badge.getAttribute('data-theme') !== t) {
+      badge.setAttribute('data-theme', t);
+      /* Ask the SDK to re-render after the attribute change */
+      if (typeof window.LIRenderAll === 'function') window.LIRenderAll();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    applyTheme();
+    /* Watch html element for Bootstrap / Toha theme toggles */
+    new MutationObserver(applyTheme).observe(document.documentElement, {
+      attributes: true, attributeFilter: ['class', 'data-bs-theme']
+    });
+    new MutationObserver(applyTheme).observe(document.body, {
+      attributes: true, attributeFilter: ['class']
+    });
+  });
+})();
+
 /* Fix footer contact-me social links — replace plain-text entries with icon + link */
 document.addEventListener('DOMContentLoaded', function () {
   var socialMap = {

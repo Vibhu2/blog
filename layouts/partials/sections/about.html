@@ -135,7 +135,7 @@
 
     </div>
 
-    {{/* Badges + soft skills */}}
+    {{/* Badges + soft skills + LinkedIn profile badge */}}
     <div class="col-sm-6 pt-5 ps-md-4 ps-sm-3 pt-sm-0">
       <div class="row">
         {{ range .badges }}
@@ -145,6 +145,33 @@
           {{ partial "misc/soft-skills.html" . }}
         {{ end }}
       </div>
+
+      {{/* ── LinkedIn Profile Badge ──────────────────────────────────── */}}
+      <div class="li-badge-wrapper mt-4" id="li-badge-container">
+        <div class="badge-base LI-profile-badge"
+             data-locale="en_US"
+             data-size="large"
+             data-theme="dark"
+             data-type="HORIZONTAL"
+             data-vanity="vibhu-bhatnagar-02622798"
+             data-version="v1">
+          <a class="badge-base__link LI-simple-link"
+             href="https://in.linkedin.com/in/vibhu-bhatnagar-02622798?trk=profile-badge">
+            Vibhu Bhatnagar
+          </a>
+        </div>
+      </div>
+      <style>
+      .li-badge-wrapper {
+        display: flex;
+        justify-content: flex-start;
+      }
+      /* Contain the iframe width on small screens */
+      .li-badge-wrapper iframe {
+        max-width: 100%;
+      }
+      </style>
+
     </div>
 
   </div>

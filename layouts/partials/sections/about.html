@@ -1,11 +1,7 @@
 {{/*
-  layouts/partials/sections/about.html — v1.2 — 2026-05-02
-  Override of Toha's about section partial.
-  v1.0: renders .tagline field (from about.yaml) as a styled callout
-        between the author name and designation.
-  v1.1: removed social icons; enlarged PSGallery stat badges.
-  v1.2: PSGallery stats as prominent stat cards; LinkedIn button branded;
-        removed Hire Me button.
+  layouts/partials/sections/about.html — v1.4 — 2026-05-17
+  v1.4: PSGallery stat cards moved to bottom row alongside LinkedIn badge;
+        all three equal height; extra gap removed; circles side-by-side.
 */}}
 
 {{ $sectionID := replace (lower .section.name) " " "-" }}
@@ -21,23 +17,21 @@
 <div class="container anchor p-lg-5 about-section" id="{{ $sectionID }}">
   <div class="row pt-sm-2 pt-md-4 align-self-center">
 
+    {{/* Left column — bio content */}}
     {{ if or (.softSkills) (.badges) }}
-    <div class="col-sm-6">
+    <div class="col-sm-8">
     {{ else }}
     <div class="col-sm-12">
     {{ end }}
 
-      {{/* Author name — h1 for SEO keyword signal on homepage */}}
       <h1 class="p-1">{{ $author.name }} — PowerShell &amp; Infrastructure Engineer</h1>
 
-      {{/* ── PWSH tagline — rendered directly below the name ─────────── */}}
       {{ with .tagline }}
       <p class="pwsh-tagline p-1">
         <strong>PWSH</strong> &mdash; <em>{{ . }}</em>
       </p>
       {{ end }}
 
-      {{/* Designation + company */}}
       {{ if .designation }}
       <h5 class="p-1">
         {{ .designation }}
@@ -47,97 +41,34 @@
       </h5>
       {{ end }}
 
-      {{/* Summary paragraph */}}
       <p class="p-1 text-justify">
         {{ .summary | markdownify }}
       </p>
 
-      {{/* PSGallery stat cards — read from data/psgallery.yaml, updated daily by GitHub Actions */}}
-      {{ with site.Data.psgallery }}
-      <div class="psgallery-stats d-flex gap-3 p-1 mt-3 mb-3 flex-wrap">
-        <div class="psgallery-stat-card" style="background:#012456;">
-          <div class="psgallery-stat-number">{{ .total_modules }}</div>
-          <div class="psgallery-stat-label">📦 Modules on PSGallery</div>
-        </div>
-        <div class="psgallery-stat-card" style="background:#0078D4;">
-          <div class="psgallery-stat-number">{{ .total_downloads }}+</div>
-          <div class="psgallery-stat-label">⬇️ Total Downloads</div>
-        </div>
-      </div>
-      {{ end }}
-
-      {{/* Resume button */}}
       {{ if .resume }}
       <a href="{{ .resume | relURL }}" title="{{ i18n "resume" }}" target="#">
         <button class="btn btn-dark">{{ i18n "resume" }}</button>
       </a>
       {{ end }}
 
-      {{/* Resource links — LinkedIn gets brand styling; others get default dark */}}
+      {{/* Resource links — skip LinkedIn (badge below handles it) */}}
       {{ range .resourceLinks }}
+      {{ if not (eq (.icon | default "") "fab fa-linkedin") }}
       {{ $isExternal := or (strings.HasPrefix .url "http://") (strings.HasPrefix .url "https://") }}
       {{ $href := cond $isExternal .url (.url | relURL) }}
       {{ $target := cond $isExternal `target="_blank" rel="noopener"` `target="#"` }}
-      {{ if eq (.icon | default "") "fab fa-linkedin" }}
-      <a href="{{ $href }}" title="{{ .title }}" {{ $target | safeHTMLAttr }}>
-        <button class="btn psgallery-linkedin-btn">
-          <i class="fab fa-linkedin me-2"></i>{{ .title }}
-        </button>
-      </a>
-      {{ else }}
       <a href="{{ $href }}" title="{{ .title }}" {{ $target | safeHTMLAttr }}>
         <button class="btn btn-dark">{{ .title }}</button>
       </a>
       {{ end }}
       {{ end }}
 
-<style>
-.psgallery-stat-card {
-  color: #fff;
-  border-radius: 10px;
-  padding: 14px 24px;
-  min-width: 140px;
-  text-align: center;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-}
-.psgallery-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
-}
-.psgallery-stat-number {
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-}
-.psgallery-stat-label {
-  font-size: 0.78rem;
-  opacity: 0.88;
-  margin-top: 4px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-.psgallery-linkedin-btn {
-  background: #0A66C2;
-  color: #fff;
-  border: none;
-  font-size: 0.9rem;
-  padding: 8px 18px;
-  border-radius: 6px;
-  transition: background 0.15s ease;
-}
-.psgallery-linkedin-btn:hover {
-  background: #004182;
-  color: #fff;
-}
-</style>
-
     </div>
 
-    {{/* Badges + soft skills + LinkedIn profile badge */}}
-    <div class="col-sm-6 pt-5 ps-md-4 ps-sm-3 pt-sm-0">
-      <div class="row">
+    {{/* Right column — all badges in a single horizontal row */}}
+    {{ if or (.softSkills) (.badges) }}
+    <div class="col-sm-4 pt-sm-0 about-badges-col">
+      <div class="about-all-badges">
         {{ range .badges }}
           {{ partial "misc/badge.html" . }}
         {{ end }}
@@ -145,34 +76,147 @@
           {{ partial "misc/soft-skills.html" . }}
         {{ end }}
       </div>
-
-      {{/* ── LinkedIn Profile Badge ──────────────────────────────────── */}}
-      <div class="li-badge-wrapper mt-4" id="li-badge-container">
-        <div class="badge-base LI-profile-badge"
-             data-locale="en_US"
-             data-size="large"
-             data-theme="dark"
-             data-type="HORIZONTAL"
-             data-vanity="vibhu-bhatnagar-02622798"
-             data-version="v1">
-          <a class="badge-base__link LI-simple-link"
-             href="https://in.linkedin.com/in/vibhu-bhatnagar-02622798?trk=profile-badge">
-            Vibhu Bhatnagar
-          </a>
-        </div>
-      </div>
-      <style>
-      .li-badge-wrapper {
-        display: flex;
-        justify-content: flex-start;
-      }
-      /* Contain the iframe width on small screens */
-      .li-badge-wrapper iframe {
-        max-width: 100%;
-      }
-      </style>
-
     </div>
+    {{ end }}
 
   </div>
+
+  {{/* ── Bottom row: PSGallery stats + LinkedIn badge, all equal height ── */}}
+  <div class="about-bottom-row">
+    {{ with site.Data.psgallery }}
+    <div class="about-stat-card" style="background:#012456;">
+      <div class="about-stat-number">{{ .total_modules }}</div>
+      <div class="about-stat-label">📦 Modules on PSGallery</div>
+    </div>
+    <div class="about-stat-card" style="background:#0078D4;">
+      <div class="about-stat-number">{{ .total_downloads }}+</div>
+      <div class="about-stat-label">⬇️ Total Downloads</div>
+    </div>
+    {{ end }}
+    <div class="about-li-card" id="li-badge-container"></div>
+  </div>
+
 </div>
+
+<style>
+/* ── Right column — all 5 badges in a uniform grid ──────────────── */
+.about-all-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Override the col-* the partials emit */
+.about-all-badges > div {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px !important;
+  flex: none !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cert badge images fill the 80×80 cell */
+.about-all-badges .certificate-badge {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about-all-badges .certificate-badge img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* Circular skill indicators — match the same 80×80 */
+.about-all-badges .circular-progress {
+  width: 80px !important;
+  height: 80px !important;
+  line-height: 80px !important;
+  margin: 0 !important;
+}
+.about-all-badges .circular-progress-value {
+  font-size: 0.55rem !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+  text-align: center !important;
+  padding: 0 4px !important;
+}
+
+/* ── Bottom row: stat cards + LinkedIn badge ─────────────────────── */
+.about-bottom-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.about-stat-card,
+.about-li-card {
+  flex: 1 1 0;
+  min-width: 160px;
+  max-width: 340px;
+  border-radius: 10px;
+}
+
+.about-stat-card {
+  color: #fff;
+  padding: 0 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.about-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+}
+.about-stat-number {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.about-stat-label {
+  font-size: 0.7rem;
+  opacity: 0.85;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* LinkedIn card — badge iframe sizes itself, card stretches to match */
+.about-li-card {
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+.about-li-card .LI-profile-badge,
+.about-li-card iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 8px;
+}
+
+@media (max-width: 576px) {
+  .about-bottom-row {
+    flex-direction: column;
+  }
+  .about-stat-card,
+  .about-li-card {
+    max-width: 100%;
+    min-height: unset;
+  }
+}
+</style>

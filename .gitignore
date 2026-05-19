@@ -1,4 +1,6 @@
 resources/*
 node_modules/*
 public/*
+public_test/*
+_vendor/
 .vscode/

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NTP on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</title><link>https://pwsh.in/tags/ntp/</link><description>Recent content in NTP on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 22 May 2026 10:00:00 +0530</lastBuildDate><atom:link href="https://pwsh.in/tags/ntp/index.xml" rel="self" type="application/rss+xml"/><item><title>Fix Windows Time Sync with w32tm</title><link>https://pwsh.in/posts/fix-windows-time-sync/</link><pubDate>Fri, 22 May 2026 10:00:00 +0530</pubDate><guid>https://pwsh.in/posts/fix-windows-time-sync/</guid><description>&lt;h2 id="purpose">Purpose&lt;/h2>
+&lt;p>Windows system clock drifting or refusing to sync. This script detects whether the machine is domain-joined and takes the correct NTP path automatically — no manual branching needed.&lt;/p>
+&lt;h2 id="approach">Approach&lt;/h2>
+&lt;ul>
+&lt;li>If domain-joined → restore AD hierarchy sync (fighting domain policy with internet NTP is a support ticket waiting to happen)&lt;/li>
+&lt;li>If workgroup/standalone → configure public NTP peers and force resync&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-script">The Script&lt;/h2>
+&lt;p>Run as Administrator:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>$isDomainJoined = (Get-CimInstance Win32_ComputerSystem).PartOfDomain
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> ($isDomainJoined) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Write-Host &lt;span style="color:#e6db74">&amp;#34;Domain-joined — syncing from AD hierarchy&amp;#34;&lt;/span> -ForegroundColor Cyan
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w32tm /config /syncfromflags&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>domhier /update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Restart-Service w32time
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w32tm /resync /force
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Write-Host &lt;span style="color:#e6db74">&amp;#34;Workgroup machine — configuring public NTP&amp;#34;&lt;/span> -ForegroundColor Cyan
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w32tm /config /manualpeerlist&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>&lt;span style="color:#e6db74">&amp;#34;time.google.com time.cloudflare.com pool.ntp.org&amp;#34;&lt;/span> /syncfromflags&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>manual /reliable&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>no /update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Restart-Service w32time
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w32tm /resync /force
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="if-resync-fails">If Resync Fails&lt;/h2>
+&lt;p>Re-register the Windows Time Service, then re-run the script above:&lt;/p></description></item></channel></rss>

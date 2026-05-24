@@ -1,6 +1,6 @@
 # PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
 # Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: 2026-05-23
+# Last updated: 2026-05-24
 
 modules:
 - name: VB.WorkstationReport
@@ -29,4 +29,4 @@ modules:
 
 total_downloads: 1105
 total_modules: 4
-last_updated: "2026-05-23"
+last_updated: "2026-05-24"

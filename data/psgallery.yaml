@@ -1,6 +1,6 @@
 # PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
 # Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: 2026-05-24
+# Last updated: 2026-05-25
 
 modules:
 - name: VB.WorkstationReport
@@ -19,7 +19,7 @@ modules:
   url: https://www.powershellgallery.com/packages/VB.ServerInventory
   description: "34 cmdlets across 10 categories for comprehensive Windows Server auditing — AD health, GPO, security, DHCP/DNS, RDS, and more."
   downloads: 220
-  version: "1.0.2"
+  version: "1.0.3"
 
 - name: VB.AdminTools
   url: https://www.powershellgallery.com/packages/VB.AdminTools
@@ -29,4 +29,4 @@ modules:
 
 total_downloads: 1105
 total_modules: 4
-last_updated: "2026-05-24"
+last_updated: "2026-05-25"

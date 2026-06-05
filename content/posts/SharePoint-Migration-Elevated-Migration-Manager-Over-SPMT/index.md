@@ -63,6 +63,10 @@ A few things to have in place first:
 
 ## Takeaway
 
-SPMT isn't broken, but it's built for one machine and one operator. Migration Manager keeps the same migration engine and wraps it in central management, parallel agents, and reporting you can actually share. If you're already in Microsoft 365, the better tool is sitting in the admin center — and it costs nothing extra. Reference: [Migrate file shares with Migration Manager](https://learn.microsoft.com/en-us/sharepointmigration/mm-get-started).
+SPMT isn't broken, but it's built for one machine and one operator. Migration Manager keeps the same migration engine and wraps it in central management, parallel agents, and reporting you can actually share. If you're already in Microsoft 365, the better tool is sitting in the admin center — and it costs nothing extra.
+
+## References
+
+- [Migrate your file shares to Microsoft 365 with Migration Manager](https://learn.microsoft.com/en-us/sharepointmigration/mm-get-started) — Microsoft Learn
 
 {{< post-cta >}}

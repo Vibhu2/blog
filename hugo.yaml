@@ -1,6 +1,6 @@
 baseURL: https://pwsh.in/
 
-languageCode: en
+locale: en
 title: "Vibhu Bhatnagar — PowerShell & Infrastructure Engineer"
 
 enableRobotsTXT: true
@@ -27,8 +27,8 @@ module:
 # Manage languages
 languages:
   en:
-    languageCode: en
-    languageName: English
+    locale: en
+    label: English
     title: "Vibhu Bhatnagar — PowerShell & Infrastructure Engineer"
     weight: 1
 defaultContentLanguage: en

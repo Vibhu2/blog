@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SharePoint on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</title><link>https://pwsh.in/tags/sharepoint/</link><description>Recent content in SharePoint on Vibhu Bhatnagar — PowerShell &amp; Infrastructure Engineer</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 05 Jun 2026 10:00:00 +0530</lastBuildDate><atom:link href="https://pwsh.in/tags/sharepoint/index.xml" rel="self" type="application/rss+xml"/><item><title>SharePoint Migration Elevated: Migration Manager Over SPMT</title><link>https://pwsh.in/posts/sharepoint-migration-elevated-migration-manager-over-spmt/</link><pubDate>Fri, 05 Jun 2026 10:00:00 +0530</pubDate><guid>https://pwsh.in/posts/sharepoint-migration-elevated-migration-manager-over-spmt/</guid><description>&lt;!--
+BEFORE PUBLISHING:
+1. Write your description — shown in post listings and Google
+2. Add relevant tags — e.g. ["PowerShell", "Active Directory", "Windows Server"]
+3. Set category — e.g. "PowerShell Automation", "Infrastructure", "Azure"
+4. Change draft: true → draft: false when ready to publish
+-->
+&lt;h2 id="the-point">The Point&lt;/h2>
+&lt;p>If you still run your SharePoint migrations with the SharePoint Migration Tool (SPMT), Migration Manager is the upgrade worth switching to — same job, far less babysitting.&lt;/p></description></item></channel></rss>

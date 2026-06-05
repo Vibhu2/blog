@@ -1,7 +1,7 @@
 ---
 title: "Delete Stubborn Files and Folders on Windows"
 date: 2026-04-28T04:52:05+05:30
-draft: False
+draft: false
 description: "Three methods to force-delete locked files and folders on Windows using CMD, PowerShell, and Task Scheduler with SYSTEM rights."
 tags: ["PowerShell", "Windows", "Windows Administration"]
 categories: ["Windows Administration"]

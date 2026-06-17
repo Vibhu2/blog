@@ -1,12 +1,12 @@
 # PSGallery module stats — auto-updated daily by GitHub Actions (.github/workflows/psgallery-stats.yml)
 # Do not edit manually — changes will be overwritten on next scheduled run.
-# Last updated: 2026-06-16
+# Last updated: 2026-06-17
 
 modules:
 - name: VB.WorkstationReport
   url: https://www.powershellgallery.com/packages/VB.WorkstationReport
   description: "End-to-end workstation auditing — user profiles, printer mappings, folder redirections, OneDrive backup status, and network interfaces."
-  downloads: 1085
+  downloads: 1087
   version: "1.9.0"
 
 - name: VB.NextCloud
@@ -27,6 +27,6 @@ modules:
   downloads: 872
   version: "1.1.0"
 
-total_downloads: 3866
+total_downloads: 3868
 total_modules: 4
-last_updated: "2026-06-16"
+last_updated: "2026-06-17"

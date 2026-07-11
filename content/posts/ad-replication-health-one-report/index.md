@@ -1,6 +1,6 @@
 ---
 title: "One PowerShell Report for AD Replication Troubleshooting"
-date: 2026-07-11T10:00:00+05:30
+date: 2026-07-11T09:00:00+05:30
 draft: false
 description: "Test-VBReplicationHealth runs every AD, DFSR, SYSVOL, NETLOGON, event-log, and FSMO check in one pass and prints a colour-coded report."
 tags: ["PowerShell", "Active Directory", "Windows Server", "DFSR", "SYSVOL", "FRS"]

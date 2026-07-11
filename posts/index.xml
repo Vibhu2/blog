@@ -62,4 +62,43 @@ BEFORE PUBLISHING:
 and its own failure modes — is a different problem entirely.&lt;/p>
 &lt;p>This post covers how I built a monitoring tool that solved this for our team, cutting what used
 to be a daily manual check into something that runs automatically and only pages us when something
-actually needs attention.&lt;/p></description></item></channel></rss>
+actually needs attention.&lt;/p></description></item><item><title>One-Line Server Inventory &amp; AD Audit Report</title><link>https://pwsh.in/posts/server-inventory-audit-report/</link><pubDate>Sat, 04 Oct 2025 10:00:00 +0530</pubDate><guid>https://pwsh.in/posts/server-inventory-audit-report/</guid><description>&lt;h2 id="purpose">Purpose&lt;/h2>
+&lt;p>Every Windows environment I inherit has the same problem — nobody knows what&amp;rsquo;s actually on the servers. Who&amp;rsquo;s got a password older than a year? Which computers haven&amp;rsquo;t checked in for six months? Is BitLocker actually on? This one-liner bootstraps &lt;code>VB.ServerInventory&lt;/code> and produces a full server + AD audit report in a single run. No agent, no console, no license.&lt;/p>
+&lt;h2 id="what-this-covers">What This Covers&lt;/h2>
+&lt;ul>
+&lt;li>What the bootstrap script actually does (line by line)&lt;/li>
+&lt;li>The report it produces and what&amp;rsquo;s in it&lt;/li>
+&lt;li>Which security baselines the audit checks map to&lt;/li>
+&lt;li>How to run it and verify the output&lt;/li>
+&lt;/ul>
+&lt;h2 id="before-you-start">Before You Start&lt;/h2>
+&lt;ul>
+&lt;li>Windows Server 2016+ or Windows 10/11 with PowerShell 5.1 or later&lt;/li>
+&lt;li>Local admin on the target machine&lt;/li>
+&lt;li>Domain admin (or delegated read) if you want the AD, GPO, and DHCP sections populated&lt;/li>
+&lt;li>Internet access to reach PSGallery and the gist&lt;/li>
+&lt;li>ExecutionPolicy needs to allow the run — the script sets &lt;code>Unrestricted&lt;/code> for CurrentUser scope&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-bootstrap">The Bootstrap&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="display:flex;">&lt;span>Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Enforce TLS 1.2 — PSGallery rejects older protocols&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[&lt;span style="color:#66d9ef">Net.ServicePointManager&lt;/span>]::SecurityProtocol = [&lt;span style="color:#66d9ef">Net.SecurityProtocolType&lt;/span>]::Tls12
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Register PSGallery if it&amp;#39;s missing (fresh servers often have no repos)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">-not&lt;/span> (Get-PSRepository -Name &lt;span style="color:#e6db74">&amp;#34;PSGallery&amp;#34;&lt;/span> -ErrorAction SilentlyContinue)) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Register-PSRepository -Default -ErrorAction Stop
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Trust PSGallery so Install-Module doesn&amp;#39;t prompt&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Set-PSRepository -Name &lt;span style="color:#e6db74">&amp;#34;PSGallery&amp;#34;&lt;/span> -InstallationPolicy Trusted
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Widen the console buffer so nothing scrolls off screen&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(&lt;span style="color:#ae81ff">500&lt;/span>, &lt;span style="color:#ae81ff">9000&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Get-PSRepository
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Pull and execute the inventory script from the gist&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[&lt;span style="color:#66d9ef">Net.ServicePointManager&lt;/span>]::SecurityProtocol = [&lt;span style="color:#66d9ef">Net.SecurityProtocolType&lt;/span>]::Tls12
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>iex (Invoke-WebRequest &lt;span style="color:#e6db74">&amp;#34;https://gist.githubusercontent.com/Vibhu2/9a4ecf03d30c35d27073c71a2d5f0d4d/raw/b0541f3663701a2b16d0e1a8fd4a4030f9bf70ee/gistfile1.txt&amp;#34;&lt;/span> -UseBasicParsing).Content
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The first block is prep — TLS, repo trust, buffer size. The last line is the actual work: it pulls the &lt;code>Get-ServerInventory&lt;/code> script from a gist and runs it in the current session.&lt;/p></description></item></channel></rss>

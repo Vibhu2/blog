@@ -1,6 +1,6 @@
 ---
 title: "The MSP Client Onboarding Checklist I Actually Use"
-date: 2025-07-03T11:52:54+05:30
+date: 2026-07-13T11:52:54+05:30
 draft: false
 description: "A battle-tested MSP client onboarding checklist — department mapping, AD design, naming conventions, and the gaps that always slip through."
 tags: ["Active Directory", "M365", "MSP", "Documentation", "Onboarding"]

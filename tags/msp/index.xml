@@ -3,4 +3,6 @@
 and its own failure modes — is a different problem entirely.&lt;/p>
 &lt;p>This post covers how I built a monitoring tool that solved this for our team, cutting what used
 to be a daily manual check into something that runs automatically and only pages us when something
-actually needs attention.&lt;/p></description></item></channel></rss>
+actually needs attention.&lt;/p></description></item><item><title>The MSP Client Onboarding Checklist I Actually Use</title><link>https://pwsh.in/posts/msp-onboarding-checklist/</link><pubDate>Thu, 03 Jul 2025 11:52:54 +0530</pubDate><guid>https://pwsh.in/posts/msp-onboarding-checklist/</guid><description>&lt;h2 id="what-this-covers">What This Covers&lt;/h2>
+&lt;p>Every MSP has a client onboarding checklist buried in a wiki somewhere. Most of them are wrong — not factually wrong, just incomplete in the way that only becomes obvious three months in, when someone asks &amp;ldquo;wait, who owns the &lt;code>info@&lt;/code> mailbox?&amp;rdquo; and nobody has an answer.&lt;/p>
+&lt;p>This is the checklist I actually use. It&amp;rsquo;s long on purpose. Onboarding is the one phase where skipping a step doesn&amp;rsquo;t cost you time now — it costs you a 2am phone call in six months when nobody remembers the firewall admin password, or a compliance audit where you can&amp;rsquo;t produce a network diagram because &amp;ldquo;it&amp;rsquo;s in someone&amp;rsquo;s head.&amp;rdquo;&lt;/p></description></item></channel></rss>

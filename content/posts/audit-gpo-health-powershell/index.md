@@ -30,7 +30,6 @@ function Get-GPOAnalysis {
     <#
     .SYNOPSIS
         Reports GPO link scope, AD/SYSVOL version sync status, and GPO health flags.
-
     .DESCRIPTION
         For every GPO in the domain, reports where it's linked (SOMPath/SOMName),
         whether the link is Enforced, whether its AD and SYSVOL versions are in
@@ -38,24 +37,19 @@ function Get-GPOAnalysis {
         could be reading a stale policy), and whether User Group Policy loopback
         processing is configured. Also surfaces GPOs that are linked nowhere and
         GPOs that are fully or partially disabled.
-
     .PARAMETER Parallel
         Use ForEach-Object -Parallel (PS7+) to fetch GPO reports concurrently.
         Only worth using once you've confirmed this is actually slow for you —
         for a typical domain, sequential is fine.
-
     .EXAMPLE
         # There are 11 columns now - -AutoSize will silently truncate whatever
         # doesn't fit your console width. Use -Wrap, Out-GridView, or Export-Csv
         # instead if you need to see every column reliably.
         Get-GPOAnalysis | Format-Table -AutoSize -Wrap
-
     .EXAMPLE
         Get-GPOAnalysis | Export-Csv .\gpo-analysis.csv -NoTypeInformation
-
     .EXAMPLE
         Get-GPOAnalysis | Where-Object { $_.ComputerVersionMismatch -or $_.UserVersionMismatch }
-
     .EXAMPLE
         Get-GPOAnalysis | Where-Object { $_.LoopbackEnabled }
     #>
@@ -64,24 +58,20 @@ function Get-GPOAnalysis {
     param(
         [switch]$Parallel
     )
-
     function Get-GPOAnalysisRow {
         param($Gpo)
-
         try {
             [xml]$Report = Get-GPOReport -Guid $Gpo.Id -ReportType Xml
         } catch {
             Write-Warning "Failed to get report for '$($Gpo.DisplayName)' ($($Gpo.Id)): $_"
             return
         }
-
         # Loopback processing lives under Computer > Administrative Templates as a
         # registry policy, not under the version/link nodes above - search by name
         # rather than a hardcoded path since the extension XML schema varies by OS version.
         $LoopbackPolicy = $Report.GPO.Computer.ExtensionData.Extension.Policy |
             Where-Object { $_.Name -match 'loopback' } |
             Select-Object -First 1
-
         $baseProps = [ordered]@{
             GPOName                 = $Gpo.DisplayName
             GPOGuid                 = $Gpo.Id
@@ -95,7 +85,6 @@ function Get-GPOAnalysis {
             LoopbackEnabled         = if ($LoopbackPolicy) { $LoopbackPolicy.State -eq 'Enabled' } else { $false }
             LoopbackMode            = if ($LoopbackPolicy) { $LoopbackPolicy.DropDownList.Value.Name } else { $null }
         }
-
         if (-not $Report.GPO.LinksTo) {
             # GPO exists but is linked nowhere - still worth reporting
             [PSCustomObject]($baseProps + [ordered]@{
@@ -107,7 +96,6 @@ function Get-GPOAnalysis {
             })
             return
         }
-
         foreach ($Link in $Report.GPO.LinksTo) {
             [PSCustomObject]($baseProps + [ordered]@{
                 LinkEnabled = $Link.Enabled
@@ -118,9 +106,7 @@ function Get-GPOAnalysis {
             })
         }
     }
-
     $AllGpos = Get-GPO -All
-
     if ($Parallel) {
         # -Parallel runspaces can't see functions from the parent scope,
         # so the function body has to be passed in explicitly via $using:
@@ -133,9 +119,39 @@ function Get-GPOAnalysis {
         $AllGpos | ForEach-Object { Get-GPOAnalysisRow -Gpo $_ }
     }
 }
+
+Get-GPOAnalysis | Out-GridView
 ```
 
 > **[i] Requires:** GroupPolicy module, read access to GPOs in the domain
+
+## The -AutoSize gotcha
+
+Your own docstring already called this out — the last line of the script didn't follow its own advice, which is why it's now `Out-GridView` instead.
+
+Here's why it matters: `Format-Table -AutoSize` sizes columns to fit your console width. With 11 properties on this object, once the calculated widths exceed the terminal width, PowerShell silently drops or truncates the trailing columns — no warning, no ellipsis, they just vanish. `LoopbackMode`, `SOMPath`, `SOMName`, `SOMType`, `LinkEnabled`, and `Enforced` are the ones that go missing first.
+
+Three fixes, in order of what to actually reach for:
+
+**`Out-GridView`** is the best option for 11 columns. It opens a separate sortable, filterable grid window and shows everything — nothing gets cut.
+
+```powershell
+Get-GPOAnalysis | Out-GridView
+```
+
+**`-Wrap`** keeps you in the console and wraps overflowing cell content onto extra lines instead of dropping columns. This is what the script's own `.EXAMPLE` block already recommends:
+
+```powershell
+Get-GPOAnalysis | Format-Table -AutoSize -Wrap
+```
+
+**`Export-Csv`** is the move if you'd rather open the results in Excel and skip fighting console width entirely:
+
+```powershell
+Get-GPOAnalysis | Export-Csv .\gpo-analysis.csv -NoTypeInformation
+```
+
+One caveat with `-Wrap`: with 11 columns your console window needs to be genuinely wide, or wrapped cells still look cramped. For a quick sanity check, `Out-GridView` is more pleasant to actually read.
 
 ## Result
 

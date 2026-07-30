@@ -5,8 +5,10 @@
 &lt;h2 id="which-method-to-use">Which Method to Use&lt;/h2>
 &lt;ul>
 &lt;li>&lt;strong>DC is still reachable&lt;/strong> → use &lt;strong>Method 1: Server Manager&lt;/strong> below. This is Microsoft&amp;rsquo;s recommended graceful demotion path.&lt;/li>
-&lt;li>&lt;strong>DC is dead / unreachable&lt;/strong> → use &lt;strong>Method 2: ADUC&lt;/strong> below.&lt;/li>
-&lt;li>On Windows Server 2008 and later, both of the above trigger metadata cleanup automatically. The manual &lt;strong>ntdsutil&lt;/strong> steps (Method 3) are only needed as a fallback — e.g., the object is already gone but stale references remain, or the automatic cleanup fails.&lt;/li>
+&lt;li>&lt;strong>DC is dead / unreachable, GUI available&lt;/strong> → use &lt;strong>Method 2: ADUC&lt;/strong> below.&lt;/li>
+&lt;li>&lt;strong>DC is dead / unreachable, scripted or remote (no GUI)&lt;/strong> → use &lt;strong>Method 3: PowerShell&lt;/strong> below.&lt;/li>
+&lt;li>On Windows Server 2008 and later, Methods 2 and 3 both trigger metadata cleanup automatically — deleting the DC&amp;rsquo;s NTDS Settings object is what actually does it, whether that happens via ADUC&amp;rsquo;s wizard or a PowerShell cmdlet. The manual &lt;strong>ntdsutil&lt;/strong> steps (Method 4) are only needed as a fallback — e.g., the object is already gone but stale references remain, or the automatic cleanup fails.&lt;/li>
+&lt;li>&lt;strong>DC is an RODC&lt;/strong> → see the note after Method 2; the removal flow and considerations differ.&lt;/li>
 &lt;/ul>
 &lt;blockquote>
 &lt;p>&lt;strong>Warning:&lt;/strong> Only remove a DC&amp;rsquo;s metadata if it&amp;rsquo;s confirmed permanently gone. Running the manual cleanup steps against a DC that&amp;rsquo;s still alive (temporarily unreachable, network partition, etc.) will corrupt replication. Confirm FSMO roles have been transferred/seized and that you have a recent AD backup before proceeding with any of these methods.&lt;/p></description></item><item><title>One PowerShell Report for AD Replication Troubleshooting</title><link>https://pwsh.in/posts/ad-replication-health-one-report/</link><pubDate>Sat, 11 Jul 2026 09:00:00 +0530</pubDate><guid>https://pwsh.in/posts/ad-replication-health-one-report/</guid><description>&lt;h2 id="purpose">Purpose&lt;/h2>
